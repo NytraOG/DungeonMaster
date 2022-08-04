@@ -1,0 +1,21 @@
+Kampf:
+  Initiativereihenfolge bestimmen -> Ini + w10
+    Fähigkeit ausführen, falls nicht TOT
+      Effekt anwnden (schaden, buff)
+        Falls Target stirbt, Target von Position entfernen
+      Aktionen um 1 senken
+    
+  Wenn Alle Aktionen == 0
+    Reset Kampfrunde
+      Alle aktuellen auf gesamt setzen
+      
+Check, ob alle einer Partei tot sind
+  Falls alle Helden (auch) tot sind, lose
+ 
+Kampfbericht machen
+
+wieder von vorne, wenn nicht vorbei
+
+
+
+    
