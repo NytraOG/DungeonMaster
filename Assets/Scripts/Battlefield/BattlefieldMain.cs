@@ -5,6 +5,7 @@ using Entities;
 using Entities.Classes;
 using Entities.Enemies;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using Component = System.ComponentModel.Component;
 
 public class BattlefieldMain : MonoBehaviour
@@ -29,6 +30,8 @@ public class BattlefieldMain : MonoBehaviour
 
 
     #endregion
+
+    public string mainMenuScene;
     
     // Start is called before the first frame update
     void Start()
@@ -64,4 +67,6 @@ public class BattlefieldMain : MonoBehaviour
     public void AllyAttack()
     {
     }
+
+    public void BackToMenu() => SceneManager.LoadScene(mainMenuScene);
 }
