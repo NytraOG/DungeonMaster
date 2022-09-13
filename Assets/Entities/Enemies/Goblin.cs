@@ -13,7 +13,7 @@
             Willenskraft     = 1;
             Weisheit         = 1;
             Charisma         = 1;
-            
+
             InitiativeBestimmen();
         }
 
