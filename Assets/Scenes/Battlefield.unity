@@ -320,8 +320,8 @@ MonoBehaviour:
   m_Transition: 1
   m_Colors:
     m_NormalColor: {r: 1, g: 1, b: 1, a: 1}
-    m_HighlightedColor: {r: 0.9607843, g: 0.9607843, b: 0.9607843, a: 1}
-    m_PressedColor: {r: 0.78431374, g: 0.78431374, b: 0.78431374, a: 1}
+    m_HighlightedColor: {r: 0.21960786, g: 0.4784314, b: 1, a: 1}
+    m_PressedColor: {r: 0.9607844, g: 0, b: 0.60784316, a: 1}
     m_SelectedColor: {r: 0.9607843, g: 0.9607843, b: 0.9607843, a: 1}
     m_DisabledColor: {r: 0.78431374, g: 0.78431374, b: 0.78431374, a: 0.5019608}
     m_ColorMultiplier: 1
@@ -1117,8 +1117,8 @@ MonoBehaviour:
   m_Transition: 1
   m_Colors:
     m_NormalColor: {r: 1, g: 1, b: 1, a: 1}
-    m_HighlightedColor: {r: 0.9607843, g: 0.9607843, b: 0.9607843, a: 1}
-    m_PressedColor: {r: 0.78431374, g: 0.78431374, b: 0.78431374, a: 1}
+    m_HighlightedColor: {r: 0.21960786, g: 0.4784314, b: 1, a: 1}
+    m_PressedColor: {r: 0.9607844, g: 0, b: 0.60784316, a: 1}
     m_SelectedColor: {r: 0.9607843, g: 0.9607843, b: 0.9607843, a: 1}
     m_DisabledColor: {r: 0.78431374, g: 0.78431374, b: 0.78431374, a: 0.5019608}
     m_ColorMultiplier: 1
@@ -1690,6 +1690,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 33ec04999a6d2e249ab045974f8471d1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  mainMenuScene: MainMenu
   foe: {fileID: 374217306}
   ally: {fileID: 1467753832}
   allyFront: {fileID: 8964762077017291483}
@@ -1704,7 +1705,8 @@ MonoBehaviour:
   foeMiddle: {fileID: 1458369049}
   foeBack: {fileID: 1927491944}
   foeAmbush: {fileID: 1643056759}
-  mainMenuScene: MainMenu
+  foeAttackButton: {fileID: 1264295973}
+  allyAttackButton: {fileID: 102175441}
 --- !u!114 &1882247976
 MonoBehaviour:
   m_ObjectHideFlags: 0
