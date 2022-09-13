@@ -1,4 +1,5 @@
 using System.Collections;
+using System.Collections.Generic;
 using NUnit.Framework;
 using UnityEngine.TestTools;
 
@@ -11,15 +12,15 @@ namespace Scenes.Tests
         // [SetUp]
         // public void Init()
         // {
-        //     var kampfteilnehmer = new List<BaseUnit>();
+        //     var kampfteilnehmer = new List<BaseUnit>{new Assassin(), new Goblin()};
         //     service = new BattleService(null, kampfteilnehmer);
         // }
 
         [Test]
         public void BattleServiceTestsSimplePasses()
         {
-           // var asd = service.GetKampfteilnehmer();
-            // Use the Assert class to test conditions
+           //var asd = service.GetKampfteilnehmer();
+            //Use the Assert class to test conditions
         }
 
         // A UnityTest behaves like a coroutine in Play Mode. In Edit Mode you can use
