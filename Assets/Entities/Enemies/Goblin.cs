@@ -13,7 +13,9 @@
             Willenskraft     = 1;
             Weisheit         = 1;
             Charisma         = 1;
-            
+            Lebenspunkte     = 10;
+            Schaden          = 1;
+
             InitiativeBestimmen();
         }
 

@@ -26,10 +26,7 @@ namespace Services
         public void InitiativeBestimmen() => kampfteilnehmer = kampfteilnehmer.OrderByDescending(unit => unit.Initiative)
                                                                               .ToList();
 
-        public void KampfrundeAbhandeln()
-        {
-            
-        }
+        public void KampfrundeAbhandeln() { }
 
         public IEnumerable<BaseUnit> GetKampfteilnehmer() => kampfteilnehmer;
 
