@@ -18,11 +18,11 @@ namespace Entities
         public          int     Rüstung          { get; set; }
         public          int     CritDamage       { get; protected set; }
         public          int     Mana             { get; protected set; }
-        public          bool    IstKampfunfähig  { get; protected set; }
+        public          bool    IstKampfunfähig  => Lebenspunkte <= 0;
         public abstract Party   Party            { get; }
         public          Vector2 Position         { get; set; }
 
-        public abstract void DealDamage(BaseUnit target);
+        public abstract int DealDamage(BaseUnit target);
 
         public virtual void InitiativeBestimmen() => Initiative = 2 * Intuition + Schnelligkeit;
 

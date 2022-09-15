@@ -6,7 +6,7 @@ namespace Entities.Classes
     {
         public override float Schadensmodifier => 1f;
 
-        public override void DealDamage(BaseUnit target) => throw new NotImplementedException();
+        public override int DealDamage(BaseUnit target) => throw new NotImplementedException();
 
         public override void InitiativeBestimmen() => throw new NotImplementedException();
     }
