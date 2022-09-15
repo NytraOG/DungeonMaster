@@ -1,18 +1,32 @@
-using System.Collections;
-using System.Collections.Generic;
+using System;
+using TMPro;
 using UnityEngine;
+using Random = System.Random;
 
-public class BattleService : MonoBehaviour
+namespace Battlefield
 {
-    // Start is called before the first frame update
-    void Start()
+    public class BattleService : MonoBehaviour
     {
-        
-    }
+        public GameObject damageTextPrefab, enemyInstance, heroInstance;
 
-    // Update is called once per frame
-    void Update()
-    {
-        
+        private void Update()
+        {
+            if (Input.GetKeyDown(KeyCode.X))
+            {
+                InstantiateFloatingCombatText(enemyInstance);
+            }
+            else if (Input.GetKeyDown(KeyCode.Y))
+            {
+                InstantiateFloatingCombatText(heroInstance);
+            }
+        }
+
+        private void InstantiateFloatingCombatText(GameObject unitInstance)
+        {
+            var rng                = new Random();
+            var dmg                = rng.Next(0, 9999);
+            var damageTextInstance = Instantiate(damageTextPrefab, unitInstance.transform);
+            damageTextInstance.transform.GetChild(0).GetComponent<TextMeshPro>().SetText(dmg.ToString());
+        }
     }
 }
