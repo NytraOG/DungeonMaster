@@ -1,10 +1,8 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public enum skillCategory
 {
-    Melee, 
+    Melee,
     Ranged,
     Magic,
     Social,
@@ -16,15 +14,11 @@ public enum skillCategory
     Initiative
 }
 
-public enum skillSubCategory
-{
-
-}
+public enum skillSubCategory { }
 
 public abstract class BaseSkill : MonoBehaviour
 {
-    public string Name { get; set; }
-    public string Description { get; set; }
-
-    public abstract skillCategory Category { get; }
+    public          string        Name        { get; set; }
+    public          string        Description { get; set; }
+    public abstract skillCategory Category    { get; }
 }
