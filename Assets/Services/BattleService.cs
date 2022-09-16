@@ -23,22 +23,13 @@ namespace Services
 
         private void WarSchonDranSetzen() => kampfteilnehmer.ForEach(kt => warSchonDran.Add(kt.Id, false));
 
-        public void InitiativeBestimmen() => kampfteilnehmer = kampfteilnehmer.OrderByDescending(unit => unit.Initiative)
-                                                                              .ToList();
+        private void InitiativeBestimmen() => kampfteilnehmer = kampfteilnehmer.OrderByDescending(unit => unit.Initiative)
+                                                                               .ToList();
 
         public void KampfrundeAbhandeln() { }
 
         public IEnumerable<BaseUnit> GetKampfteilnehmer() => kampfteilnehmer;
 
-        private void Attack<TTarget, TAttacker>()
-                where TTarget : BaseUnit
-                where TAttacker : BaseUnit
-        {
-            var target   = battleField.GetComponent<TTarget>();
-            var attacker = battleField.GetComponent<TAttacker>();
 
-            if (target is not null && attacker is not null)
-                attacker.DealDamage(target);
-        }
     }
 }
