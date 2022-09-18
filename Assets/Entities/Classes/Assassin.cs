@@ -21,6 +21,12 @@
 
         public override float Schadensmodifier => 1.25f;
 
-        public override void DealDamage(BaseUnit target) => target.Lebenspunkte -= Schaden * Schadensmodifier;
+        public override int DealDamage(BaseUnit target)
+        {
+            var damageDealt = Schaden * Schadensmodifier;
+            target.Lebenspunkte -= damageDealt;
+
+            return (int)damageDealt;
+        }
     }
 }

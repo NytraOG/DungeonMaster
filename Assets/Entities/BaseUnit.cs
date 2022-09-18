@@ -26,7 +26,7 @@ namespace Entities
         public abstract Party   Party               { get; }
         public          Vector2 Position            { get; set; }
 
-        public abstract void DealDamage(BaseUnit target);
+        public abstract int DealDamage(BaseUnit target);
 
         public virtual float InitiativeBestimmen(float modifier) => BaseInitiative * modifier; 
 
