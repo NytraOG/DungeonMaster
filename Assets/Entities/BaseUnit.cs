@@ -17,9 +17,9 @@ namespace Entities
         public float BaseRangedDefense => 2 * Quickness + Dexterity;     
         public float BaseMagicDefense => 2 * Willpower + Wisdom;
         public float BaseSocialDefense => 2 * Logic + Charisma;
-        public          float   Lebenspunkte        { get; set; }
-        public float LebenspunkteMax => 3 * Constitution + 2 * Strength;
-        public          int     Rüstung             { get; set; }                   // Wird später auf Rüstungen migriert
+        public          float   Hitpoints        { get; set; }
+        public float HitpointsMax => 3 * Constitution + 2 * Strength;
+        public          int     Armour             { get; set; }                   // Wird später auf Rüstungen migriert
         public          int     CritDamage          { get; protected set; }         // Wird später auf Waffen migriert
         public int Mana => 2 * Wisdom + Logic;
         public          bool    IstKampfunfähig     { get; protected set; }
@@ -28,7 +28,7 @@ namespace Entities
 
         public abstract void DealDamage(BaseUnit target);
 
-        public virtual float InitiativeBestimmen(float modifier) => BaseInitiative * modifier;  // Hier müsste die Variable Base Initiative mit einer Zahl zwischen 0 und 2 multipliziert werden
+        public virtual float InitiativeBestimmen(float modifier) => BaseInitiative * modifier; 
 
         #region Stats
 
