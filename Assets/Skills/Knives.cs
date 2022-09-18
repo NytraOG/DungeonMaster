@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using Unity.Mathematics;
 using UnityEngine;
 
-public class Knives : BaseMeleeWeaponSkill
+public class Knives : MeleeWeaponBaseSkill
 {
 
     public void Start()
@@ -23,6 +23,7 @@ public class Knives : BaseMeleeWeaponSkill
     public override skillTargetPosition TargetPosition => skillTargetPosition.Position;
     public override skillDifficulty Difficulty => skillDifficulty.Basic;
     public override skillProvidedBy ProvidedBy => skillProvidedBy.Shaman;
+    public override skillKeyword Keyword => skillKeyword.Knife;
 }
 
 

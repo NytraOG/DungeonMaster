@@ -15,7 +15,6 @@ public enum skillCategory
     Summon,
 
     Buff,
-    DungeonBuff,
     Debuff,
 
     Initiative
@@ -26,16 +25,25 @@ public enum skillSubCategory
 
     WeaponSkill,
 
-    SocialAttack,
+    Initiative,
 
     Buff,
     DungeonBuff,
     Debuff,
     Heal,
+}
+
+public enum skillKeyword
+{
+    Knife,
+    Chainweapon,
+    Energyweapon,
+
+    ThrowingWeapon,
+
+    Shield,
 
     Pipe,
-
-    Energy,
 }
 public enum skillItemUsed
 {
@@ -99,4 +107,5 @@ public abstract class BaseSkill : MonoBehaviour
     public abstract skillTargetPosition TargetPosition { get; }
     public abstract skillRange Range { get; }
     public abstract skillProvidedBy ProvidedBy { get; }
+    public abstract skillKeyword Keyword { get; }
 }
