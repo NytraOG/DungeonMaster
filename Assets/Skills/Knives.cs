@@ -1,3 +1,4 @@
+using Entities.Enums;
 using Skills.BaseSkills;
 
 namespace Skills
@@ -8,13 +9,13 @@ namespace Skills
                 // skillAttackRoll = 2 * Quickness + Dexterity + 2 * skillLevel;
                 // skillDefenseRoll = 2 * Dexterity + Intuition + 2 * skillLevel;
                 // skillDamageRoll = Dexterity / 2 + Quickness / 3 + skillLevel / 2;
-                skillManaCost = 0 * skillLevel;
+                SkillManaCost = 0 * SkillLevel;
 
-        public override skillItemUsed       ItemUsed       => skillItemUsed.Knife;
-        public override skillTargetPosition TargetPosition => skillTargetPosition.Position;
-        public override skillDifficulty     Difficulty     => skillDifficulty.Basic;
-        public override skillProvidedBy     ProvidedBy     => skillProvidedBy.Shaman;
-        public override skillKeyword        Keyword        => skillKeyword.Knife;
+        public override SkillItemUsed       ItemUsed       => SkillItemUsed.Knife;
+        public override SkillTargetPosition TargetPosition => SkillTargetPosition.Position;
+        public override SkillDifficulty     Difficulty     => SkillDifficulty.Basic;
+        public override SkillProvidedBy     ProvidedBy     => SkillProvidedBy.Dwarf;
+        public override SkillKeyword        Keyword        => SkillKeyword.Knife;
 
         public void Start()
         {
