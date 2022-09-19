@@ -1,8 +1,10 @@
+using Entities.Enums;
+
 namespace Skills.BaseSkills
 {
     public abstract class DebuffBaseSkill : BaseSkill
     {
-        public override skillCategory    Category    => skillCategory.Debuff;
-        public override skillSubCategory SubCategory => skillSubCategory.Debuff;
+        public override SkillCategory    Category    => SkillCategory.Debuff;
+        public override SkillSubCategory SubCategory => SkillSubCategory.Debuff;
     }
 }

@@ -1,9 +1,11 @@
+using Entities.Enums;
+
 namespace Skills.BaseSkills
 {
     public abstract class MagicDefenseBaseSkill : BaseSkill
     {
-        public override skillCategory    Category         => skillCategory.Magic;
-        public override skillSubCategory SubCategory      => skillSubCategory.DefenseSkill;
+        public override SkillCategory    Category         => SkillCategory.Magic;
+        public override SkillSubCategory SubCategory      => SkillSubCategory.DefenseSkill;
         public          int              skillDefenseRoll { get; set; }
     }
 }

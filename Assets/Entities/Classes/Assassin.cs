@@ -1,4 +1,8 @@
-﻿namespace Entities.Classes
+﻿using System.Collections.Generic;
+using Skills;
+using Skills.BaseSkills;
+
+namespace Entities.Classes
 {
     public sealed class Assassin : BaseHero
     {
@@ -17,9 +21,12 @@
             Schaden      = 1;
 
             InitiativeBestimmen(3);
+            
+            Skills.Add(Konstanten.KnivesSkill, gameObject.AddComponent<Knives>());
         }
 
-        public override float Schadensmodifier => 1.25f;
+        public override float         Schadensmodifier => 1.25f;
+        public          Dictionary<string, BaseSkill> Skills           { get; set; } = new();
 
         public override int DealDamage(BaseUnit target)
         {
