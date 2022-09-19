@@ -1,8 +1,10 @@
+using Entities.Enums;
+
 namespace Skills.BaseSkills
 {
     public abstract class PassivBaseSkill : BaseSkill
     {
-        public override skillCategory    Category    => skillCategory.Passiv;
-        public override skillSubCategory SubCategory => skillSubCategory.Buff;
+        public override SkillCategory    Category    => SkillCategory.Passiv;
+        public override SkillSubCategory SubCategory => SkillSubCategory.Buff;
     }
 }
