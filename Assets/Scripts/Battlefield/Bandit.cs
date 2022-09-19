@@ -12,10 +12,10 @@ namespace Battlefield
         // Start is called before the first frame update
         private void Start()
         {
-            Intuition    = 2;
-            Charisma     = 1;
-            Lebenspunkte = 10;
-            Schaden      = 3;
+            Intuition = 2;
+            Charisma  = 1;
+            Hitpoints = HitpointsMax;
+            Schaden   = 3;
         }
 
         // Update is called once per frame
@@ -26,7 +26,7 @@ namespace Battlefield
         public override int DealDamage(BaseUnit target)
         {
             var damageDealt = Schaden * Schadensmodifier;
-            target.Lebenspunkte -= damageDealt;
+            target.Hitpoints -= damageDealt;
 
             return (int)damageDealt;
         }

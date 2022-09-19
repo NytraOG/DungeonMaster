@@ -24,7 +24,7 @@ namespace Battlefield
             var ass        = GetComponent<Assassin>();
             var initiative = gobbo.InitiativeBestimmen(5);
 
-            if (ass is not null && ass.Lebenspunkte <= 0)
+            if (ass is not null && ass.Hitpoints <= 0)
             {
                 Debug.Log("Assassin is ded");
                 Destroy(ass);
@@ -32,7 +32,7 @@ namespace Battlefield
                 allyAttackButton.enabled = false;
             }
 
-            if (gobbo is not null && gobbo.Lebenspunkte <= 0)
+            if (gobbo is not null && gobbo.Hitpoints <= 0)
             {
                 Debug.Log("Gobbo is ded");
                 Destroy(gobbo);

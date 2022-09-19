@@ -4,10 +4,11 @@
     {
         public Goblin()
         {
-            Intuition    = 1;
-            Charisma     = 1;
-            Lebenspunkte = 10;
-            Schaden      = 4;
+            Intuition = 1;
+            Charisma  = 1;
+
+            Hitpoints = 10;
+            Schaden   = 4;
 
             InitiativeBestimmen(2);
         }
@@ -17,7 +18,7 @@
         public override int DealDamage(BaseUnit target)
         {
             var damageDealt = Schaden * Schadensmodifier;
-            target.Lebenspunkte -= damageDealt;
+            target.Hitpoints -= damageDealt;
 
             return (int)damageDealt;
         }
