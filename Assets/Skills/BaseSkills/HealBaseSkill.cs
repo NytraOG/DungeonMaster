@@ -1,13 +1,8 @@
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-
-
-
-public abstract class HeaöBaseSkill : BaseSkill
+namespace Skills.BaseSkills
 {
-    public override skillCategory Category => skillCategory.Buff;
-    public override skillSubCategory SubCategory => skillSubCategory.Heal;
-    
-
+    public abstract class HealBaseSkill : BaseSkill
+    {
+        public override skillCategory    Category    => skillCategory.Buff;
+        public override skillSubCategory SubCategory => skillSubCategory.Heal;
+    }
 }
