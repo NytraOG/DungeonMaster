@@ -16,7 +16,7 @@
             Hitpoints           = HitpointsMax;
             Schaden             = 1;
 
-            InitiativeBestimmen();
+            InitiativeBestimmen(3);
         }
 
         public override float Schadensmodifier => 1.25f;
