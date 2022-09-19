@@ -13,12 +13,20 @@
             Willenskraft     = 1;
             Weisheit         = 1;
             Charisma         = 1;
-            
+            Lebenspunkte     = 10;
+            Schaden          = 4;
+
             InitiativeBestimmen();
         }
 
         public override float Schadensmodifier => 1f;
 
-        public override void DealDamage(BaseUnit target) => target.Lebenspunkte -= Schaden * Schadensmodifier;
+        public override int DealDamage(BaseUnit target)
+        {
+            var damageDealt = Schaden * Schadensmodifier;
+            target.Lebenspunkte -= damageDealt;
+            
+            return (int)damageDealt; 
+        }
     }
 }

@@ -1,11 +1,13 @@
-﻿namespace Entities.Classes
+﻿using System;
+
+namespace Entities.Classes
 {
     public class Tank : BaseHero
     {
         public override float Schadensmodifier => 1f;
 
-        public override void DealDamage(BaseUnit target) => throw new System.NotImplementedException();
+        public override int DealDamage(BaseUnit target) => throw new NotImplementedException();
 
-        public override void InitiativeBestimmen() => throw new System.NotImplementedException();
+        public override void InitiativeBestimmen() => throw new NotImplementedException();
     }
 }
