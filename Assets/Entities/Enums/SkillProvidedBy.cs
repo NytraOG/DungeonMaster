@@ -10,6 +10,6 @@
         Terran,
         NeoTerran,
         Ghul,
-        Energy
+        Energist
     }
 }
