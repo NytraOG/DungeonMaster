@@ -1,3 +1,4 @@
+using System;
 using Entities;
 using Entities.Classes;
 
@@ -5,11 +6,13 @@ namespace Battlefield
 {
     public class Hero : BaseHero
     {
-        public override float Schadensmodifier => 1.25f;
+        private         Random rng;
+        public override float  Schadensmodifier => 1.25f;
 
         // Start is called before the first frame update
         private void Start()
         {
+            rng       = new Random();
             Intuition = 2;
             Charisma  = 1;
             Hitpoints = HitpointsMax;
@@ -21,7 +24,8 @@ namespace Battlefield
 
         public override int DealDamage(BaseUnit target)
         {
-            var damageDealt = Schaden * Schadensmodifier;
+            var modifier    = rng.Next(0, 2);
+            var damageDealt = Schaden * Schadensmodifier * modifier;
             target.Hitpoints -= damageDealt;
 
             return (int)damageDealt;

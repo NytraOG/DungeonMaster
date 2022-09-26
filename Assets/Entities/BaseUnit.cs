@@ -21,7 +21,7 @@ namespace Entities
         public          int     Armour            { get; set; }           // Wird später auf Rüstungen migriert
         public          int     CritDamage        { get; protected set; } // Wird später auf Waffen migriert
         public          int     Mana              => 2 * Wisdom + Logic;
-        public          bool    IstKampfunfähig   { get; protected set; }
+        public          bool    IstKampfunfähig   => Hitpoints <= 0;
         public abstract Party   Party             { get; }
         public          Vector2 Position          { get; set; }
 
