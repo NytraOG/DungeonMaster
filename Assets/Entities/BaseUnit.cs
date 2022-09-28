@@ -10,6 +10,7 @@ namespace Entities
         public          int     Schaden           { get; protected set; } // Wird später auf Waffen migriert (?)
         public abstract float   Schadensmodifier  { get; }
         public          int     BaseInitiative    => 2 * Intuition + Quickness;
+        public          double  CurrentInitiative { get; set; }
         public          int     AktionenGesamt    { get; protected set; }
         public          int     AktionenAktuell   { get; set; }
         public          float   BaseMeleeDefense  => 2 * Dexterity + Quickness;
@@ -27,7 +28,7 @@ namespace Entities
 
         public abstract int DealDamage(BaseUnit target);
 
-        public virtual float InitiativeBestimmen(float modifier) => BaseInitiative * modifier;
+        public virtual void InitiativeBestimmen(double modifier) => CurrentInitiative = BaseInitiative * modifier;
 
         #region Stats
 

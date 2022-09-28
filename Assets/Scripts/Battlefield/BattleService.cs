@@ -1,60 +1,62 @@
+using System.Collections.Generic;
+using System.Linq;
 using Entities;
+using Entities.Enemies;
 using TMPro;
 using UnityEngine;
 using UnityEngine.EventSystems;
+using Random = System.Random;
 
 namespace Battlefield
 {
     public class BattleService : MonoBehaviour, IPointerClickHandler
     {
-        public GameObject damageTextPrefab, enemyInstance, heroInstance;
+        public  GameObject       damageTextPrefab;
+        public  GameObject       heroInstance;
+        public  List<GameObject> enemies;
+        private List<BaseUnit>   combatants;
+        private Random           rng;
+        private Random           Rng => rng ??= new Random();
+
+        public void Start()
+        {
+            combatants = new List<BaseUnit> { heroInstance.GetComponent<Hero>() };
+
+            enemies.ForEach(e =>
+            {
+                combatants.Add(e.GetComponent<Skeleton>());
+            });
+        }
 
         private void Update()
         {
-            if (Input.GetMouseButtonDown(0) && Camera.main is { } mainCam)
-            {
-                var mousePos   = mainCam.ScreenToWorldPoint(Input.mousePosition);
-                var mousePos2D = new Vector2(mousePos.x, mousePos.y);
-
-                var hit = Physics2D.Raycast(mousePos2D, Vector2.zero);
-
-                if (hit.collider is not null)
-                    Debug.Log("Iwas getroffen");
-            }
-
-            // if (Camera.main != null)
-            // {
-            //     var hit = Physics2D.Raycast(new Vector2(Camera.main.ScreenToWorldPoint(Input.mousePosition).x, Camera.main.ScreenToWorldPoint(Input.mousePosition).y), Vector2.zero, 0);
-            //     Debug.Log($"{hit.point.x} + {hit.point.y}");
-            // }
-
-            if (Input.GetKeyDown(KeyCode.X))
-            {
-                var hero        = heroInstance.gameObject.GetComponent<Hero>();
-                var target      = enemyInstance.gameObject.GetComponent<Bandit>();
-                var damageDealt = hero.DealDamage(target);
-
-                InstantiateFloatingCombatText(enemyInstance, damageDealt, target.IstKampfunfähig);
-
-                if (target.IstKampfunfähig)
-                    Destroy(enemyInstance);
-            }
-            else if (Input.GetKeyDown(KeyCode.Y))
-            {
-                var bandit      = enemyInstance.gameObject.GetComponent<Bandit>();
-                var target      = heroInstance.gameObject.GetComponent<Hero>();
-                var damageDealt = bandit.DealDamage(target);
-
-                InstantiateFloatingCombatText(heroInstance, damageDealt, target.IstKampfunfähig);
-
-                if (target.IstKampfunfähig)
-                    Destroy(heroInstance);
-            }
+#if !DEBUG
+            RandomFunHihi();
+#endif
         }
 
         public void OnPointerClick(PointerEventData eventData) { }
 
-        private void InstantiateFloatingCombatText(GameObject unitInstance, int damageDealt, bool isDed)
+        public void KampfrundeAbhandeln()
+        {
+            InitiativereihenfolgeBestimmen();
+            
+            
+            combatants.ForEach(c =>
+            {
+                InstantiateFloatingCombatText(c, (int)c.CurrentInitiative);
+            });
+        }
+        
+        /* 
+             * Spieler Kontrolle verbieten (clicks)
+             * Höchste Ini macht Aktion
+             *  Falls kampfunfähig, aktion skippen
+             * Dann der reihe nach
+             * Wenn keiner mehr eine Aktion hat Kontrolle zurückgeben
+             */
+
+        private void InstantiateFloatingCombatText(BaseUnit unitInstance, int damageDealt)
         {
             var damageTextInstance = Instantiate(damageTextPrefab, unitInstance.transform);
 
@@ -63,20 +65,18 @@ namespace Battlefield
                                                   .GetComponent<TextMeshPro>();
 
             textcomponent.SetText(damageDealt.ToString());
-
-            if (isDed)
-                textcomponent.color = Color.red;
         }
 
-        private void Attack<TTarget, TAttacker>()
-                where TTarget : BaseUnit
-                where TAttacker : BaseUnit
+        private void InitiativereihenfolgeBestimmen()
         {
-            var target   = GetComponent<TTarget>();
-            var attacker = GetComponent<TAttacker>();
+            combatants.ForEach(c =>
+            {
+                var modifier = Rng.NextDouble() * 2.0;
+                c.InitiativeBestimmen(modifier);
+            });
 
-            if (target is not null && attacker is not null)
-                attacker.DealDamage(target);
+            combatants = combatants.OrderByDescending(u => u.CurrentInitiative)
+                                   .ToList();
         }
     }
 }

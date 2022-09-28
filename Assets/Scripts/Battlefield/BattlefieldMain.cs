@@ -22,7 +22,7 @@ namespace Battlefield
         {
             var gobbo      = GetComponent<Goblin>();
             var ass        = GetComponent<Assassin>();
-            var initiative = gobbo.InitiativeBestimmen(5);
+            gobbo.InitiativeBestimmen(5);
 
             if (ass is not null && ass.Hitpoints <= 0)
             {
