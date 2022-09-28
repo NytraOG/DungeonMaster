@@ -6,8 +6,7 @@ namespace Entities.Enemies
     {
         public override float Schadensmodifier { get; }
 
-        // Start is called before the first frame update
-        private void Start()
+        public override void Initialize()
         {
             Strength     = 5;
             Constitution = 6;
@@ -19,10 +18,9 @@ namespace Entities.Enemies
             Wisdom       = 1;
             Charisma     = 1;
             Schaden      = 6;
+            
+            base.Initialize();
         }
-
-        // Update is called once per frame
-        private void Update() { }
 
         public override int DealDamage(BaseUnit target) => throw new NotImplementedException();
     }

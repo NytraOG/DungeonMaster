@@ -1,3 +1,4 @@
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using Entities;
@@ -20,11 +21,16 @@ namespace Battlefield
 
         public void Start()
         {
-            combatants = new List<BaseUnit> { heroInstance.GetComponent<Hero>() };
+            var hero = heroInstance.GetComponent<Hero>();
+            hero.Initialize();
+
+            combatants = new List<BaseUnit> { hero };
 
             enemies.ForEach(e =>
             {
-                combatants.Add(e.GetComponent<Skeleton>());
+                var enemyComponent = e.GetComponent<Skeleton>();
+                enemyComponent.Initialize();
+                combatants.Add(enemyComponent);
             });
         }
 
@@ -40,19 +46,24 @@ namespace Battlefield
         public void KampfrundeAbhandeln()
         {
             InitiativereihenfolgeBestimmen();
-            
-            
-            combatants.ForEach(c =>
-            {
-                InstantiateFloatingCombatText(c, (int)c.CurrentInitiative);
-            });
+            StartCoroutine(Kek());
         }
-        
+
+        private IEnumerator Kek()
+        {
+            foreach (var combatant in combatants)
+            {
+                
+                if (!combatant.IstKampfunfähig)
+                    InstantiateFloatingCombatText(combatant, (int)combatant.CurrentInitiative);
+
+                yield return new WaitForSeconds(2);
+            }
+            
+        }
+
         /* 
              * Spieler Kontrolle verbieten (clicks)
-             * Höchste Ini macht Aktion
-             *  Falls kampfunfähig, aktion skippen
-             * Dann der reihe nach
              * Wenn keiner mehr eine Aktion hat Kontrolle zurückgeben
              */
 

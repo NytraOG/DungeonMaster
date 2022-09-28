@@ -30,6 +30,8 @@ namespace Entities
 
         public virtual void InitiativeBestimmen(double modifier) => CurrentInitiative = BaseInitiative * modifier;
 
+        public virtual void Initialize() => Hitpoints = HitpointsMax;
+
         #region Stats
 
         public int Strength     { get; set; }
