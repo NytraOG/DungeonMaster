@@ -22,6 +22,7 @@ namespace Battlefield
             Wisdom       = 5;
             Charisma     = 1;
             Schaden      = 10;
+            rng          = new Random();
         }
 
         // Update is called once per frame
@@ -29,6 +30,7 @@ namespace Battlefield
 
         public override int DealDamage(BaseUnit target)
         {
+            // rng = new Random();
             var modifier    = rng.Next(0, 2);
             var damageDealt = Schaden * Schadensmodifier * modifier;
             target.Hitpoints -= damageDealt;
