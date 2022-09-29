@@ -8,6 +8,7 @@ using Entities.Enums;
 using TMPro;
 using UnityEngine;
 using UnityEngine.EventSystems;
+using UnityEngine.SceneManagement;
 using Random = System.Random;
 
 namespace Battlefield
@@ -18,12 +19,16 @@ namespace Battlefield
         public  GameObject       heroInstance;
         public  List<GameObject> enemies;
         private List<BaseUnit>   combatants;
+        private List<BaseHero>   heroes;
         private Random           rng;
         private Random           Rng => rng ??= new Random();
+        private GameOverScreen       gameOverScreen;
 
         public void Start()
         {
             var hero = heroInstance.GetComponent<Hero>();
+            heroes = new List<BaseHero>();
+            heroes.Add(hero);
             hero.Initialize();
 
             combatants = new List<BaseUnit> { hero };
@@ -38,15 +43,29 @@ namespace Battlefield
 
         private void Update()
         {
-            //Wenn Combat vorbei -> Szene wechseln
-            foreach (var combatant in combatants)
+            StartCoroutine(CheckIfGameOver());
+            
+            combatants.ForEach(c =>
             {
-                if (combatant.IstKampfunfähig)
-                {
-                    var renderer = combatant.GetComponent<SpriteRenderer>();
-                    var sprite   = Resources.LoadAll<Sprite>("bloodPuddle").FirstOrDefault();
-                    renderer.sprite = sprite;
-                }
+                if (!c.IstKampfunfähig)
+                    return;
+                
+                //Kampfunfähige Combatants sollten aus der Collection entfernt werden.
+                //Aktuell haben Kampfunfähige Combatants noch eine Ini und verzögern den Combatflow.
+                //Wie verhalten sich dann rezzes?
+
+                var renderer = c.GetComponent<SpriteRenderer>();
+                var sprite   = Resources.LoadAll<Sprite>("bloodPuddle").FirstOrDefault();
+                renderer.sprite = sprite;
+            });
+        }
+
+        private IEnumerator CheckIfGameOver()
+        {
+            if (heroes.All(h => h.IstKampfunfähig))
+            {
+                yield return new WaitForSeconds(2);
+                SceneManager.LoadScene("Scenes/Game Over", LoadSceneMode.Single);
             }
         }
 
@@ -128,6 +147,9 @@ namespace Battlefield
         {
             combatants.ForEach(c =>
             {
+                if (c.IstKampfunfähig)
+                    return;
+                
                 var modifier = Rng.NextDouble() * 2.0;
                 c.InitiativeBestimmen(modifier);
             });
