@@ -5,7 +5,7 @@ namespace Entities.Enemies
     public class Skeleton : BaseFoe
     {
         private         Random rng;
-        public override float  Schadensmodifier => 0.0f;
+        public override float  Schadensmodifier => 1.0f;
 
 
         public override void Initialize()

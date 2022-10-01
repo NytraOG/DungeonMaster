@@ -7,7 +7,7 @@ namespace Battlefield
     public class Hero : BaseHero
     {
         private         Random rng;
-        public override float  Schadensmodifier => 5.25f;
+        public override float  Schadensmodifier => 1.25f;
 
         // Start is called before the first frame update
         private void Start()

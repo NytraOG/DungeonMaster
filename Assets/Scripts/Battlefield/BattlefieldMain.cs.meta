@@ -3,7 +3,8 @@ guid: 33ec04999a6d2e249ab045974f8471d1
 MonoImporter:
   externalObjects: {}
   serializedVersion: 2
-  defaultReferences: []
+  defaultReferences:
+  - SpawnAllyMiddle: {fileID: 21300000, guid: 909b1ee0992279a45aecdd19b17d75e4, type: 3}
   executionOrder: 0
   icon: {instanceID: 0}
   userData: 
