@@ -1,6 +1,7 @@
 using System;
 using Entities;
 using Entities.Classes;
+using Unity.VisualScripting;
 
 namespace Battlefield
 {
@@ -36,6 +37,12 @@ namespace Battlefield
             target.Hitpoints -= damageDealt;
 
             return (int)damageDealt;
+        }
+
+        private void OnMouseDown()
+        {
+            this.gameObject.SetActive(false);
+            this.gameObject.SetActive(true);
         }
     }
 }

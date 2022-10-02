@@ -9,7 +9,7 @@ public class GridManager : MonoBehaviour
 
     private void Start()
     {
-        GenerateGrid();
+        //GenerateGrid();
     }
 
     void GenerateGrid()
