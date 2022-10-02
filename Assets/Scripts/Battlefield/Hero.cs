@@ -38,11 +38,5 @@ namespace Battlefield
 
             return (int)damageDealt;
         }
-
-        private void OnMouseDown()
-        {
-            this.gameObject.SetActive(false);
-            this.gameObject.SetActive(true);
-        }
     }
 }
