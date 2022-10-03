@@ -59,7 +59,7 @@ namespace Entities
                                     .FirstOrDefault(x => x.name == "Battlefield")
                                     .transform.Find("UI")
                                     .transform.Find("Canvas")
-                                    .transform.Find("Panel");
+                                    .transform.Find("CharacterSheetPanel");
 
             panel.transform.Find("Name").gameObject.GetComponent<TextMeshProUGUI>().text     = this.name;
             panel.transform.Find("StrValue").gameObject.GetComponent<TextMeshProUGUI>().text = this.Strength.ToString();
@@ -67,6 +67,24 @@ namespace Entities
             panel.transform.Find("DmgValue").gameObject.GetComponent<TextMeshProUGUI>().text = this.Schaden.ToString();
             panel.transform.Find("HPValue").gameObject.GetComponent<TextMeshProUGUI>().text  = $"{this.Hitpoints} / {this.HitpointsMax}";
             panel.gameObject.SetActive(true);
+        }
+
+        private void Update()
+        {
+            if (Hitpoints <= 0)
+                Die();
+        }
+
+        private void Die()
+        {
+            //BattleService kram hier her.
+            //Bild zu Splash
+            //Collider und Skript deaktivieren
+            //Etc
+            
+            //GGF in die DealDamage Methode rein und Callen
+            //Muss für jede Unit ausimplementiert werden?
+            //Vermutlich beides ok -> Performance
         }
     }
 }

@@ -55,7 +55,9 @@ namespace Battlefield
 
                 var renderer = c.GetComponent<SpriteRenderer>();
                 var sprite   = Resources.LoadAll<Sprite>("bloodPuddle").FirstOrDefault();
-                renderer.sprite = sprite;
+                renderer.sprite                      = sprite;
+                c.enabled                            = false;
+                c.GetComponent<Collider2D>().enabled = false;
             });
         }
 

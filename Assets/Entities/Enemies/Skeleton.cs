@@ -32,6 +32,9 @@ namespace Entities.Enemies
             var damageDealt = Schaden * Schadensmodifier * modifier;
             target.Hitpoints -= damageDealt;
 
+            if (target.Hitpoints < 0)
+                target.Hitpoints = 0;
+
             return (int)damageDealt;
         }
     }

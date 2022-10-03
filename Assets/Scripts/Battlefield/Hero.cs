@@ -28,6 +28,7 @@ namespace Battlefield
 
         // Update is called once per frame
         private void Update() { }
+        
 
         public override int DealDamage(BaseUnit target)
         {
@@ -35,6 +36,9 @@ namespace Battlefield
             var modifier    = rng.Next(0, 2);
             var damageDealt = Schaden * Schadensmodifier * modifier;
             target.Hitpoints -= damageDealt;
+
+            if (target.Hitpoints < 0)
+                target.Hitpoints = 0;
 
             return (int)damageDealt;
         }
