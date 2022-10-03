@@ -40,9 +40,9 @@ namespace Battlefield
             var spawnPos = tile.transform.position;
 
             var isFoe = unit.GetComponent<BaseUnit>().Party == Party.Foe;
-            unit.transform.position = isFoe ? new Vector3(spawnPos.x, spawnPos.y+0.5f, 0) : new Vector3(spawnPos.x, spawnPos.y, 0);
+            unit.transform.position = isFoe ? new Vector3(spawnPos.x, spawnPos.y+0.5f, -1) : new Vector3(spawnPos.x, spawnPos.y, -1);
             
-            tile.Unit = unit.GetComponent<BaseUnit>();
+            tile.unit = unit.GetComponent<BaseUnit>();
         }
 
         public void BackToMenu() => SceneManager.LoadScene(mainMenuScene);

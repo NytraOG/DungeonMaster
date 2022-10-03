@@ -6,21 +6,18 @@ using Entities;
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using UnityEngine.Serialization;
 
 public class Tile : MonoBehaviour
 {
-    public                   BaseUnit   Unit;
-    [SerializeField] 
-    private GameObject highlight;
-
-    void OnMouseUp()
-    {
-        Debug.Log("Hello: " + $"{Unit.gameObject.name}");
-    }
-
+    [SerializeField] public  BaseUnit   unit;
+    [SerializeField] private GameObject highlight;
+    private                  bool       IsOccupied => unit != null;
+    
     private void OnMouseEnter()
     {
-        highlight.SetActive(true);
+        if(!IsOccupied)
+            highlight.SetActive(true);
     }
 
     private void OnMouseExit()

@@ -22,7 +22,6 @@ namespace Battlefield
         private List<BaseHero>   heroes;
         private Random           rng;
         private Random           Rng => rng ??= new Random();
-        private GameOverScreen       gameOverScreen;
 
         public void Start()
         {

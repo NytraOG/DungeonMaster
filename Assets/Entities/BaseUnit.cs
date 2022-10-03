@@ -1,5 +1,9 @@
-﻿using Entities.Enums;
+﻿using System;
+using System.Linq;
+using Entities.Enums;
+using TMPro;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 namespace Entities
 {
@@ -45,5 +49,24 @@ namespace Entities
         public int Charisma     { get; set; }
 
         #endregion
+
+        private void OnMouseDown()
+        {
+            Debug.Log($"I clicked on {this.name}");
+
+            var panel = SceneManager.GetActiveScene()
+                                    .GetRootGameObjects()
+                                    .FirstOrDefault(x => x.name == "Battlefield")
+                                    .transform.Find("UI")
+                                    .transform.Find("Canvas")
+                                    .transform.Find("Panel");
+
+            panel.transform.Find("Name").gameObject.GetComponent<TextMeshProUGUI>().text     = this.name;
+            panel.transform.Find("StrValue").gameObject.GetComponent<TextMeshProUGUI>().text = this.Strength.ToString();
+            panel.transform.Find("DexValue").gameObject.GetComponent<TextMeshProUGUI>().text = this.Dexterity.ToString();
+            panel.transform.Find("DmgValue").gameObject.GetComponent<TextMeshProUGUI>().text = this.Schaden.ToString();
+            panel.transform.Find("HPValue").gameObject.GetComponent<TextMeshProUGUI>().text  = $"{this.Hitpoints} / {this.HitpointsMax}";
+            panel.gameObject.SetActive(true);
+        }
     }
 }
