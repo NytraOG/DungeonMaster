@@ -1,6 +1,9 @@
 using System;
 using Entities;
 using Entities.Classes;
+using Entities.Enemies;
+using Skills;
+using Skills.BaseSkills;
 using Unity.VisualScripting;
 
 namespace Battlefield
@@ -13,17 +16,20 @@ namespace Battlefield
         // Start is called before the first frame update
         private void Start()
         {
-            Strength     = 5;
-            Constitution = 3;
-            Dexterity    = 9;
-            Quickness    = 8;
-            Intuition    = 8;
-            Logic        = 5;
-            Willpower    = 2;
-            Wisdom       = 5;
-            Charisma     = 1;
-            Schaden      = 10;
-            rng          = new Random();
+            Strength     =   5;
+            Constitution =   3;
+            Dexterity    =   9;
+            Quickness    =   8;
+            Intuition    =   8;
+            Logic        =   5;
+            Willpower    =   2;
+            Wisdom       =   5;
+            Charisma     =   1;
+            Schaden      =   10;
+            rng          =   new Random();
+            Skills       =   new BaseSkill[4];
+            
+            Skills[0]    ??= gameObject.AddComponent<Knives>();
         }
 
         // Update is called once per frame

@@ -23,7 +23,6 @@ namespace Entities.Enemies
             Schaden          = 6;
             
             base.Initialize();
-
         }
 
         public override int DealDamage(BaseUnit target)

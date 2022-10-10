@@ -5,32 +5,30 @@ using Entities;
 using Entities.Classes;
 using Entities.Enemies;
 using Entities.Enums;
+using Skills.BaseSkills;
 using TMPro;
 using UnityEngine;
-using UnityEngine.EventSystems;
 using UnityEngine.SceneManagement;
 using Random = System.Random;
 
 namespace Battlefield
 {
-    public class BattleService : MonoBehaviour, IPointerClickHandler
+    public class BattleService : MonoBehaviour
     {
-        public  GameObject       damageTextPrefab;
-        public  GameObject       heroInstance;
-        public  List<GameObject> enemies;
-        private List<BaseUnit>   combatants;
-        private List<BaseHero>   heroes;
-        private Random           rng;
-        private Random           Rng => rng ??= new Random();
+        public  GameObject                      damageTextPrefab;
+        public  GameObject                      heroInstance;
+        public  GameObject                      selectedHero;
+        public  List<GameObject>                enemies;
+        private List<BaseUnit>                  combatants;
+        private List<BaseHero>                  heroes;
+        private Random                          rng;
+        public  Dictionary<BaseHero, BaseSkill> SkillSelection;
+        private Random                          Rng => rng ??= new Random();
 
         public void Start()
         {
-            var hero = heroInstance.GetComponent<Hero>();
-            heroes = new List<BaseHero>();
-            heroes.Add(hero);
-            hero.Initialize();
-
-            combatants = new List<BaseUnit> { hero };
+            SkillSelection = new Dictionary<BaseHero, BaseSkill>();
+            combatants     = new List<BaseUnit>();
 
             enemies.ForEach(e =>
             {
@@ -38,17 +36,23 @@ namespace Battlefield
                 enemyComponent.Initialize();
                 combatants.Add(enemyComponent);
             });
+
+            var hero = heroInstance.GetComponent<Hero>();
+            heroes = new List<BaseHero> { hero };
+
+            hero.Initialize();
+            combatants.Add(hero);
         }
 
         private void Update()
         {
             StartCoroutine(CheckIfGameOver());
-            
+
             combatants.ForEach(c =>
             {
                 if (!c.IstKampfunfähig)
                     return;
-                
+
                 //Kampfunfähige Combatants sollten aus der Collection entfernt werden.
                 //Aktuell haben Kampfunfähige Combatants noch eine Ini und verzögern den Combatflow.
                 //Wie verhalten sich dann rezzes?
@@ -70,12 +74,15 @@ namespace Battlefield
             }
         }
 
-        public void OnPointerClick(PointerEventData eventData) { }
-
         public void KampfrundeAbhandeln()
         {
             InitiativereihenfolgeBestimmen();
             StartCoroutine(MachBattleRoundShit());
+        }
+
+        public void SelectSkill()
+        {
+            
         }
 
         private IEnumerator MachBattleRoundShit()
@@ -91,18 +98,18 @@ namespace Battlefield
                         InstantiateFloatingCombatText(combatant, "No suitable Target");
                         continue;
                     }
+
                     var damage = combatant.DealDamage(target);
                     InstantiateFloatingCombatText(target, damage);
                 }
 
                 yield return new WaitForSeconds(0.5f);
             }
-            
         }
 
         private BaseUnit GetTargetForCombatant(BaseUnit combatant)
         {
-            if(combatant is BaseHero)
+            if (combatant is BaseHero)
                 return combatants.FirstOrDefault(c => !c.IstKampfunfähig && c != combatant && c.Party == Party.Foe);
 
             return combatants.FirstOrDefault(c => !c.IstKampfunfähig && c != combatant && c is BaseHero);
@@ -150,7 +157,7 @@ namespace Battlefield
             {
                 if (c.IstKampfunfähig)
                     return;
-                
+
                 var modifier = Rng.NextDouble() * 2.0;
                 c.InitiativeBestimmen(modifier);
             });
