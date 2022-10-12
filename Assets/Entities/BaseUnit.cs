@@ -11,7 +11,6 @@ namespace Entities
     public abstract class BaseUnit : Base
     {
         public          GameObject    battleService;
-        private         BattleService service;
         public          BaseSkill[]   Skills            { get; set; }
         public          string        Name              { get; }
         public          int           Angriffswurf      { get; protected set; } // Müsste später durch Skills ersetzt werden
@@ -34,19 +33,11 @@ namespace Entities
         public abstract Party         Party             { get; }
         public          Vector2       Position          { get; set; }
 
-        private void Start() => service = battleService.GetComponent<BattleService>();
 
         private void Update()
         {
             if (Hitpoints <= 0)
                 Die();
-        }
-
-        private void OnMouseDown()
-        {
-            Debug.Log($"I clicked on {Name}");
-            
-            
         }
 
         private void ShowCharPanel()

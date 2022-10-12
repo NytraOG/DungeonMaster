@@ -1,17 +1,18 @@
-using System;
 using Entities;
 using Entities.Classes;
-using Entities.Enemies;
 using Skills;
 using Skills.BaseSkills;
-using Unity.VisualScripting;
+using UnityEngine;
+using Random = System.Random;
 
 namespace Battlefield
 {
     public class Hero : BaseHero
     {
-        private         Random rng;
-        public override float  Schadensmodifier => 1.25f;
+        public          GameObject    skillKnives;
+        private         Random        rng;
+        private         BattleService service;
+        public override float         Schadensmodifier => 1.25f;
 
         // Start is called before the first frame update
         private void Start()
@@ -28,13 +29,19 @@ namespace Battlefield
             Schaden      =   10;
             rng          =   new Random();
             Skills       =   new BaseSkill[4];
-            
-            Skills[0]    ??= gameObject.AddComponent<Knives>();
+            service      =   battleService.GetComponent<BattleService>();
+            Skills[0]    ??= Instantiate(skillKnives, gameObject.transform).GetComponent<Knives>();
         }
 
         // Update is called once per frame
         private void Update() { }
-        
+
+        private void OnMouseDown()
+        {
+            Debug.Log("kek");
+
+            service.selectedHero = gameObject;
+        }
 
         public override int DealDamage(BaseUnit target)
         {

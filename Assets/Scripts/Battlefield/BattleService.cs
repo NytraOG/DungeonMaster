@@ -9,6 +9,7 @@ using Skills.BaseSkills;
 using TMPro;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using UnityEngine.UI;
 using Random = System.Random;
 
 namespace Battlefield
@@ -17,7 +18,8 @@ namespace Battlefield
     {
         public  GameObject                      damageTextPrefab;
         public  GameObject                      heroInstance;
-        public  GameObject                      selectedHero;
+        public  GameObject                      selectedHero = null;
+        public  GameObject                      selectedSkill;
         public  List<GameObject>                enemies;
         private List<BaseUnit>                  combatants;
         private List<BaseHero>                  heroes;
@@ -48,22 +50,31 @@ namespace Battlefield
         {
             StartCoroutine(CheckIfGameOver());
 
-            combatants.ForEach(c =>
+            if (selectedHero is not null)
             {
-                if (!c.IstKampfunfähig)
-                    return;
+                var hero   = gameObject.transform.parent.GetComponentInChildren<Hero>();
+                var button = GameObject.Find("SkillButton").GetComponent<Button>();
+                button.gameObject.GetComponent<Image>().sprite = hero.Skills[0].GetComponent<Image>().sprite;
+            }
 
-                //Kampfunfähige Combatants sollten aus der Collection entfernt werden.
-                //Aktuell haben Kampfunfähige Combatants noch eine Ini und verzögern den Combatflow.
-                //Wie verhalten sich dann rezzes?
-
-                var renderer = c.GetComponent<SpriteRenderer>();
-                var sprite   = Resources.LoadAll<Sprite>("bloodPuddle").FirstOrDefault();
-                renderer.sprite                      = sprite;
-                c.enabled                            = false;
-                c.GetComponent<Collider2D>().enabled = false;
-            });
+            MachHeroTot();
         }
+
+        private void MachHeroTot() => combatants.ForEach(c =>
+        {
+            if (!c.IstKampfunfähig)
+                return;
+
+            //Kampfunfähige Combatants sollten aus der Collection entfernt werden.
+            //Aktuell haben Kampfunfähige Combatants noch eine Ini und verzögern den Combatflow.
+            //Wie verhalten sich dann rezzes?
+
+            var renderer = c.GetComponent<SpriteRenderer>();
+            var sprite   = Resources.LoadAll<Sprite>("bloodPuddle").FirstOrDefault();
+            renderer.sprite                      = sprite;
+            c.enabled                            = false;
+            c.GetComponent<Collider2D>().enabled = false;
+        });
 
         private IEnumerator CheckIfGameOver()
         {
@@ -80,10 +91,7 @@ namespace Battlefield
             StartCoroutine(MachBattleRoundShit());
         }
 
-        public void SelectSkill()
-        {
-            
-        }
+        public void SelectSkill() => selectedHero = null;
 
         private IEnumerator MachBattleRoundShit()
         {
