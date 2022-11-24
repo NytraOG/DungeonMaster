@@ -17,10 +17,10 @@ namespace Battlefield
     public class BattleService : MonoBehaviour
     {
         public  GameObject                      damageTextPrefab;
-        public  GameObject                      heroInstance;
-        public  GameObject                      selectedHero = null;
+        public  Hero                            heroInstance;
+        public  GameObject                      selectedHero;
         public  GameObject                      selectedSkill;
-        public  List<GameObject>                enemies;
+        public  List<Skeleton>                  enemies;
         private List<BaseUnit>                  combatants;
         private List<BaseHero>                  heroes;
         private Random                          rng;
@@ -39,11 +39,10 @@ namespace Battlefield
                 combatants.Add(enemyComponent);
             });
 
-            var hero = heroInstance.GetComponent<Hero>();
-            heroes = new List<BaseHero> { hero };
+            heroes = new List<BaseHero> { heroInstance };
 
-            hero.Initialize();
-            combatants.Add(hero);
+            heroInstance.Initialize();
+            combatants.Add(heroInstance);
         }
 
         private void Update()
@@ -54,7 +53,13 @@ namespace Battlefield
             {
                 var hero   = gameObject.transform.parent.GetComponentInChildren<Hero>();
                 var button = GameObject.Find("SkillButton").GetComponent<Button>();
-                button.gameObject.GetComponent<Image>().sprite = hero.Skills[0].GetComponent<Image>().sprite;
+
+                var roarAbility   = hero.abilities.First(a => a.AbilityName == AbilityNames.Roar);
+                var abilitySprite = roarAbility.sprite;
+
+                
+                
+                button.gameObject.GetComponent<Image>().sprite = abilitySprite;
             }
 
             MachHeroTot();
@@ -78,11 +83,12 @@ namespace Battlefield
 
         private IEnumerator CheckIfGameOver()
         {
-            if (heroes.All(h => h.IstKampfunfähig))
-            {
-                yield return new WaitForSeconds(2);
-                SceneManager.LoadScene("Scenes/Game Over", LoadSceneMode.Single);
-            }
+            if (!heroes.Any() || !heroes.All(h => h.IstKampfunfähig))
+                yield break;
+
+            yield return new WaitForSeconds(2);
+
+            SceneManager.LoadScene("Scenes/Game Over", LoadSceneMode.Single);
         }
 
         public void KampfrundeAbhandeln()

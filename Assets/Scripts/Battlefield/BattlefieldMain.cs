@@ -1,11 +1,7 @@
 using Entities;
-using Entities.Classes;
-using Entities.Enemies;
 using Entities.Enums;
-using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.SceneManagement;
-using UnityEngine.UI;
 
 namespace Battlefield
 {
@@ -13,17 +9,7 @@ namespace Battlefield
     {
         public string mainMenuScene;
 
-        #region Field
-
-        public BattleService BattleService;
-        
-        public Spawn SpawnAllyMiddle;
-        public Spawn SpawnFoeMiddle;
-        
-
-        #endregion
-
-        void Start()
+        private void Start()
         {
             var hero = BattleService.heroInstance;
             SetPosition(hero, SpawnAllyMiddle.TopMiddle);
@@ -35,17 +21,25 @@ namespace Battlefield
             SetPosition(enemies[3], SpawnFoeMiddle.BotRight);
         }
 
-        private void SetPosition(GameObject unit, Tile tile)
+        private void SetPosition<T>(T unit, Tile tile)
+                where T : MonoBehaviour
         {
             var spawnPos = tile.transform.position;
 
             var isFoe = unit.GetComponent<BaseUnit>().Party == Party.Foe;
-            unit.transform.position = isFoe ? new Vector3(spawnPos.x, spawnPos.y+0.5f, -1) : new Vector3(spawnPos.x, spawnPos.y, -1);
-            
+            unit.transform.position = isFoe ? new Vector3(spawnPos.x, spawnPos.y + 0.5f, -1) : new Vector3(spawnPos.x, spawnPos.y, -1);
+
             tile.unit = unit.GetComponent<BaseUnit>();
         }
 
         public void BackToMenu() => SceneManager.LoadScene(mainMenuScene);
 
+        #region Field
+
+        public BattleService BattleService;
+        public Spawn         SpawnAllyMiddle;
+        public Spawn         SpawnFoeMiddle;
+
+        #endregion
     }
 }

@@ -1,7 +1,6 @@
 using Entities;
 using Entities.Classes;
-using Skills;
-using Skills.BaseSkills;
+using Entities.Races;
 using UnityEngine;
 using Random = System.Random;
 
@@ -9,32 +8,29 @@ namespace Battlefield
 {
     public class Hero : BaseHero
     {
-        public          GameObject    skillKnives;
+        public          BaseRace      race;
         private         Random        rng;
         private         BattleService service;
         public override float         Schadensmodifier => 1.25f;
 
-        // Start is called before the first frame update
         private void Start()
         {
-            Strength     =   5;
-            Constitution =   3;
-            Dexterity    =   9;
-            Quickness    =   8;
-            Intuition    =   8;
-            Logic        =   5;
-            Willpower    =   2;
-            Wisdom       =   5;
-            Charisma     =   1;
-            Schaden      =   10;
-            rng          =   new Random();
-            Skills       =   new BaseSkill[4];
-            service      =   battleService.GetComponent<BattleService>();
-            Skills[0]    ??= Instantiate(skillKnives, gameObject.transform).GetComponent<Knives>();
-        }
+            Strength     = 5;
+            Constitution = 3;
+            Dexterity    = 9;
+            Quickness    = 8;
+            Intuition    = 8;
+            Logic        = 5;
+            Willpower    = 2;
+            Wisdom       = 5;
+            Charisma     = 1;
+            Schaden      = 10;
+            rng          = new Random();
+            service      = battleService.GetComponent<BattleService>();
 
-        // Update is called once per frame
-        private void Update() { }
+            race.ApplyModifiers(this);
+            race.ApplyAbilities(this);
+        }
 
         private void OnMouseDown()
         {
@@ -45,7 +41,6 @@ namespace Battlefield
 
         public override int DealDamage(BaseUnit target)
         {
-            // rng = new Random();
             var modifier    = rng.Next(0, 2);
             var damageDealt = Schaden * Schadensmodifier * modifier;
             target.Hitpoints -= damageDealt;

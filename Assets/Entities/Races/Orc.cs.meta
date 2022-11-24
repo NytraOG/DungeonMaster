@@ -1,0 +1,13 @@
+fileFormatVersion: 2
+guid: 83073530c92a49118bb941851fd23dc2
+MonoImporter:
+  externalObjects: {}
+  serializedVersion: 2
+  defaultReferences:
+  - abilityRoar: {instanceID: 0}
+  - abilityMagicResistance: {instanceID: 0}
+  executionOrder: 0
+  icon: {instanceID: 0}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
