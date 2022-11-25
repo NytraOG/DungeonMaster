@@ -10,9 +10,9 @@ namespace Entities.Races
         
         public override void ApplyModifiers<T>(T unit)
         {
-            unit.MaximumMana      = (int)(unit.MaximumMana * ManaModifier);
-            unit.MaximumHitpoints = (int)(unit.MaximumHitpoints * HitpointModifier);
-            unit.
+            unit.MaximumMana          =  (int)(unit.MaximumMana * ManaModifier);
+            unit.MaximumHitpoints     =  (int)(unit.MaximumHitpoints * HitpointModifier);
+            unit.ManaregenerationRate += 1; //TODO +20% Herolevel 
         }
 
         public override void ApplyAbilities<T>(T unit) => throw new System.NotImplementedException();

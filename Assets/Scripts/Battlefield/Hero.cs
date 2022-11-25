@@ -26,8 +26,10 @@ namespace Battlefield
             Charisma     = 1;
             Schaden      = 10;
             rng          = new Random();
+
             service      = battleService.GetComponent<BattleService>();
 
+            SetInitialHitpointsAndMana();
             race.ApplyModifiers(this);
             race.ApplyAbilities(this);
         }

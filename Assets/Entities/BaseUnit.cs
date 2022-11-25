@@ -35,7 +35,7 @@ namespace Entities
         public abstract Party             Party             { get; }
         public          Vector2           Position          { get; set; }
 
-        private void Start()
+        protected void SetInitialHitpointsAndMana()
         {
             MaximumMana      = 2 * Wisdom + Logic;
             MaximumHitpoints = 3 * Constitution + 2 * Strength;
