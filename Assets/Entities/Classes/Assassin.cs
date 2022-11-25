@@ -15,7 +15,7 @@
             Willpower    = 1;
             Wisdom       = 1;
             Charisma     = 1;
-            Hitpoints    = HitpointsMax;
+            Hitpoints    = MaximumHitpoints;
             Schaden      = 1;
 
             InitiativeBestimmen(3);

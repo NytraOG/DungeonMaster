@@ -24,14 +24,22 @@ namespace Entities
         public          float             BaseRangedDefense => 2 * Quickness + Dexterity;
         public          float             BaseMagicDefense  => 2 * Willpower + Wisdom;
         public          float             BaseSocialDefense => 2 * Logic + Charisma;
+        public          float                 ManaregenerationRate                 { get; set; }
         public          float             Hitpoints         { get; set; }
-        public          float             HitpointsMax      => 3 * Constitution + 2 * Strength;
+        public          float             MaximumHitpoints  { get; set; }
         public          int               Armour            { get; set; }           // Wird später auf Rüstungen migriert
         public          int               CritDamage        { get; protected set; } // Wird später auf Waffen migriert
-        public          int               Mana              => 2 * Wisdom + Logic;
+        public          int               MaximumMana       { get; set; }
+        public          int               CurrentMana       { get; set; }
         public          bool              IstKampfunfähig   => Hitpoints <= 0;
         public abstract Party             Party             { get; }
         public          Vector2           Position          { get; set; }
+
+        private void Start()
+        {
+            MaximumMana      = 2 * Wisdom + Logic;
+            MaximumHitpoints = 3 * Constitution + 2 * Strength;
+        }
 
         private void Update()
         {
@@ -52,7 +60,7 @@ namespace Entities
             panel.transform.Find("StrValue").gameObject.GetComponent<TextMeshProUGUI>().text = Strength.ToString();
             panel.transform.Find("DexValue").gameObject.GetComponent<TextMeshProUGUI>().text = Dexterity.ToString();
             panel.transform.Find("DmgValue").gameObject.GetComponent<TextMeshProUGUI>().text = Schaden.ToString();
-            panel.transform.Find("HPValue").gameObject.GetComponent<TextMeshProUGUI>().text  = $"{(int)Hitpoints} / {(int)HitpointsMax}";
+            panel.transform.Find("HPValue").gameObject.GetComponent<TextMeshProUGUI>().text  = $"{(int)Hitpoints} / {(int)MaximumHitpoints}";
 
             panel.gameObject.SetActive(true);
         }
@@ -61,7 +69,7 @@ namespace Entities
 
         public virtual void InitiativeBestimmen(double modifier) => CurrentInitiative = BaseInitiative * modifier;
 
-        public virtual void Initialize() => Hitpoints = HitpointsMax;
+        public virtual void Initialize() => Hitpoints = MaximumHitpoints;
 
         private void Die()
         {

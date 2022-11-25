@@ -36,7 +36,7 @@ namespace Battlefield
         {
             Debug.Log("kek");
 
-            service.selectedHero = gameObject;
+            service.selectedHero = gameObject.GetComponent<Hero>() ;
         }
 
         public override int DealDamage(BaseUnit target)

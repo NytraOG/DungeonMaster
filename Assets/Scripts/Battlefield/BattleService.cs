@@ -5,7 +5,6 @@ using Entities;
 using Entities.Classes;
 using Entities.Enemies;
 using Entities.Enums;
-using Skills.BaseSkills;
 using TMPro;
 using UnityEngine;
 using UnityEngine.SceneManagement;
@@ -16,21 +15,20 @@ namespace Battlefield
 {
     public class BattleService : MonoBehaviour
     {
-        public  GameObject                      damageTextPrefab;
-        public  Hero                            heroInstance;
-        public  GameObject                      selectedHero;
-        public  GameObject                      selectedSkill;
-        public  List<Skeleton>                  enemies;
-        private List<BaseUnit>                  combatants;
-        private List<BaseHero>                  heroes;
-        private Random                          rng;
-        public  Dictionary<BaseHero, BaseSkill> SkillSelection;
-        private Random                          Rng => rng ??= new Random();
+        public  GameObject     damageTextPrefab;
+        public  Hero           heroInstance;
+        public  BaseHero       selectedHero;
+        public  BaseFoe        selectedEnemy;
+        public  GameObject     selectedSkill;
+        public  List<Skeleton> enemies;
+        private List<BaseUnit> combatants;
+        private List<BaseHero> heroes;
+        private Random         rng;
+        private Random         Rng => rng ??= new Random();
 
         public void Start()
         {
-            SkillSelection = new Dictionary<BaseHero, BaseSkill>();
-            combatants     = new List<BaseUnit>();
+            combatants = new List<BaseUnit>();
 
             enemies.ForEach(e =>
             {
@@ -57,8 +55,6 @@ namespace Battlefield
                 var roarAbility   = hero.abilities.First(a => a.AbilityName == AbilityNames.Roar);
                 var abilitySprite = roarAbility.sprite;
 
-                
-                
                 button.gameObject.GetComponent<Image>().sprite = abilitySprite;
             }
 

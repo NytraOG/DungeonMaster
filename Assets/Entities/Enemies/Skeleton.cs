@@ -1,26 +1,30 @@
-using System;
+using Battlefield;
+using UnityEngine;
+using Random = System.Random;
 
 namespace Entities.Enemies
 {
     public class Skeleton : BaseFoe
     {
-        private         Random rng;
-        public override float  Schadensmodifier => 1.0f;
+        private         Random        rng;
+        private         BattleService service;
+        public override float         Schadensmodifier => 1.0f;
 
 
         public override void Initialize()
         {
-            rng              = new Random();
-            Strength         = 5;
-            Constitution     = 6;
-            Dexterity        = 2;
-            Quickness        = 3;
-            Intuition        = 2;
-            Logic            = 1;
-            Willpower        = 1;
-            Wisdom           = 1;
-            Charisma         = 1;
-            Schaden          = 6;
+            rng                  = new Random();
+            Strength             = 5;
+            Constitution         = 6;
+            Dexterity            = 2;
+            Quickness            = 3;
+            Intuition            = 2;
+            Logic                = 1;
+            Willpower            = 1;
+            Wisdom               = 1;
+            Charisma             = 1;
+            Schaden              = 6;
+            service              = battleService.GetComponent<BattleService>();
             
             base.Initialize();
         }
@@ -35,6 +39,13 @@ namespace Entities.Enemies
                 target.Hitpoints = 0;
 
             return (int)damageDealt;
+        }
+
+        private void OnMouseDown()
+        {
+            service.selectedEnemy = gameObject.GetComponent<Skeleton>();
+            
+            Debug.Log("Bur");
         }
     }
 }

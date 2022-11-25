@@ -17,7 +17,7 @@ namespace Battlefield
             rng       = new Random();
             Intuition = 2;
             Charisma  = 1;
-            Hitpoints = HitpointsMax;
+            Hitpoints = MaximumHitpoints;
             Schaden   = 3;
         }
 

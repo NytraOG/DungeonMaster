@@ -6824,7 +6824,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1269060282923305527, guid: fa37cb8a91032024990e1580c901f6ad, type: 3}
       propertyPath: m_LocalPosition.z
-      value: 0
+      value: -357.00003
       objectReference: {fileID: 0}
     - target: {fileID: 1269060282923305527, guid: fa37cb8a91032024990e1580c901f6ad, type: 3}
       propertyPath: m_LocalRotation.w
@@ -7190,6 +7190,7 @@ MonoBehaviour:
   damageTextPrefab: {fileID: 9064207740128421596, guid: 7ab02fdfb12bb554680cfa911c0331e3, type: 3}
   heroInstance: {fileID: 795856112}
   selectedHero: {fileID: 0}
+  selectedEnemy: {fileID: 0}
   selectedSkill: {fileID: 0}
   enemies:
   - {fileID: 648441520}
@@ -7766,7 +7767,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1269060282923305527, guid: fa37cb8a91032024990e1580c901f6ad, type: 3}
       propertyPath: m_LocalPosition.z
-      value: 0
+      value: -357.00003
       objectReference: {fileID: 0}
     - target: {fileID: 1269060282923305527, guid: fa37cb8a91032024990e1580c901f6ad, type: 3}
       propertyPath: m_LocalRotation.w
@@ -8209,7 +8210,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1269060282923305527, guid: fa37cb8a91032024990e1580c901f6ad, type: 3}
       propertyPath: m_LocalPosition.z
-      value: 0
+      value: -357.00003
       objectReference: {fileID: 0}
     - target: {fileID: 1269060282923305527, guid: fa37cb8a91032024990e1580c901f6ad, type: 3}
       propertyPath: m_LocalRotation.w
@@ -9395,7 +9396,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1269060282923305527, guid: fa37cb8a91032024990e1580c901f6ad, type: 3}
       propertyPath: m_LocalPosition.z
-      value: 0
+      value: -357
       objectReference: {fileID: 0}
     - target: {fileID: 1269060282923305527, guid: fa37cb8a91032024990e1580c901f6ad, type: 3}
       propertyPath: m_LocalRotation.w
