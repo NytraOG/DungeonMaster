@@ -3,7 +3,7 @@ using UnityEngine;
 
 namespace Abilities
 {
-    [CreateAssetMenu]
+    [CreateAssetMenu(fileName = "Magic Resistance", menuName = "Abilities/Magic Resistance", order = 0)]
     public class MagicResistance : BaseAbility
     {
         public override string AbilityName => AbilityNames.MagicResistance;

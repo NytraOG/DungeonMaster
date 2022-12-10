@@ -3,7 +3,7 @@ using UnityEngine;
 
 namespace Abilities
 {
-    [CreateAssetMenu]
+    [CreateAssetMenu(fileName = "Roar", menuName = "Abilities/Roar", order = 0)]
     public class Roar : BaseAbility
     {
         public override string AbilityName => AbilityNames.Roar;

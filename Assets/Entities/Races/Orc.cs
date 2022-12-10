@@ -4,10 +4,10 @@ using UnityEngine;
 
 namespace Entities.Races
 {
-    [CreateAssetMenu]
+    [CreateAssetMenu(fileName = "Orc", menuName = "Races/Orc", order = 0)]
     public class Orc : BaseRace
     {
-        public Sprite          sprite;
+        public Sprite          sprite; 
         public Roar            roarAbility;
         public MagicResistance magicResistanceAbility;
 

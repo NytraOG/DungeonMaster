@@ -1,3 +1,4 @@
+using System;
 using Entities;
 using Entities.Enums;
 using UnityEngine;
@@ -19,6 +20,14 @@ namespace Battlefield
             SetPosition(enemies[1], SpawnFoeMiddle.TopRight);
             SetPosition(enemies[2], SpawnFoeMiddle.BotLeft);
             SetPosition(enemies[3], SpawnFoeMiddle.BotRight);
+        }
+
+        private void Update()
+        {
+            if (Input.GetKeyDown(KeyCode.F10))
+            {
+                //QUickSave
+            }
         }
 
         private void SetPosition<T>(T unit, Tile tile)

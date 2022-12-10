@@ -2,7 +2,7 @@
 
 namespace Entities.Races
 {
-    [CreateAssetMenu(fileName = "Neo Terran", menuName = "Neo Terran", order = 0)]
+    [CreateAssetMenu(fileName = "Neo Terran", menuName = "Races/Neo Terran", order = 0)]
     public class NeoTerran : BaseRace
     {
         public const float ManaModifier = 1.3f;
