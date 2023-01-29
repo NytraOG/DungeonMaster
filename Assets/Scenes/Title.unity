@@ -619,6 +619,50 @@ RectTransform:
   m_CorrespondingSourceObject: {fileID: 5809141222034097150, guid: 16dea9601efe0e34db5b827f28b5fc92, type: 3}
   m_PrefabInstance: {fileID: 1429678723}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &1756398445
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1756398447}
+  - component: {fileID: 1756398446}
+  m_Layer: 0
+  m_Name: GameController
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &1756398446
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1756398445}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a4e95ef0779ff9f439d91c7b6d295c13, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!4 &1756398447
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1756398445}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 969.59735, y: 540.3657, z: -31.070648}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 5
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1891837053
 GameObject:
   m_ObjectHideFlags: 0
@@ -792,6 +836,22 @@ PrefabInstance:
     - target: {fileID: 5809141222034097025, guid: 16dea9601efe0e34db5b827f28b5fc92, type: 3}
       propertyPath: m_Name
       value: NavigationButton
+      objectReference: {fileID: 0}
+    - target: {fileID: 5809141222034097149, guid: 16dea9601efe0e34db5b827f28b5fc92, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 1756398446}
+    - target: {fileID: 5809141222034097149, guid: 16dea9601efe0e34db5b827f28b5fc92, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: StartCampaign
+      objectReference: {fileID: 0}
+    - target: {fileID: 5809141222034097149, guid: 16dea9601efe0e34db5b827f28b5fc92, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
+      value: GameController, Assembly-CSharp
+      objectReference: {fileID: 0}
+    - target: {fileID: 5809141222034097149, guid: 16dea9601efe0e34db5b827f28b5fc92, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName
+      value: UnityEngine.Object, UnityEngine
       objectReference: {fileID: 0}
     - target: {fileID: 5809141222034097150, guid: 16dea9601efe0e34db5b827f28b5fc92, type: 3}
       propertyPath: m_Pivot.x
