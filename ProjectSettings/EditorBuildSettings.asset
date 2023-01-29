@@ -6,15 +6,15 @@ EditorBuildSettings:
   serializedVersion: 2
   m_Scenes:
   - enabled: 1
-    path: Assets/Scenes/MainMenu.unity
+    path: Assets/Scenes/Legacy/MainMenu.unity
     guid: 2cda990e2423bbf4892e6590ba056729
   - enabled: 1
-    path: Assets/Scenes/Battlefield.unity
+    path: Assets/Scenes/Legacy/Battlefield.unity
     guid: 4ec615003b296b345a1cdafb4df79df4
   - enabled: 1
-    path: Assets/Scenes/Settings.unity
+    path: Assets/Scenes/Legacy/Settings.unity
     guid: aa5989f627335ba45aafd1c3b4c9d3d7
   - enabled: 1
-    path: Assets/Scenes/Game Over.unity
+    path: Assets/Scenes/Legacy/Game Over.unity
     guid: 5b02b4c557e895f49bab6fd2e236faba
   m_configObjects: {}

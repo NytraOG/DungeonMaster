@@ -19,6 +19,7 @@ public class GameController : MonoBehaviour
     public void StartCampaign()
     {
         // Fade out Navigation Buttons
-        // Fade in
+        // Fade in Save Slot Selection
+        // Load Intro
     }
 }
