@@ -20,45 +20,48 @@ namespace Battlefield
         public  BaseHero       selectedHero;
         public  BaseFoe        selectedEnemy;
         public  GameObject     selectedSkill;
-        public  List<Skeleton> enemies;
-        private List<BaseUnit> combatants;
-        private List<BaseHero> heroes;
+        public  List<BaseUnit> enemies;
+        private List<BaseUnit> combatants = new();
+        public  List<BaseHero> heroes;
         private Random         rng;
         private Random         Rng => rng ??= new Random();
 
         public void Start()
         {
-            combatants = new List<BaseUnit>();
+            InitScene();
+        }
 
-            enemies.ForEach(e =>
-            {
-                var enemyComponent = e.GetComponent<Skeleton>();
-                enemyComponent.Initialize();
-                combatants.Add(enemyComponent);
-            });
+        private void InitScene()
+        {
+            // TODO Überlegen wie man die unterschiedlichen Heroes/Enemies aus der Liste auf unterschiedliche Spots bekommt
+            heroes.ForEach(h => Initialize(h, new Vector3(0, 0)));
+            enemies.ForEach(e => Initialize(e, new Vector3(0, 3)));
 
-            heroes = new List<BaseHero> { heroInstance };
+        }
 
-            heroInstance.Initialize();
-            combatants.Add(heroInstance);
+        private void Initialize(BaseUnit unit, Vector3 vector)
+        {
+            Instantiate(unit, vector, Quaternion.identity);
+            unit.Initialize();
+            combatants.Add(unit);
         }
 
         private void Update()
         {
-            StartCoroutine(CheckIfGameOver());
-
-            if (selectedHero is not null)
-            {
-                var hero   = gameObject.transform.parent.GetComponentInChildren<Hero>();
-                var button = GameObject.Find("SkillButton").GetComponent<Button>();
-
-                var roarAbility   = hero.abilities.First(a => a.AbilityName == AbilityNames.Roar);
-                var abilitySprite = roarAbility.sprite;
-
-                button.gameObject.GetComponent<Image>().sprite = abilitySprite;
-            }
-
-            MachHeroTot();
+            // StartCoroutine(CheckIfGameOver());
+            //
+            // if (selectedHero is not null)
+            // {
+            //     var hero   = gameObject.transform.parent.GetComponentInChildren<Hero>();
+            //     var button = GameObject.Find("SkillButton").GetComponent<Button>();
+            //
+            //     var roarAbility   = hero.abilities.First(a => a.AbilityName == AbilityNames.Roar);
+            //     var abilitySprite = roarAbility.sprite;
+            //
+            //     button.gameObject.GetComponent<Image>().sprite = abilitySprite;
+            // }
+            //
+            // MachHeroTot();
         }
 
         private void MachHeroTot() => combatants.ForEach(c =>
