@@ -10,7 +10,6 @@ namespace Entities
 {
     public abstract class BaseUnit : Base
     {
-        public          GameObject        battleService;
         public          List<BaseAbility> abilities = new();
         public          string            name              { get; }
         public          int               Angriffswurf      { get; protected set; } // Müsste später durch Skills ersetzt werden

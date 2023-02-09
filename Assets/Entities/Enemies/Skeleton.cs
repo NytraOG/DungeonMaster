@@ -23,7 +23,6 @@ namespace Entities.Enemies
             Wisdom       = 1;
             Charisma     = 1;
             Schaden      = 6;
-            service      = battleService.GetComponent<BattleService>();
 
             SetInitialHitpointsAndMana();
             Initialize();

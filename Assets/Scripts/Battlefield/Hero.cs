@@ -10,7 +10,6 @@ namespace Battlefield
     {
         public          BaseRace      race;
         private         Random        rng;
-        private         BattleService service;
         public override float         Schadensmodifier => 1.25f;
 
         private void Start()
@@ -27,8 +26,7 @@ namespace Battlefield
             Schaden      = 10;
             rng          = new Random();
 
-            service      = battleService.GetComponent<BattleService>();
-
+            race = ScriptableObject.CreateInstance<Orc>();
             SetInitialHitpointsAndMana();
             race.ApplyModifiers(this);
             race.ApplyAbilities(this);
@@ -37,8 +35,6 @@ namespace Battlefield
         private void OnMouseDown()
         {
             Debug.Log("kek");
-
-            service.selectedHero = gameObject.GetComponent<Hero>() ;
         }
 
         public override int DealDamage(BaseUnit target)
