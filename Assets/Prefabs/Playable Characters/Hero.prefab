@@ -98,4 +98,4 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   abilities: []
-  race: {fileID: 0}
+  race: {fileID: 11400000, guid: be7d84c11473d0d4789c4fba2721b035, type: 2}

@@ -8,9 +8,9 @@ namespace Battlefield
 {
     public class Hero : BaseHero
     {
-        public          BaseRace      race;
-        private         Random        rng;
-        public override float         Schadensmodifier => 1.25f;
+        public          BaseRace race;
+        private         Random   rng;
+        public override float    Schadensmodifier => 1.25f;
 
         private void Start()
         {
@@ -26,16 +26,13 @@ namespace Battlefield
             Schaden      = 10;
             rng          = new Random();
 
-            race = ScriptableObject.CreateInstance<Orc>();
             SetInitialHitpointsAndMana();
+
             race.ApplyModifiers(this);
             race.ApplyAbilities(this);
         }
 
-        private void OnMouseDown()
-        {
-            Debug.Log("kek");
-        }
+        private void OnMouseDown() => Debug.Log("kek");
 
         public override int DealDamage(BaseUnit target)
         {
