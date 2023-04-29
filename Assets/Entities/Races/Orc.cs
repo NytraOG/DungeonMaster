@@ -21,8 +21,6 @@ namespace Entities.Races
 
         public override void ApplyAbilities<T>(T unit)
         {
-
-
             if (unit.abilities.All(a => a.name != roarAbility.name))
                 unit.abilities.Add(roarAbility);
 

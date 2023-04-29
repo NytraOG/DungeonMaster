@@ -1,30 +1,32 @@
-using Entities;
-using Entities.Enemies;
+using Abilities;
+using Battlefield;
 using UnityEngine;
-using UnityEngine.EventSystems;
 using Random = System.Random;
 
-namespace Battlefield
+namespace Entities.Enemies
 {
-    public class Bandit : BaseFoe, IPointerClickHandler
+    public class Bandit : BaseFoe
     {
         private         Random rng;
         public override float  Schadensmodifier => 1f;
 
-        // Start is called before the first frame update
-        private void Start()
+        private void Awake()
         {
-            rng       = new Random();
-            Intuition = 2;
-            Charisma  = 1;
-            Hitpoints = MaximumHitpoints;
-            Schaden   = 3;
+            rng              = new Random();
+            Intuition        = 2;
+            Charisma         = 1;
+            MaximumHitpoints = 10;
+            Hitpoints        = MaximumHitpoints;
+            Schaden          = 3; //TODO ist sinnfrei, dass "Schaden" eine Eigenschaft einer Einheit ist. Gehört nur auf Waffen/Abilities
         }
 
-        // Update is called once per frame
-        private void Update() { }
+        private void OnMouseDown()
+        {
+            var controller = FindObjectOfType<BattleController>();
+            controller.selectedEnemy = this;
 
-        public void OnPointerClick(PointerEventData eventData) => Debug.Log("Bandit clicker");
+            Debug.Log("Bur");
+        }
 
         public override int DealDamage(BaseUnit target)
         {
@@ -34,5 +36,7 @@ namespace Battlefield
 
             return (int)damageDealt;
         }
+
+        public override int UseAbility(BaseAbility ability, BaseUnit target = null) => ability.TriggerAbility(this, target);
     }
 }

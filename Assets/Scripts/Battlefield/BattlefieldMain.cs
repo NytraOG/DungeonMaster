@@ -12,8 +12,6 @@ namespace Battlefield
 
         private void Start()
         {
-            var hero = BattleService.heroInstance;
-            SetPosition(hero, SpawnAllyMiddle.TopMiddle);
             var enemies = BattleService.enemies;
 
             SetPosition(enemies[0], SpawnFoeMiddle.TopLeft);

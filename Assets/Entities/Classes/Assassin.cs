@@ -1,4 +1,6 @@
-﻿namespace Entities.Classes
+﻿using Abilities;
+
+namespace Entities.Classes
 {
     public sealed class Assassin : BaseHero
     {
@@ -28,5 +30,7 @@
 
             return (int)damageDealt;
         }
+
+        public override int UseAbility(BaseAbility ability, BaseUnit target = null) => throw new System.NotImplementedException();
     }
 }

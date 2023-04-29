@@ -1,4 +1,4 @@
-using Battlefield;
+using Abilities;
 using UnityEngine;
 using Random = System.Random;
 
@@ -6,9 +6,8 @@ namespace Entities.Enemies
 {
     public class Skeleton : BaseFoe
     {
-        private         Random        rng;
-        private         BattleService service;
-        public override float         Schadensmodifier => 1.0f;
+        private         Random rng;
+        public override float  Schadensmodifier => 1.0f;
 
         private void Start()
         {
@@ -28,12 +27,7 @@ namespace Entities.Enemies
             Initialize();
         }
 
-        private void OnMouseDown()
-        {
-            service.selectedEnemy = gameObject.GetComponent<Skeleton>();
-
-            Debug.Log("Bur");
-        }
+        private void OnMouseDown() => Debug.Log("Bur");
 
         public override int DealDamage(BaseUnit target)
         {
@@ -46,5 +40,7 @@ namespace Entities.Enemies
 
             return (int)damageDealt;
         }
+
+        public override int UseAbility(BaseAbility ability, BaseUnit target = null) => throw new System.NotImplementedException();
     }
 }

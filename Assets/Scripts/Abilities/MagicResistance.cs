@@ -1,4 +1,5 @@
 ﻿using System;
+using Entities;
 using UnityEngine;
 
 namespace Abilities
@@ -10,6 +11,6 @@ namespace Abilities
 
         public override void Initialize(GameObject obj) => throw new NotImplementedException();
 
-        public override void TriggerAbility() => throw new NotImplementedException();
+        public override int TriggerAbility(BaseUnit actor = null, BaseUnit target = null) => throw new NotImplementedException();
     }
 }

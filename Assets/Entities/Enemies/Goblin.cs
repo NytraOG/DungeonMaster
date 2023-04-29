@@ -1,4 +1,6 @@
-﻿namespace Entities.Enemies
+﻿using Abilities;
+
+namespace Entities.Enemies
 {
     public sealed class Goblin : BaseFoe
     {
@@ -22,5 +24,7 @@
 
             return (int)damageDealt;
         }
+
+        public override int UseAbility(BaseAbility ability, BaseUnit target = null) => throw new System.NotImplementedException();
     }
 }

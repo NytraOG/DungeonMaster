@@ -1,3 +1,4 @@
+using Abilities;
 using Entities;
 using Entities.Classes;
 using Entities.Races;
@@ -12,7 +13,7 @@ namespace Battlefield
         private         Random   rng;
         public override float    Schadensmodifier => 1.25f;
 
-        private void Start()
+        private void Awake()
         {
             Strength     = 5;
             Constitution = 3;
@@ -32,7 +33,15 @@ namespace Battlefield
             race.ApplyAbilities(this);
         }
 
-        private void OnMouseDown() => Debug.Log("kek");
+        private void OnMouseDown()
+        {
+            var controller = FindObjectOfType<BattleController>();
+
+            controller.selectedHero            = this;
+            controller.abilitiesOfSelectedHero = abilities;
+
+            Debug.Log("kek");
+        }
 
         public override int DealDamage(BaseUnit target)
         {
@@ -45,5 +54,7 @@ namespace Battlefield
 
             return (int)damageDealt;
         }
+
+        public override int UseAbility(BaseAbility ability, BaseUnit target = null) => ability.TriggerAbility(target: target);
     }
 }

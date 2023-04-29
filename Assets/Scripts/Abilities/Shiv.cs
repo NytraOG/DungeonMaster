@@ -4,19 +4,20 @@ using UnityEngine;
 
 namespace Abilities
 {
-    [CreateAssetMenu(fileName = "Roar", menuName = "Abilities/Roar", order = 0)]
-    public class Roar : BaseAbility
+    public class Shiv : BaseAbility
     {
-        public override string AbilityName => AbilityNames.Roar;
+        public override string AbilityName => AbilityNames.Shiv;
 
         public override void Initialize(GameObject obj) => throw new NotImplementedException();
 
         public override int TriggerAbility(BaseUnit actor = null, BaseUnit target = null)
         {
-            var damageDealt = 5;
-            target.Hitpoints -= damageDealt;
+            if (actor is null || target is null)
+                throw new ArgumentNullException(nameof(actor));
 
-            return damageDealt;
+            target.Hitpoints -= actor.Schaden;
+
+            return actor.Schaden;
         }
     }
 }

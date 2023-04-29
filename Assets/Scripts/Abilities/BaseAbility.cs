@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using Entities;
+using UnityEngine;
 
 namespace Abilities
 {
@@ -9,6 +10,6 @@ namespace Abilities
 
         public abstract void Initialize(GameObject obj);
 
-        public abstract void TriggerAbility();
+        public abstract int TriggerAbility(BaseUnit actor = null, BaseUnit target = null);
     }
 }
