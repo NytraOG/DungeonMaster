@@ -9,7 +9,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 71fc95388e814134a52889b0d76509b8, type: 3}
-  m_Name: Roar
+  m_Script: {fileID: 11500000, guid: f8ec2e1283714bc4bf074f5cad89321c, type: 3}
+  m_Name: Shiv
   m_EditorClassIdentifier: 
-  sprite: {fileID: 21300000, guid: b22b8dc2797988e459737e7d55f389a7, type: 3}
+  sprite: {fileID: 21300000, guid: 545dba896aa8b904c9eea7cf385d8789, type: 3}

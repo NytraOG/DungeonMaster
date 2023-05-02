@@ -12,5 +12,4 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4cd7f58ad6204b7fb77f64199c637dac, type: 3}
   m_Name: Magic Resistance
   m_EditorClassIdentifier: 
-  image: {fileID: 0}
-  sprite: {fileID: 21300000, guid: 1458237dbb3c6d54f8fe9d39c0175d00, type: 3}
+  sprite: {fileID: 21300000, guid: d0cd2d41d09e41c4dada1066a0280510, type: 3}

@@ -10,6 +10,6 @@ namespace Abilities
 
         public abstract void Initialize(GameObject obj);
 
-        public abstract int TriggerAbility(BaseUnit actor = null, BaseUnit target = null);
+        public abstract int TriggerAbility(BaseUnit actor, BaseUnit target);
     }
 }

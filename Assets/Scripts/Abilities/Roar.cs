@@ -11,7 +11,7 @@ namespace Abilities
 
         public override void Initialize(GameObject obj) => throw new NotImplementedException();
 
-        public override int TriggerAbility(BaseUnit actor = null, BaseUnit target = null)
+        public override int TriggerAbility(BaseUnit actor, BaseUnit target)
         {
             var damageDealt = 5;
             target.Hitpoints -= damageDealt;

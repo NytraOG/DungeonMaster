@@ -25,6 +25,7 @@ namespace Entities
         public          float             BaseMagicDefense     => 2 * Willpower + Wisdom;
         public          float             BaseSocialDefense    => 2 * Logic + Charisma;
         public          float             ManaregenerationRate { get; set; }
+        public          float             MagicDefense         { get; set; }
         public          float             Hitpoints            { get; set; }
         public          float             MaximumHitpoints     { get; set; }
         public          int               Armour               { get; set; }           // Wird später auf Rüstungen migriert
@@ -34,6 +35,8 @@ namespace Entities
         public          bool              IstKampfunfähig      => Hitpoints <= 0;
         public abstract Party             Party                { get; }
         public          Vector2           Position             { get; set; }
+
+        private void Awake() => MagicDefense = BaseMagicDefense;
 
         private void Update()
         {
@@ -67,7 +70,7 @@ namespace Entities
             panel.gameObject.SetActive(true);
         }
 
-        public abstract int  DealDamage(BaseUnit    target);
+        public abstract int DealDamage(BaseUnit target);
 
         public abstract int UseAbility(BaseAbility ability, BaseUnit target = null);
 

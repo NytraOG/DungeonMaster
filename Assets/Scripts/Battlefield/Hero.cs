@@ -31,14 +31,17 @@ namespace Battlefield
 
             race.ApplyModifiers(this);
             race.ApplyAbilities(this);
+
+            abilities.Add(inherentAbility);
         }
 
         private void OnMouseDown()
         {
             var controller = FindObjectOfType<BattleController>();
 
-            controller.selectedHero            = this;
-            controller.abilitiesOfSelectedHero = abilities;
+            controller.selectedHero             = this;
+            controller.abilitiesOfSelectedHero  = abilities;
+            controller.abilityanzeigeIstAktuell = false;
 
             Debug.Log("kek");
         }
@@ -55,6 +58,6 @@ namespace Battlefield
             return (int)damageDealt;
         }
 
-        public override int UseAbility(BaseAbility ability, BaseUnit target = null) => ability.TriggerAbility(target: target);
+        public override int UseAbility(BaseAbility ability, BaseUnit target = null) => ability.TriggerAbility(this, target);
     }
 }
