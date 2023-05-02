@@ -98,7 +98,6 @@ namespace Battlefield
         private TextMeshPro CreateTextComponent(BaseUnit unitInstance)
         {
             var damageTextInstance = Instantiate(floatingCombatText, unitInstance.transform);
-            damageTextInstance.layer = 15;
 
             var textcomponent = damageTextInstance.transform
                                                   .GetChild(0)
