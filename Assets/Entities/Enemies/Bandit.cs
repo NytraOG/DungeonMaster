@@ -37,6 +37,11 @@ namespace Entities.Enemies
             return (int)damageDealt;
         }
 
-        public override int UseAbility(BaseAbility ability, BaseUnit target = null) => ability.TriggerAbility(this, target);
+        public override int? UseAbility(BaseAbility ability, BaseUnit target = null)
+        {
+            var dmg = ability.TriggerAbility(this, target);
+            SelectedAbility = null;
+            return dmg;
+        }
     }
 }

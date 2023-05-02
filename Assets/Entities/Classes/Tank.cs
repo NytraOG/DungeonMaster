@@ -9,7 +9,7 @@ namespace Entities.Classes
 
         public override int DealDamage(BaseUnit target) => throw new NotImplementedException();
 
-        public override int UseAbility(BaseAbility ability, BaseUnit target = null) => throw new NotImplementedException();
+        public override int? UseAbility(BaseAbility ability, BaseUnit target = null) => throw new NotImplementedException();
 
         public void InitiativeBestimmen() => throw new NotImplementedException();
     }

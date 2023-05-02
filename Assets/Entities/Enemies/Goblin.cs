@@ -25,6 +25,6 @@ namespace Entities.Enemies
             return (int)damageDealt;
         }
 
-        public override int UseAbility(BaseAbility ability, BaseUnit target = null) => throw new System.NotImplementedException();
+        public override int? UseAbility(BaseAbility ability, BaseUnit target = null) => throw new System.NotImplementedException();
     }
 }

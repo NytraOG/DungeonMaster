@@ -7,7 +7,6 @@ namespace Entities.Races
     [CreateAssetMenu(fileName = "Orc", menuName = "Races/Orc", order = 0)]
     public class Orc : BaseRace
     {
-        public Sprite          sprite; 
         public Roar            roarAbility;
         public MagicResistance magicResistanceAbility;
 

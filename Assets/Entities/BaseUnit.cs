@@ -1,9 +1,9 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using Abilities;
 using Entities.Enums;
 using TMPro;
-using UnityEngine;
 using UnityEngine.SceneManagement;
 
 namespace Entities
@@ -12,6 +12,7 @@ namespace Entities
     {
         public          List<BaseAbility> abilities = new();
         public          BaseAbility       SelectedAbility      { get; set; }
+        public          bool              IsDead               => Hitpoints <= 0;
         public          string            Name                 { get; }
         public          int               Angriffswurf         { get; protected set; } // Müsste später durch Skills ersetzt werden
         public          int               Schaden              { get; protected set; } // Wird später auf Waffen migriert (?)
@@ -34,15 +35,8 @@ namespace Entities
         public          int               CurrentMana          { get; set; }
         public          bool              IstKampfunfähig      => Hitpoints <= 0;
         public abstract Party             Party                { get; }
-        public          Vector2           Position             { get; set; }
 
         private void Awake() => MagicDefense = BaseMagicDefense;
-
-        private void Update()
-        {
-            if (Hitpoints <= 0)
-                Die();
-        }
 
         protected void SetInitialHitpointsAndMana()
         {
@@ -72,23 +66,24 @@ namespace Entities
 
         public abstract int DealDamage(BaseUnit target);
 
-        public abstract int UseAbility(BaseAbility ability, BaseUnit target = null);
+        public abstract int? UseAbility(BaseAbility ability, BaseUnit target = null);
 
-        public virtual void InitiativeBestimmen(double modifier) => CurrentInitiative = BaseInitiative * modifier;
+        public virtual void InitiativeBestimmen(double modifier = 1)
+        {
+            modifier *= new Random().NextDouble() * 2.0;
+
+            CurrentInitiative = BaseInitiative * modifier;
+        }
 
         public virtual void Initialize() => Hitpoints = MaximumHitpoints;
 
-        private void Die()
-        {
-            //BattleService kram hier her.
-            //Bild zu Splash
-            //Collider und Skript deaktivieren
-            //Etc
-
-            //GGF in die DealDamage Methode rein und Callen
-            //Muss für jede Unit ausimplementiert werden?
-            //Vermutlich beides ok -> Performance
-        }
+        //BattleService kram hier her.
+        //Bild zu Splash
+        //Collider und Skript deaktivieren
+        //Etc
+        //GGF in die DealDamage Methode rein und Callen
+        //Muss für jede Unit ausimplementiert werden?
+        //Vermutlich beides ok -> Performance
 
         #region Stats
 

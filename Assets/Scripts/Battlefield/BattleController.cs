@@ -22,8 +22,11 @@ namespace Battlefield
         public  List<BaseAbility>      abilitiesOfSelectedHero = new();
         public  bool                   abilityanzeigeIstAktuell;
         public  Text                   toastMessageText;
+        public  Sprite                 originalButtonBackground;
+        public  Sprite                 bloodPuddle;
         public  List<AbilitySelection> AbilitySelection = new();
         private bool                   allesDa;
+        private bool                   combatActive;
         private List<BaseFoe>          enemies = new();
         private List<BaseHero>         heroes  = new();
         private List<GameObject>       skillbuttons;
@@ -32,6 +35,13 @@ namespace Battlefield
 
         private void Update()
         {
+            if (Input.GetKeyDown(KeyCode.Escape))
+            {
+                selectedHero    = null;
+                selectedEnemy   = null;
+                selectedAbility = null;
+            }
+
             MachEnemiesCombatReady();
             SetupCombatants();
             AbilityspritesAuffrischen();
@@ -43,6 +53,8 @@ namespace Battlefield
                 ShowToast("Selected Hero is already acting");
             else
             {
+                selectedHero.InitiativeBestimmen();
+
                 AbilitySelection.Add(new AbilitySelection
                 {
                     Ability = selectedAbility,
@@ -52,7 +64,6 @@ namespace Battlefield
             }
 
             selectedEnemy   = null;
-            selectedHero    = null;
             selectedAbility = null;
         }
 
@@ -60,14 +71,29 @@ namespace Battlefield
 
         private void AbilityspritesAuffrischen()
         {
+            if (selectedHero is null)
+                skillbuttons.ForEach(b => b.GetComponent<Image>().sprite = originalButtonBackground);
+
             if (abilityanzeigeIstAktuell || !skillbuttons.Any())
                 return;
 
-            for (var i = 0; i < abilitiesOfSelectedHero.Count; i++)
+            var counter = 0;
+
+            while (counter < abilitiesOfSelectedHero.Count)
             {
-                skillbuttons[i].GetComponent<Image>().sprite                = abilitiesOfSelectedHero[i].sprite;
-                skillbuttons[i].GetComponent<AbilitybuttonScript>().ability = abilitiesOfSelectedHero[i];
-                skillbuttons[i].GetComponent<Button>().enabled              = true;
+                skillbuttons[counter].GetComponent<Image>().sprite                = abilitiesOfSelectedHero[counter].sprite;
+                skillbuttons[counter].GetComponent<AbilitybuttonScript>().ability = abilitiesOfSelectedHero[counter];
+                skillbuttons[counter].GetComponent<Button>().enabled              = true;
+
+                counter++;
+            }
+
+            while (counter < skillbuttons.Count)
+            {
+                skillbuttons[counter].GetComponent<Image>().sprite   = originalButtonBackground;
+                skillbuttons[counter].GetComponent<Button>().enabled = false;
+
+                counter++;
             }
 
             abilityanzeigeIstAktuell = true;
@@ -79,26 +105,33 @@ namespace Battlefield
                 ShowToast("No Abilities have been selected", 1);
             else
             {
-                var rando  = new Random().Next(0, heroes.Count);
-                var target = heroes[rando];
+                combatActive = true;
 
-                foreach (var enemy in enemies)
-                {
-                    var damageDealt = enemy.UseAbility(enemy.SelectedAbility, target);
-                    InstantiateFloatingCombatText(target, damageDealt);
-
-                    yield return new WaitForSeconds(0.5f);
-                }
+                AbilitySelection = AbilitySelection.OrderByDescending(a => a.Actor.CurrentInitiative)
+                                                   .ToList();
 
                 foreach (var selection in AbilitySelection)
                 {
-                    var damageDealt = selection.Actor.UseAbility(selection.Ability, selection.Target);
-                    InstantiateFloatingCombatText(selection.Target, damageDealt);
+                    if (!selection.Actor.IsDead)
+                    {
+                        var damageDealt = selection.Actor.UseAbility(selection.Ability, selection.Target);
+
+                        if (selection.Target.IsDead)
+                        {
+                            selection.Target.transform.gameObject.GetComponent<SpriteRenderer>().sprite     = bloodPuddle;
+                            selection.Target.transform.gameObject.GetComponent<CapsuleCollider2D>().enabled = false;
+                        }
+
+                        if (damageDealt.HasValue)
+                            InstantiateFloatingCombatText(selection.Target, damageDealt.Value);
+                    }
 
                     yield return new WaitForSeconds(0.5f);
                 }
 
                 AbilitySelection.Clear();
+
+                combatActive = false;
             }
         }
 
@@ -117,10 +150,25 @@ namespace Battlefield
 
         private void MachEnemiesCombatReady()
         {
-            var notCombatReadyEnemies = enemies.Where(e => e.SelectedAbility is null);
+            if (combatActive)
+                return;
+
+            var notCombatReadyEnemies = enemies.Where(e => !e.IsDead &&
+                                                           e.SelectedAbility is null);
+            var rando = new Random();
 
             foreach (var enemy in notCombatReadyEnemies)
+            {
                 enemy.PickAbility();
+                enemy.InitiativeBestimmen();
+
+                AbilitySelection.Add(new AbilitySelection
+                {
+                    Ability = enemy.SelectedAbility,
+                    Actor   = enemy,
+                    Target  = heroes[rando.Next(0, heroes.Count)]
+                });
+            }
         }
 
         private void InstantiateFloatingCombatText(BaseUnit unitInstance, string combatText)
@@ -147,7 +195,7 @@ namespace Battlefield
             if (unitInstance.Hitpoints <= 0)
             {
                 textcomponent.color = new Color(255, 0, 0);
-                textcomponent.SetText("Killing Blow!");
+                textcomponent.SetText($"({damageDealt}) Killing Blow!");
             }
 
             else
@@ -168,7 +216,11 @@ namespace Battlefield
             });
         }
 
-        private void SetSelectedAbility(GameObject g) => selectedAbility = g.GetComponent<AbilitybuttonScript>().ability;
+        private void SetSelectedAbility(GameObject g)
+        {
+            selectedEnemy   = null;
+            selectedAbility = g.GetComponent<AbilitybuttonScript>().ability;
+        }
 
         private void ShowToast(string text, int duration = 2) => StartCoroutine(ShowToastCore(text, duration));
 

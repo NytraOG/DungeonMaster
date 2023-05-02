@@ -29,10 +29,10 @@ namespace Battlefield
 
             SetInitialHitpointsAndMana();
 
+            abilities.Add(inherentAbility);
+
             race.ApplyModifiers(this);
             race.ApplyAbilities(this);
-
-            abilities.Add(inherentAbility);
         }
 
         private void OnMouseDown()
@@ -58,6 +58,6 @@ namespace Battlefield
             return (int)damageDealt;
         }
 
-        public override int UseAbility(BaseAbility ability, BaseUnit target = null) => ability.TriggerAbility(this, target);
+        public override int? UseAbility(BaseAbility ability, BaseUnit target = null) => ability.TriggerAbility(this, target);
     }
 }

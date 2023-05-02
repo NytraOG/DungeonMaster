@@ -121,8 +121,7 @@ namespace Battlefield
                 if (c.IstKampfunfähig)
                     return;
 
-                var modifier = Rng.NextDouble() * 2.0;
-                c.InitiativeBestimmen(modifier);
+                c.InitiativeBestimmen();
             });
 
             combatants = combatants.OrderByDescending(u => u.CurrentInitiative)
