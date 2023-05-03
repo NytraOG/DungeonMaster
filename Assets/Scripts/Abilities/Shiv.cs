@@ -8,6 +8,10 @@ namespace Abilities
     public class Shiv : BaseAbility
     {
         public override string AbilityName => AbilityNames.Shiv;
+        public override string Tooltip     => $"{AbilityName.ToUpper()}{Environment.NewLine}{Environment.NewLine}" +
+                                              $"A basic stab with a small blade, can actually deal some harm and {Environment.NewLine}" +
+                                              $"causing bleeding. It's perfect for close combat and surprise attacks, {Environment.NewLine}" +
+                                              $"but requires precision and timing to use effectively";
 
         public override void Initialize(GameObject obj) => throw new NotImplementedException();
 

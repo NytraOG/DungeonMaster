@@ -7,6 +7,7 @@ namespace Abilities
     {
         public          Sprite sprite;
         public abstract string AbilityName { get; }
+        public abstract string Tooltip     { get; }
 
         public abstract void Initialize(GameObject obj);
 
