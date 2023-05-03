@@ -51,6 +51,10 @@ namespace Battlefield
         {
             if (AbilitySelection.Any(s => s.Actor == selectedHero))
                 ShowToast("Selected Hero is already acting");
+            else if (selectedAbility is not null && selectedEnemy is null)
+                ShowToast("No Target selected");
+            else if(selectedAbility is null)
+                ShowToast("No Ability selected");
             else
             {
                 selectedHero.InitiativeBestimmen();
