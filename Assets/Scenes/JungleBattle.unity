@@ -23724,9 +23724,13 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 809879925}
     m_Modifications:
+    - target: {fileID: 153909982108434569, guid: 1b4092d81f9d93a429916b413e0a7542, type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 21300016, guid: df894d170d5f44be293fae0ef08b055c, type: 3}
     - target: {fileID: 1409174420932021222, guid: 1b4092d81f9d93a429916b413e0a7542, type: 3}
       propertyPath: m_Name
-      value: HeroOrcWarrior
+      value: HeroOrcEnergist
       objectReference: {fileID: 0}
     - target: {fileID: 7078209118110566298, guid: 1b4092d81f9d93a429916b413e0a7542, type: 3}
       propertyPath: m_RootOrder
@@ -23772,6 +23776,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 7188784997491589576, guid: 1b4092d81f9d93a429916b413e0a7542, type: 3}
+      propertyPath: classe
+      value: 
+      objectReference: {fileID: 11400000, guid: 299b1ad6a0fae514db3b3e9d2d7afca6, type: 2}
     - target: {fileID: 7188784997491589576, guid: 1b4092d81f9d93a429916b413e0a7542, type: 3}
       propertyPath: inherentAbility
       value: 
@@ -27081,6 +27089,10 @@ PrefabInstance:
       propertyPath: race
       value: 
       objectReference: {fileID: 11400000, guid: 547fe8231bf8fb14f8ff966d055e628e, type: 2}
+    - target: {fileID: 7188784997491589576, guid: 1b4092d81f9d93a429916b413e0a7542, type: 3}
+      propertyPath: classe
+      value: 
+      objectReference: {fileID: 11400000, guid: ee8e11e2f82bc6a42a1ae911862d90be, type: 2}
     - target: {fileID: 7188784997491589576, guid: 1b4092d81f9d93a429916b413e0a7542, type: 3}
       propertyPath: inherentAbility
       value: 

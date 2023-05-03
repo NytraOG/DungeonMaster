@@ -1,4 +1,6 @@
-﻿namespace Entities.Classes
+﻿using UnityEngine;
+
+namespace Entities.Classes
 {
     public abstract class BaseClass : ScriptableObject
     {

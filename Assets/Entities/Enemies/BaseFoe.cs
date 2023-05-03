@@ -11,6 +11,31 @@ namespace Entities.Enemies
     {
         public override Party Party => Party.Foe;
 
+        public int strength;
+        public int constitution;
+        public int dexterity;
+        public int quickness;
+        public int intuition;
+        public int logic;
+        public int willpower;
+        public int wisdom;
+        public int charisma;
+
+        public void Awake()
+        {
+            Strength     = strength;
+            Constitution = constitution;
+            Dexterity    = dexterity;
+            Quickness    = quickness;
+            Intuition    = intuition;
+            Logic        = logic;
+            Willpower    = willpower;
+            Wisdom       = wisdom;
+            Charisma     = charisma;
+
+            SetInitialHitpointsAndMana();
+        }
+
         private void FixedUpdate()
         {
             if(abilities.All(a => a.AbilityName != AbilityNames.Shiv))

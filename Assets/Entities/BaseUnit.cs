@@ -14,12 +14,12 @@ namespace Entities
         public          BaseAbility       SelectedAbility      { get; set; }
         public          bool              IsDead               => Hitpoints <= 0;
         public          string            Name                 { get; }
-        public          int               Angriffswurf         { get; protected set; } // Müsste später durch Skills ersetzt werden
-        public          int               Schaden              { get; protected set; } // Wird später auf Waffen migriert (?)
+        public          float             Angriffswurf         { get; set; } // Müsste später durch Skills ersetzt werden
+        public          int               Schaden              { get; set; } // Wird später auf Waffen migriert (?)
         public abstract float             Schadensmodifier     { get; }
         public          int               BaseInitiative       => 2 * Intuition + Quickness;
         public          double            CurrentInitiative    { get; set; }
-        public          int               AktionenGesamt       { get; protected set; }
+        public          int               AktionenGesamt       { get;  set; }
         public          int               AktionenAktuell      { get; set; }
         public          float             BaseMeleeDefense     => 2 * Dexterity + Quickness;
         public          float             BaseRangedDefense    => 2 * Quickness + Dexterity;
@@ -27,16 +27,28 @@ namespace Entities
         public          float             BaseSocialDefense    => 2 * Logic + Charisma;
         public          float             ManaregenerationRate { get; set; }
         public          float             MagicDefense         { get; set; }
+        public          float             SocialDefense        { get; set; }
+        public          float             MeleeDefense         { get; set; }
+        public          float             RangedDefense        { get; set; }
         public          float             Hitpoints            { get; set; }
         public          float             MaximumHitpoints     { get; set; }
         public          int               Armour               { get; set; }           // Wird später auf Rüstungen migriert
         public          int               CritDamage           { get; protected set; } // Wird später auf Waffen migriert
-        public          int               MaximumMana          { get; set; }
-        public          int               CurrentMana          { get; set; }
+        public          float             MaximumMana          { get; set; }
+        public          float             CurrentMana          { get; set; }
         public          bool              IstKampfunfähig      => Hitpoints <= 0;
         public abstract Party             Party                { get; }
 
-        private void Awake() => MagicDefense = BaseMagicDefense;
+        private void Awake()
+        {
+            MagicDefense  = BaseMagicDefense;
+            SocialDefense = BaseSocialDefense;
+            MeleeDefense  = BaseMeleeDefense;
+            RangedDefense = BaseRangedDefense;
+
+            AktionenGesamt  = 1;
+            AktionenAktuell = AktionenGesamt;
+        }
 
         protected void SetInitialHitpointsAndMana()
         {
@@ -63,7 +75,6 @@ namespace Entities
 
             panel.gameObject.SetActive(true);
         }
-
 
         public abstract float GetApproximateDamage(BaseAbility ability);
 

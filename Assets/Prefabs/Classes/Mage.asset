@@ -9,8 +9,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 0035f7dd6a254c18b434604f97bcf764, type: 3}
-  m_Name: Neo Terran
+  m_Script: {fileID: 11500000, guid: 0ac0f994d9144b238e2650e7688ea3b5, type: 3}
+  m_Name: Mage
   m_EditorClassIdentifier: 
-  sprite: {fileID: 0}
-  ability1: {fileID: 11400000, guid: a96e86f714b389b48b7d117159474a0c, type: 2}
+  ability1: {fileID: 11400000, guid: fa0413f17050f1d4e9bfea319ce82dd2, type: 2}
