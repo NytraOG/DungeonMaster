@@ -31,7 +31,10 @@ namespace Battlefield
         private List<BaseHero>         heroes  = new();
         private List<GameObject>       skillbuttons;
 
-        private void Awake() => ConfigureAbilityButtons();
+        private void Awake()
+        {
+            ConfigureAbilityButtons();
+        }
 
         private void Update()
         {

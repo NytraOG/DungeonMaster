@@ -1,4 +1,3 @@
-using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using Entities;
@@ -13,6 +12,7 @@ namespace Battlefield
 {
     public class BattleService : MonoBehaviour
     {
+        public  GameObject       healthbarPrefab;
         public  GameObject       damageTextPrefab;
         public  List<BaseFoe>    enemies;
         public  List<GameObject> heroes;
@@ -37,17 +37,32 @@ namespace Battlefield
             {
                 var enemyGameobject = Instantiate(enemiesToSpawn[i], banditTransforms[i], Quaternion.identity);
                 var enemy           = enemyGameobject.GetComponent<Bandit>();
+                var healthbar       = Instantiate(healthbarPrefab, enemy.transform);
+
+                healthbar.GetComponent<HealthpointBar>().unit = enemy;
+
+                var canvas = healthbar.transform.Find("Canvas")
+                                      .gameObject.GetComponent<Canvas>();
+
+                var background    = canvas.transform.Find("Border");
+                var missinghealth = canvas.transform.Find("MissingHealth");
+                var currenthealth = canvas.transform.Find("CurrentHealth");
+
+                var enemyposition = enemy.gameObject.transform.position;
+
+                var enemyWidth  = enemy.GetComponent<RectTransform>().rect.width;
+                var enemyHeight = enemy.GetComponent<RectTransform>().rect.height;
+
+                background.transform.position    = new Vector3(enemyposition.x * 100 + 960 + enemyWidth / 2, enemyposition.y * 100 + 540 + enemyHeight, enemyposition.z);
+                missinghealth.transform.position = new Vector3(enemyposition.x * 100 + 960 + enemyWidth / 2, enemyposition.y * 100 + 540 + enemyHeight, enemyposition.z);
+                currenthealth.transform.position = new Vector3(enemyposition.x * 100 + 960 + enemyWidth / 2, enemyposition.y * 100 + 540 + enemyHeight, enemyposition.z);
 
                 enemies.Add(enemy);
             }
         }
 
-        public void KampfrundeAbhandeln()
-        {
-            InitiativereihenfolgeBestimmen();
-            //StartCoroutine(MachBattleRoundShit());
-        }
-
+        public void KampfrundeAbhandeln() => InitiativereihenfolgeBestimmen();
+        //StartCoroutine(MachBattleRoundShit());
         // private IEnumerator MachBattleRoundShit()
         // {
         //     foreach (var combatant in combatants)

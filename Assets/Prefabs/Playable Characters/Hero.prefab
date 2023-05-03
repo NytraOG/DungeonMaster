@@ -99,8 +99,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   abilities: []
-  inherentAbility: {fileID: 0}
+  inherentAbility: {fileID: 11400000, guid: a96e86f714b389b48b7d117159474a0c, type: 2}
   race: {fileID: 11400000, guid: be7d84c11473d0d4789c4fba2721b035, type: 2}
+  classe: {fileID: 0}
 --- !u!70 &3296811050415863963
 CapsuleCollider2D:
   m_ObjectHideFlags: 0
