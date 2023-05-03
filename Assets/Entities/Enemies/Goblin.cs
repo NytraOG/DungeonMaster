@@ -17,13 +17,7 @@ namespace Entities.Enemies
 
         public override float Schadensmodifier => 1f;
 
-        public override int DealDamage(BaseUnit target)
-        {
-            var damageDealt = Schaden * Schadensmodifier;
-            target.Hitpoints -= damageDealt;
-
-            return (int)damageDealt;
-        }
+        public override float GetApproximateDamage(BaseAbility ability) => throw new System.NotImplementedException();
 
         public override int? UseAbility(BaseAbility ability, BaseUnit target = null) => throw new System.NotImplementedException();
     }

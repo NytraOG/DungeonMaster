@@ -47,17 +47,7 @@ namespace Battlefield
             Debug.Log("kek");
         }
 
-        public override int DealDamage(BaseUnit target)
-        {
-            var modifier    = rng.Next(0, 2);
-            var damageDealt = Schaden * Schadensmodifier * modifier;
-            target.Hitpoints -= damageDealt;
-
-            if (target.Hitpoints < 0)
-                target.Hitpoints = 0;
-
-            return (int)damageDealt;
-        }
+        public override float GetApproximateDamage(BaseAbility ability) => ability.GetDamage(this);
 
         public override int? UseAbility(BaseAbility ability, BaseUnit target = null) => ability.TriggerAbility(this, target);
     }

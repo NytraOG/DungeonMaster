@@ -1,4 +1,6 @@
-﻿using UnityEngine;
+﻿using System.Globalization;
+using Battlefield;
+using UnityEngine;
 
 namespace Abilities
 {
@@ -9,15 +11,19 @@ namespace Abilities
 
         public void ShowTooltip()
         {
-            if(ability is null)
+            if (ability is null)
                 return;
 
             var tooltipInstance = transform.parent
                                            .Find("Tooltip")
                                            .GetComponent<Tooltip>();
 
+            var controller = FindObjectOfType<BattleController>();
+            var damage     = controller.selectedHero.GetApproximateDamage(ability);
+            var tooltip    = ability.GetTooltip(int.Parse(damage.ToString(CultureInfo.InvariantCulture)));
+
             tooltipInstance.gameObject.SetActive(true);
-            tooltipInstance.RenderTooltip(ability.Tooltip);
+            tooltipInstance.RenderTooltip(tooltip);
         }
 
         public void HideTooltip()

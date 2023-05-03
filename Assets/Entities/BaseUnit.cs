@@ -64,7 +64,8 @@ namespace Entities
             panel.gameObject.SetActive(true);
         }
 
-        public abstract int DealDamage(BaseUnit target);
+
+        public abstract float GetApproximateDamage(BaseAbility ability);
 
         public abstract int? UseAbility(BaseAbility ability, BaseUnit target = null);
 

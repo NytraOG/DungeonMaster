@@ -29,17 +29,7 @@ namespace Entities.Enemies
 
         private void OnMouseDown() => Debug.Log("Bur");
 
-        public override int DealDamage(BaseUnit target)
-        {
-            var modifier    = rng.Next(0, 2);
-            var damageDealt = Schaden * Schadensmodifier * modifier;
-            target.Hitpoints -= damageDealt;
-
-            if (target.Hitpoints < 0)
-                target.Hitpoints = 0;
-
-            return (int)damageDealt;
-        }
+        public override float GetApproximateDamage(BaseAbility ability) => throw new System.NotImplementedException();
 
         public override int? UseAbility(BaseAbility ability, BaseUnit target = null) => throw new System.NotImplementedException();
     }

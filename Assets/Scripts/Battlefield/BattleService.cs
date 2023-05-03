@@ -45,30 +45,30 @@ namespace Battlefield
         public void KampfrundeAbhandeln()
         {
             InitiativereihenfolgeBestimmen();
-            StartCoroutine(MachBattleRoundShit());
+            //StartCoroutine(MachBattleRoundShit());
         }
 
-        private IEnumerator MachBattleRoundShit()
-        {
-            foreach (var combatant in combatants)
-            {
-                if (!combatant.IstKampfunfähig)
-                {
-                    var target = GetTargetForCombatant(combatant);
-
-                    if (target == null)
-                    {
-                        InstantiateFloatingCombatText(combatant, "No suitable Target");
-                        continue;
-                    }
-
-                    var damage = combatant.DealDamage(target);
-                    InstantiateFloatingCombatText(target, damage);
-                }
-
-                yield return new WaitForSeconds(0.5f);
-            }
-        }
+        // private IEnumerator MachBattleRoundShit()
+        // {
+        //     foreach (var combatant in combatants)
+        //     {
+        //         if (!combatant.IstKampfunfähig)
+        //         {
+        //             var target = GetTargetForCombatant(combatant);
+        //
+        //             if (target == null)
+        //             {
+        //                 InstantiateFloatingCombatText(combatant, "No suitable Target");
+        //                 continue;
+        //             }
+        //
+        //             var damage = combatant.DealDamage(target);
+        //             InstantiateFloatingCombatText(target, damage);
+        //         }
+        //
+        //         yield return new WaitForSeconds(0.5f);
+        //     }
+        // }
 
         private BaseUnit GetTargetForCombatant(BaseUnit combatant)
         {

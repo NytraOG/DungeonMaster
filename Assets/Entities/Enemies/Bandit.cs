@@ -1,18 +1,16 @@
+using System;
 using Abilities;
 using Battlefield;
 using UnityEngine;
-using Random = System.Random;
 
 namespace Entities.Enemies
 {
     public class Bandit : BaseFoe
     {
-        private         Random rng;
-        public override float  Schadensmodifier => 1f;
+        public override float Schadensmodifier => 1f;
 
         private void Awake()
         {
-            rng              = new Random();
             Intuition        = 2;
             Charisma         = 1;
             MaximumHitpoints = 10;
@@ -28,14 +26,7 @@ namespace Entities.Enemies
             Debug.Log("Bur");
         }
 
-        public override int DealDamage(BaseUnit target)
-        {
-            var modifier    = rng.Next(0, 2);
-            var damageDealt = Schaden * Schadensmodifier * modifier;
-            target.Hitpoints -= damageDealt;
-
-            return (int)damageDealt;
-        }
+        public override float GetApproximateDamage(BaseAbility ability) => ability.GetDamage(this);
 
         public override int? UseAbility(BaseAbility ability, BaseUnit target = null)
         {
