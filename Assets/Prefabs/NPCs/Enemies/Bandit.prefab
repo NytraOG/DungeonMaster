@@ -105,8 +105,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   abilities: []
   strength: 4
-  constitution: 6
-  dexterity: 5
+  constitution: 50
+  dexterity: 4
   quickness: 3
   intuition: 5
   logic: 2

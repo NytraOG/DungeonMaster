@@ -10,10 +10,10 @@ namespace Abilities
         public override string AbilityName => AbilityNames.Firebeam;
 
         public override string GetTooltip(int damage = 0) => $"<b>{AbilityName.ToUpper()}</b>{Environment.NewLine}" +
-                                                                        $"<i>Ranged, Magic, Elemental</i>{Environment.NewLine}{Environment.NewLine}" +
-                                                                        GetDamageText(damage) +
-                                                                        $"A devastating ability that conjures a sphere of flames, {Environment.NewLine}" +
-                                                                        $"dealing massive damage to enemies caught in its blast radius.{Environment.NewLine}";
+                                                             $"<i>Ranged, Magic, Elemental</i>{Environment.NewLine}{Environment.NewLine}" +
+                                                             GetDamageText(damage) +
+                                                             $"A devastating ability that conjures a sphere of flames, {Environment.NewLine}" +
+                                                             $"dealing massive damage to enemies caught in its blast radius.{Environment.NewLine}";
 
         public override float GetDamage(BaseUnit actor) => actor.Willpower / 2 + actor.Wisdom / 3 + actor.Quickness;
 
