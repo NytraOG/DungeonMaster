@@ -34,6 +34,8 @@ namespace Entities.Enemies
             Charisma     = charisma;
 
             SetInitialHitpointsAndMana();
+
+            abilities.Add(ScriptableObject.CreateInstance<Shiv>());
         }
 
         private void FixedUpdate()

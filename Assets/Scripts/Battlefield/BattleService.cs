@@ -18,10 +18,7 @@ namespace Battlefield
 
         private void Update() { }
 
-        public void ToggleHealthbars()
-        {
-
-        }
+        public void ToggleHealthbars() { }
 
         public void ResetBattle()
         {
@@ -30,9 +27,12 @@ namespace Battlefield
                                       .gameObject.GetComponent<BattleController>();
 
             enemies = new List<BaseFoe>();
+
+            foreach (var enemie in FindObjectsOfType<BaseFoe>())
+                Destroy(enemie.gameObject);
+
             InitScene();
 
-            controller.enemies.ForEach(e => Destroy(e));
             controller.AbilitySelection = new List<AbilitySelection>();
             controller.allesDa          = false;
         }

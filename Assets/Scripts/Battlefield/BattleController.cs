@@ -24,11 +24,11 @@ namespace Battlefield
         public  Text                   toastMessageText;
         public  Sprite                 originalButtonBackground;
         public  Sprite                 bloodPuddle;
+        public  bool                   allesDa;
+        public  List<BaseFoe>          enemies          = new();
         public  List<AbilitySelection> AbilitySelection = new();
-        public bool                   allesDa;
         private bool                   combatActive;
-        public List<BaseFoe>          enemies = new();
-        private List<BaseHero>         heroes  = new();
+        private List<BaseHero>         heroes = new();
         private List<GameObject>       skillbuttons;
 
         private void Awake() => ConfigureAbilityButtons();
@@ -46,7 +46,6 @@ namespace Battlefield
             SetupCombatants();
             AbilityspritesAuffrischen();
         }
-
 
         public void ConfirmAbilitySelection()
         {
@@ -126,36 +125,33 @@ namespace Battlefield
                 foreach (var selection in AbilitySelection)
                 {
                     if (selection.Actor.IsDead)
-                    {
                         yield return new WaitForSeconds(0.25f);
-                        continue;
-                    }
-
-                    if (selection.Actor.IsStunned)
+                    else if (selection.Actor.IsStunned)
                     {
                         InstantiateFloatingCombatText(selection.Actor, "STUNNED");
                         selection.Actor.IsStunned = false;
 
                         yield return new WaitForSeconds(0.5f);
-                        continue;
                     }
-
-                    var abilityResult = selection.Actor.UseAbility(selection.Ability, selection.Target);
-
-                    if (selection.Target.IsDead)
-                    {
-                        selection.Target.transform.gameObject.GetComponent<SpriteRenderer>().sprite     = bloodPuddle;
-                        selection.Target.transform.gameObject.GetComponent<CapsuleCollider2D>().enabled = false;
-                    }
-
-                    var wasDamage = int.TryParse(abilityResult, out var damage);
-
-                    if (wasDamage)
-                        InstantiateFloatingCombatText(selection.Target, damage);
                     else
-                        InstantiateFloatingCombatText(selection.Target, abilityResult);
+                    {
+                        var abilityResult = selection.Actor.UseAbility(selection.Ability, selection.Target);
 
-                    yield return new WaitForSeconds(0.5f);
+                        if (selection.Target.IsDead)
+                        {
+                            selection.Target.transform.gameObject.GetComponent<SpriteRenderer>().sprite     = bloodPuddle;
+                            selection.Target.transform.gameObject.GetComponent<CapsuleCollider2D>().enabled = false;
+                        }
+
+                        var wasDamage = int.TryParse(abilityResult, out var damage);
+
+                        if (wasDamage)
+                            InstantiateFloatingCombatText(selection.Target, damage);
+                        else
+                            InstantiateFloatingCombatText(selection.Target, abilityResult);
+
+                        yield return new WaitForSeconds(0.5f);
+                    }
                 }
 
                 AbilitySelection.Clear();
