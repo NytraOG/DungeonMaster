@@ -25,9 +25,9 @@ namespace Battlefield
         public  Sprite                 originalButtonBackground;
         public  Sprite                 bloodPuddle;
         public  List<AbilitySelection> AbilitySelection = new();
-        private bool                   allesDa;
+        public bool                   allesDa;
         private bool                   combatActive;
-        private List<BaseFoe>          enemies = new();
+        public List<BaseFoe>          enemies = new();
         private List<BaseHero>         heroes  = new();
         private List<GameObject>       skillbuttons;
 
@@ -46,6 +46,7 @@ namespace Battlefield
             SetupCombatants();
             AbilityspritesAuffrischen();
         }
+
 
         public void ConfirmAbilitySelection()
         {

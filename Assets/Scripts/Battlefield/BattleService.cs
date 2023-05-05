@@ -20,7 +20,21 @@ namespace Battlefield
 
         public void ToggleHealthbars()
         {
-            
+
+        }
+
+        public void ResetBattle()
+        {
+            var controller = transform.parent
+                                      .transform.Find("BattleController")
+                                      .gameObject.GetComponent<BattleController>();
+
+            enemies = new List<BaseFoe>();
+            InitScene();
+
+            controller.enemies.ForEach(e => Destroy(e));
+            controller.AbilitySelection = new List<AbilitySelection>();
+            controller.allesDa          = false;
         }
 
         private void InitScene()

@@ -993,7 +993,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 111046212}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 496665487}
+        m_TargetAssemblyTypeName: Battlefield.BattleService, Assembly-CSharp
+        m_MethodName: ResetBattle
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &111046212
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -13909,6 +13921,17 @@ GameObject:
   m_CorrespondingSourceObject: {fileID: 7631227285680864984, guid: 309b55b815389854b99e9fd182242fda, type: 3}
   m_PrefabInstance: {fileID: 7631227285793095070}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &496665487 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 2943883214842200648, guid: 309b55b815389854b99e9fd182242fda, type: 3}
+  m_PrefabInstance: {fileID: 7631227285793095070}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 496665486}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e51f459987407584fb465f65833c85f3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!4 &510036476 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 8699595325102636958, guid: 0565163b65eb1984782ebb68972525c5, type: 3}
@@ -15493,6 +15516,7 @@ MonoBehaviour:
   toastMessageText: {fileID: 1619184208}
   originalButtonBackground: {fileID: 21300000, guid: 1d6a4040cb26d74479efd5499ddfcd32, type: 3}
   bloodPuddle: {fileID: 21300000, guid: 3c3858343902a7943bed27b63cff3460, type: 3}
+  allesDa: 0
 --- !u!1 &652292008
 GameObject:
   m_ObjectHideFlags: 0
