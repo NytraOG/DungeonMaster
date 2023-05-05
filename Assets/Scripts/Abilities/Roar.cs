@@ -21,6 +21,11 @@ namespace Abilities
 
         public override void Initialize(GameObject obj) => throw new NotImplementedException();
 
-        public override int TriggerAbility(BaseUnit actor, BaseUnit target) => 0;
+        public override string TriggerAbility(BaseUnit actor, BaseUnit target)
+        {
+            target.IsStunned = true;
+
+            return "STUN";
+        }
     }
 }

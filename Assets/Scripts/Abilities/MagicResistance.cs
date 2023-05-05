@@ -19,11 +19,11 @@ namespace Abilities
 
         public override void Initialize(GameObject obj) => throw new NotImplementedException();
 
-        public override int TriggerAbility(BaseUnit actor, BaseUnit target)
+        public override string TriggerAbility(BaseUnit actor, BaseUnit target)
         {
             actor.MagicDefense += 10;
 
-            return 0;
+            return string.Empty;
         }
     }
 }

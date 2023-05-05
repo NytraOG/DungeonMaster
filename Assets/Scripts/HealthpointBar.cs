@@ -12,6 +12,9 @@ public class HealthpointBar : MonoBehaviour
 
     public void Update()
     {
+        if (unit.IsDead)
+            gameObject.SetActive(false);
+
         var healthUpdated = (int)unit.Hitpoints != (int)currentHealth;
 
         if (healthUpdated)

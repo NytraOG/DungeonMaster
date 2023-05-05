@@ -54,6 +54,6 @@ namespace Battlefield
 
         public override float GetApproximateDamage(BaseAbility ability) => ability.GetDamage(this);
 
-        public override int? UseAbility(BaseAbility ability, BaseUnit target = null) => ability.TriggerAbility(this, target);
+        public override string UseAbility(BaseAbility ability, BaseUnit target = null) => ability.TriggerAbility(this, target);
     }
 }

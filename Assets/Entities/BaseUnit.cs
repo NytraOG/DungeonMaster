@@ -13,13 +13,14 @@ namespace Entities
         public          List<BaseAbility> abilities = new();
         public          BaseAbility       SelectedAbility      { get; set; }
         public          bool              IsDead               => Hitpoints <= 0;
+        public          bool              IsStunned            { get; set; }
         public          string            Name                 { get; }
         public          float             Angriffswurf         { get; set; } // Müsste später durch Skills ersetzt werden
         public          int               Schaden              { get; set; } // Wird später auf Waffen migriert (?)
         public abstract float             Schadensmodifier     { get; }
         public          int               BaseInitiative       => 2 * Intuition + Quickness;
         public          double            CurrentInitiative    { get; set; }
-        public          int               AktionenGesamt       { get;  set; }
+        public          int               AktionenGesamt       { get; set; }
         public          int               AktionenAktuell      { get; set; }
         public          float             BaseMeleeDefense     => 2 * Dexterity + Quickness;
         public          float             BaseRangedDefense    => 2 * Quickness + Dexterity;
@@ -78,7 +79,7 @@ namespace Entities
 
         public abstract float GetApproximateDamage(BaseAbility ability);
 
-        public abstract int? UseAbility(BaseAbility ability, BaseUnit target = null);
+        public abstract string UseAbility(BaseAbility ability, BaseUnit target = null);
 
         public virtual void InitiativeBestimmen(double modifier = 1)
         {

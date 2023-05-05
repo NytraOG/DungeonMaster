@@ -18,7 +18,7 @@ namespace Entities.Enemies
 
         public override float GetApproximateDamage(BaseAbility ability) => ability.GetDamage(this);
 
-        public override int? UseAbility(BaseAbility ability, BaseUnit target = null)
+        public override string UseAbility(BaseAbility ability, BaseUnit target = null)
         {
             var dmg = ability.TriggerAbility(this, target);
             SelectedAbility = null;

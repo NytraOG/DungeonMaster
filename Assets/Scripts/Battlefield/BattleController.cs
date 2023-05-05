@@ -31,10 +31,7 @@ namespace Battlefield
         private List<BaseHero>         heroes  = new();
         private List<GameObject>       skillbuttons;
 
-        private void Awake()
-        {
-            ConfigureAbilityButtons();
-        }
+        private void Awake() => ConfigureAbilityButtons();
 
         private void Update()
         {
@@ -56,7 +53,7 @@ namespace Battlefield
                 ShowToast("Selected Hero is already acting");
             else if (selectedAbility is not null && selectedEnemy is null)
                 ShowToast("No Target selected");
-            else if(selectedAbility is null)
+            else if (selectedAbility is null)
                 ShowToast("No Ability selected");
             else
             {
@@ -79,7 +76,14 @@ namespace Battlefield
         private void AbilityspritesAuffrischen()
         {
             if (selectedHero is null)
-                skillbuttons.ForEach(b => b.GetComponent<Image>().sprite = originalButtonBackground);
+            {
+                skillbuttons.ForEach(b =>
+                {
+                    b.GetComponent<Image>().sprite                = originalButtonBackground;
+                    b.GetComponent<Button>().enabled              = false;
+                    b.GetComponent<AbilitybuttonScript>().ability = null;
+                });
+            }
 
             if (abilityanzeigeIstAktuell || !skillbuttons.Any())
                 return;
@@ -97,8 +101,9 @@ namespace Battlefield
 
             while (counter < skillbuttons.Count)
             {
-                skillbuttons[counter].GetComponent<Image>().sprite   = originalButtonBackground;
-                skillbuttons[counter].GetComponent<Button>().enabled = false;
+                skillbuttons[counter].GetComponent<Image>().sprite                = originalButtonBackground;
+                skillbuttons[counter].GetComponent<Button>().enabled              = false;
+                skillbuttons[counter].GetComponent<AbilitybuttonScript>().ability = null;
 
                 counter++;
             }
@@ -119,19 +124,35 @@ namespace Battlefield
 
                 foreach (var selection in AbilitySelection)
                 {
-                    if (!selection.Actor.IsDead)
+                    if (selection.Actor.IsDead)
                     {
-                        var damageDealt = selection.Actor.UseAbility(selection.Ability, selection.Target);
-
-                        if (selection.Target.IsDead)
-                        {
-                            selection.Target.transform.gameObject.GetComponent<SpriteRenderer>().sprite     = bloodPuddle;
-                            selection.Target.transform.gameObject.GetComponent<CapsuleCollider2D>().enabled = false;
-                        }
-
-                        if (damageDealt.HasValue)
-                            InstantiateFloatingCombatText(selection.Target, damageDealt.Value);
+                        yield return new WaitForSeconds(0.25f);
+                        continue;
                     }
+
+                    if (selection.Actor.IsStunned)
+                    {
+                        InstantiateFloatingCombatText(selection.Actor, "STUNNED");
+                        selection.Actor.IsStunned = false;
+
+                        yield return new WaitForSeconds(0.5f);
+                        continue;
+                    }
+
+                    var abilityResult = selection.Actor.UseAbility(selection.Ability, selection.Target);
+
+                    if (selection.Target.IsDead)
+                    {
+                        selection.Target.transform.gameObject.GetComponent<SpriteRenderer>().sprite     = bloodPuddle;
+                        selection.Target.transform.gameObject.GetComponent<CapsuleCollider2D>().enabled = false;
+                    }
+
+                    var wasDamage = int.TryParse(abilityResult, out var damage);
+
+                    if (wasDamage)
+                        InstantiateFloatingCombatText(selection.Target, damage);
+                    else
+                        InstantiateFloatingCombatText(selection.Target, abilityResult);
 
                     yield return new WaitForSeconds(0.5f);
                 }

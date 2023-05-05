@@ -24,6 +24,8 @@ public class Tooltip : MonoBehaviour
     {
         Vector2 anchoredPosition = Input.mousePosition / canvasRectTransform.localScale.x;
 
+        anchoredPosition.y += 20;
+
         if (anchoredPosition.x + backgroundTransform.rect.width > canvasRectTransform.rect.width)
             anchoredPosition.x = canvasRectTransform.rect.width - backgroundTransform.rect.width;
 
