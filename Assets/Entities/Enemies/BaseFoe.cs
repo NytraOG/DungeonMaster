@@ -49,9 +49,9 @@ namespace Entities.Enemies
             if (!abilities.Any())
                 return;
 
-            var rnadomNoKek = new Random().Next(0, abilities.Count);
+            var abilityIndex = new Random().Next(0, abilities.Count);
 
-            SelectedAbility = abilities[rnadomNoKek];
+            SelectedAbility = abilities[abilityIndex];
         }
     }
 }
