@@ -1,9 +1,7 @@
-using System;
 using Abilities;
 using Entities;
 using Entities.Classes;
 using Entities.Races;
-using UnityEngine;
 
 namespace Battlefield
 {
@@ -15,16 +13,15 @@ namespace Battlefield
 
         private void Awake()
         {
-            Strength     = 5;
-            Constitution = 3;
-            Dexterity    = 9;
-            Quickness    = 8;
-            Intuition    = 8;
-            Logic        = 5;
-            Willpower    = 2;
-            Wisdom       = 5;
-            Charisma     = 1;
-            Schaden      = 10;
+            Strength     = strength;
+            Constitution = constitution;
+            Dexterity    = dexterity;
+            Quickness    = quickness;
+            Intuition    = intuition;
+            Logic        = logic;
+            Willpower    = willpower;
+            Wisdom       = wisdom;
+            Charisma     = charisma;
 
             abilities.Add(inherentAbility);
 
@@ -36,11 +33,6 @@ namespace Battlefield
             SetInitialHitpointsAndMana();
         }
 
-        private void OnMouseEnter()
-        {
-            var asd = GetComponent<SpriteRenderer>();
-        }
-
         private void OnMouseDown()
         {
             var controller = FindObjectOfType<BattleController>();
@@ -48,8 +40,6 @@ namespace Battlefield
             controller.selectedHero             = this;
             controller.abilitiesOfSelectedHero  = abilities;
             controller.abilityanzeigeIstAktuell = false;
-
-            Debug.Log("kek");
         }
 
         public override float GetApproximateDamage(BaseAbility ability) => ability.GetDamage(this);

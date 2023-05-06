@@ -22,6 +22,7 @@ namespace Entities.Enemies
         {
             var dmg = ability.TriggerAbility(this, target);
             SelectedAbility = null;
+
             return dmg;
         }
     }

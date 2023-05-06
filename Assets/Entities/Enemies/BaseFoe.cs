@@ -1,5 +1,4 @@
-﻿using System;
-using System.Linq;
+﻿using System.Linq;
 using Abilities;
 using Entities.Enums;
 using UnityEngine;
@@ -10,16 +9,6 @@ namespace Entities.Enemies
     public abstract class BaseFoe : BaseUnit
     {
         public override Party Party => Party.Foe;
-
-        public int strength;
-        public int constitution;
-        public int dexterity;
-        public int quickness;
-        public int intuition;
-        public int logic;
-        public int willpower;
-        public int wisdom;
-        public int charisma;
 
         public void Awake()
         {
@@ -32,7 +21,7 @@ namespace Entities.Enemies
             Willpower    = willpower;
             Wisdom       = wisdom;
             Charisma     = charisma;
-
+            
             SetInitialHitpointsAndMana();
 
             abilities.Add(ScriptableObject.CreateInstance<Shiv>());
@@ -40,7 +29,7 @@ namespace Entities.Enemies
 
         private void FixedUpdate()
         {
-            if(abilities.All(a => a.AbilityName != AbilityNames.Shiv))
+            if (abilities.All(a => a.AbilityName != AbilityNames.Shiv))
                 abilities.Add(ScriptableObject.CreateInstance<Shiv>());
         }
 

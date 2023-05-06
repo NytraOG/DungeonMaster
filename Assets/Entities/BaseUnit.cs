@@ -10,6 +10,16 @@ namespace Entities
 {
     public abstract class BaseUnit : Base
     {
+        public int strength;
+        public int constitution;
+        public int dexterity;
+        public int quickness;
+        public int intuition;
+        public int logic;
+        public int willpower;
+        public int wisdom;
+        public int charisma;
+
         public          List<BaseAbility> abilities = new();
         public          BaseAbility       SelectedAbility      { get; set; }
         public          bool              IsDead               => Hitpoints <= 0;

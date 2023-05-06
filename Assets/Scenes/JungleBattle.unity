@@ -15517,6 +15517,7 @@ MonoBehaviour:
   originalButtonBackground: {fileID: 21300000, guid: 1d6a4040cb26d74479efd5499ddfcd32, type: 3}
   bloodPuddle: {fileID: 21300000, guid: 3c3858343902a7943bed27b63cff3460, type: 3}
   allesDa: 0
+  enemies: []
 --- !u!1 &652292008
 GameObject:
   m_ObjectHideFlags: 0
@@ -24310,9 +24311,45 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7188784997491589576, guid: 1b4092d81f9d93a429916b413e0a7542, type: 3}
+      propertyPath: logic
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 7188784997491589576, guid: 1b4092d81f9d93a429916b413e0a7542, type: 3}
       propertyPath: classe
       value: 
       objectReference: {fileID: 11400000, guid: 299b1ad6a0fae514db3b3e9d2d7afca6, type: 2}
+    - target: {fileID: 7188784997491589576, guid: 1b4092d81f9d93a429916b413e0a7542, type: 3}
+      propertyPath: wisdom
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 7188784997491589576, guid: 1b4092d81f9d93a429916b413e0a7542, type: 3}
+      propertyPath: charisma
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 7188784997491589576, guid: 1b4092d81f9d93a429916b413e0a7542, type: 3}
+      propertyPath: strength
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 7188784997491589576, guid: 1b4092d81f9d93a429916b413e0a7542, type: 3}
+      propertyPath: dexterity
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 7188784997491589576, guid: 1b4092d81f9d93a429916b413e0a7542, type: 3}
+      propertyPath: intuition
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 7188784997491589576, guid: 1b4092d81f9d93a429916b413e0a7542, type: 3}
+      propertyPath: quickness
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 7188784997491589576, guid: 1b4092d81f9d93a429916b413e0a7542, type: 3}
+      propertyPath: willpower
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 7188784997491589576, guid: 1b4092d81f9d93a429916b413e0a7542, type: 3}
+      propertyPath: constitution
+      value: 3
+      objectReference: {fileID: 0}
     - target: {fileID: 7188784997491589576, guid: 1b4092d81f9d93a429916b413e0a7542, type: 3}
       propertyPath: inherentAbility
       value: 
@@ -27893,9 +27930,45 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 11400000, guid: 547fe8231bf8fb14f8ff966d055e628e, type: 2}
     - target: {fileID: 7188784997491589576, guid: 1b4092d81f9d93a429916b413e0a7542, type: 3}
+      propertyPath: logic
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 7188784997491589576, guid: 1b4092d81f9d93a429916b413e0a7542, type: 3}
       propertyPath: classe
       value: 
       objectReference: {fileID: 11400000, guid: ee8e11e2f82bc6a42a1ae911862d90be, type: 2}
+    - target: {fileID: 7188784997491589576, guid: 1b4092d81f9d93a429916b413e0a7542, type: 3}
+      propertyPath: wisdom
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 7188784997491589576, guid: 1b4092d81f9d93a429916b413e0a7542, type: 3}
+      propertyPath: charisma
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 7188784997491589576, guid: 1b4092d81f9d93a429916b413e0a7542, type: 3}
+      propertyPath: strength
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 7188784997491589576, guid: 1b4092d81f9d93a429916b413e0a7542, type: 3}
+      propertyPath: dexterity
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 7188784997491589576, guid: 1b4092d81f9d93a429916b413e0a7542, type: 3}
+      propertyPath: intuition
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 7188784997491589576, guid: 1b4092d81f9d93a429916b413e0a7542, type: 3}
+      propertyPath: quickness
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 7188784997491589576, guid: 1b4092d81f9d93a429916b413e0a7542, type: 3}
+      propertyPath: willpower
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 7188784997491589576, guid: 1b4092d81f9d93a429916b413e0a7542, type: 3}
+      propertyPath: constitution
+      value: 3
+      objectReference: {fileID: 0}
     - target: {fileID: 7188784997491589576, guid: 1b4092d81f9d93a429916b413e0a7542, type: 3}
       propertyPath: inherentAbility
       value: 
@@ -28932,6 +29005,10 @@ PrefabInstance:
       propertyPath: enemiesToSpawn.Array.data[1]
       value: 
       objectReference: {fileID: 2647223647782926190, guid: ac5de662b970a2d43a2b45b6b254c270, type: 3}
+    - target: {fileID: 2943883214842200648, guid: 309b55b815389854b99e9fd182242fda, type: 3}
+      propertyPath: enemiesToSpawn.Array.data[2]
+      value: 
+      objectReference: {fileID: 4640813734388174243, guid: 47ef540c221de3d428378c6ae0438b0e, type: 3}
     - target: {fileID: 7631227285680864984, guid: 309b55b815389854b99e9fd182242fda, type: 3}
       propertyPath: m_Name
       value: Battlefield
