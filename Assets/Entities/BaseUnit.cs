@@ -59,6 +59,8 @@ namespace Entities
 
             AktionenGesamt  = 1;
             AktionenAktuell = AktionenGesamt;
+
+            
         }
 
         protected void SetInitialHitpointsAndMana()

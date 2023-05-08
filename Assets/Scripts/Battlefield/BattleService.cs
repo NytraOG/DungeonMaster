@@ -2,21 +2,66 @@ using System.Collections.Generic;
 using System.Linq;
 using Entities;
 using Entities.Enemies;
+using Items;
+using UI;
 using UnityEngine;
+using Random = System.Random;
 
 namespace Battlefield
 {
     public class BattleService : MonoBehaviour
     {
-        public  GameObject       healthbarPrefab;
-        public  List<BaseFoe>    enemies;
-        public  List<GameObject> heroes;
-        public  List<GameObject> enemiesToSpawn = new();
-        private List<BaseUnit>   combatants     = new();
+        public  GameObject        healthbarPrefab;
+        public  List<BaseFoe>     enemies;
+        public  List<GameObject>  heroes;
+        public  List<GameObject>  enemiesToSpawn = new();
+        public  InventoryItemData itemData1;
+        public  InventoryItemData itemData2;
+        public  GameObject        inventoryPanel;
+        private List<BaseUnit>    combatants = new();
 
         public void Start() => InitScene();
 
-        private void Update() { }
+        private void Update()
+        {
+            if (Input.GetKeyDown(KeyCode.I))
+            {
+                var inventoryDisplay = inventoryPanel.GetComponent<StaticInventoryDisplay>();
+
+                var newValue = !inventoryDisplay.enabled;
+
+                inventoryDisplay.enabled = newValue;
+
+                if (newValue)
+                {
+                    var controller = transform.parent
+                                              .transform.Find("BattleController")
+                                              .gameObject.GetComponent<BattleController>();
+
+                    if (controller.selectedHero is not null)
+                        inventoryDisplay.ChangeHero(controller.selectedHero.GetComponent<Hero>());
+                }
+
+                inventoryPanel.SetActive(newValue);
+            }
+
+            if (Input.GetKeyDown(KeyCode.P))
+                MachItemInInventoryRein(itemData1);
+            else if (Input.GetKeyDown(KeyCode.O))
+                MachItemInInventoryRein(itemData2);
+        }
+
+        private void MachItemInInventoryRein(InventoryItemData item)
+        {
+            var controller = transform.parent
+                                      .transform.Find("BattleController")
+                                      .gameObject.GetComponent<BattleController>();
+
+            if (controller.selectedHero is null)
+                return;
+
+            controller.selectedHero.InventorySystem.AddToInventory(item, new Random().Next(0, 4));
+        }
 
         public void ToggleHealthbars() { }
 

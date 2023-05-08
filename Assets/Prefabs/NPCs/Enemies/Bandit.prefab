@@ -103,16 +103,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2135b50bb2ebf0e4081c8e0d93510182, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  abilities: []
   strength: 4
-  constitution: 20
-  dexterity: 10
+  constitution: 6
+  dexterity: 5
   quickness: 3
   intuition: 5
   logic: 2
   willpower: 5
   wisdom: 2
   charisma: 1
+  abilities: []
 --- !u!70 &5679231102968963830
 CapsuleCollider2D:
   m_ObjectHideFlags: 0

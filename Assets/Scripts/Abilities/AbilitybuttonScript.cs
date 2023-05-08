@@ -14,7 +14,7 @@ namespace Abilities
             if (ability is null)
                 return;
 
-            var tooltipInstance = transform.parent
+            var tooltipInstance = transform.parent.transform.parent
                                            .Find("Tooltip")
                                            .GetComponent<Tooltip>();
 
@@ -28,7 +28,7 @@ namespace Abilities
 
         public void HideTooltip()
         {
-            var tooltipInstance = transform.parent
+            var tooltipInstance = transform.parent.transform.parent
                                            .Find("Tooltip")
                                            .GetComponent<Tooltip>();
 

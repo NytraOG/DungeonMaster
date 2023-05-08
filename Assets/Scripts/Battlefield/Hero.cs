@@ -2,6 +2,8 @@ using Abilities;
 using Entities;
 using Entities.Classes;
 using Entities.Races;
+using Inventory;
+using UI;
 
 namespace Battlefield
 {
@@ -31,6 +33,8 @@ namespace Battlefield
             classe.ApplyAbilities(this);
 
             SetInitialHitpointsAndMana();
+
+            inventorySystem = new InventorySystem(inventorySize);
         }
 
         private void OnMouseDown()
@@ -40,6 +44,9 @@ namespace Battlefield
             controller.selectedHero             = this;
             controller.abilitiesOfSelectedHero  = abilities;
             controller.abilityanzeigeIstAktuell = false;
+
+            var inventoryDisplay = FindObjectOfType<StaticInventoryDisplay>();
+            inventoryDisplay.ChangeHero(this);
         }
 
         public override float GetApproximateDamage(BaseAbility ability) => ability.GetDamage(this);
