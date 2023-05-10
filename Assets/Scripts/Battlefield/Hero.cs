@@ -4,14 +4,16 @@ using Entities.Classes;
 using Entities.Races;
 using Inventory;
 using UI;
+using UnityEngine;
 
 namespace Battlefield
 {
     public class Hero : BaseHero
     {
-        public          BaseRace  race;
-        public          BaseClass classe;
-        public override float     Schadensmodifier => 1.25f;
+        public          BaseRace   race;
+        public          BaseClass  classe;
+        public          GameObject inventoryPanel;
+        public override float      Schadensmodifier => 1.25f;
 
         private void Awake()
         {
@@ -45,7 +47,7 @@ namespace Battlefield
             controller.abilitiesOfSelectedHero  = abilities;
             controller.abilityanzeigeIstAktuell = false;
 
-            var inventoryDisplay = FindObjectOfType<StaticInventoryDisplay>();
+            var inventoryDisplay = inventoryPanel.GetComponent<StaticInventoryDisplay>();
             inventoryDisplay.ChangeHero(this);
         }
 

@@ -17,8 +17,11 @@ namespace Battlefield
         public  List<GameObject>  enemiesToSpawn = new();
         public  InventoryItemData itemData1;
         public  InventoryItemData itemData2;
+        public  InventoryItemData itemData3;
         public  GameObject        inventoryPanel;
         private List<BaseUnit>    combatants = new();
+        private bool              inventoryShown;
+        public  GameObject        openBagAudioSource;
 
         public void Start() => InitScene();
 
@@ -26,29 +29,31 @@ namespace Battlefield
         {
             if (Input.GetKeyDown(KeyCode.I))
             {
-                var inventoryDisplay = inventoryPanel.GetComponent<StaticInventoryDisplay>();
+                inventoryShown = !inventoryShown;
 
-                var newValue = !inventoryDisplay.enabled;
-
-                inventoryDisplay.enabled = newValue;
-
-                if (newValue)
+                if (inventoryShown)
                 {
+                    var inventoryDisplay = inventoryPanel.GetComponent<StaticInventoryDisplay>();
+
                     var controller = transform.parent
                                               .transform.Find("BattleController")
                                               .gameObject.GetComponent<BattleController>();
 
                     if (controller.selectedHero is not null)
                         inventoryDisplay.ChangeHero(controller.selectedHero.GetComponent<Hero>());
+
+                    PlayOpenBagSound();
                 }
 
-                inventoryPanel.SetActive(newValue);
+                inventoryPanel.SetActive(inventoryShown);
             }
 
             if (Input.GetKeyDown(KeyCode.P))
                 MachItemInInventoryRein(itemData1);
             else if (Input.GetKeyDown(KeyCode.O))
                 MachItemInInventoryRein(itemData2);
+            else if (Input.GetKeyDown(KeyCode.L))
+                MachItemInInventoryRein(itemData3);
         }
 
         private void MachItemInInventoryRein(InventoryItemData item)
@@ -84,6 +89,8 @@ namespace Battlefield
 
         private void InitScene()
         {
+            inventoryShown = inventoryPanel.GetComponent<StaticInventoryDisplay>().showInventory;
+
             var banditTransforms = new[]
             {
                 new Vector3(1.78f, 1.38f),
@@ -116,6 +123,13 @@ namespace Battlefield
 
                 enemies.Add(enemy);
             }
+        }
+
+        private void PlayOpenBagSound()
+        {
+            var audiosource = openBagAudioSource.GetComponent<AudioSource>();
+
+            audiosource.Play();
         }
 
         public void KampfrundeAbhandeln() => InitiativereihenfolgeBestimmen();
