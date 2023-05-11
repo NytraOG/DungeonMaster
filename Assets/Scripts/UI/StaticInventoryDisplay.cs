@@ -58,8 +58,6 @@ namespace UI
                 slots[i].Initialize(inventorySystem.inventorySlots[i]);
             }
 
-            Debug.Log("Slot assigned");
-
             slotAssigned = true;
         }
     }
