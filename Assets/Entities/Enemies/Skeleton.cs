@@ -1,4 +1,4 @@
-using Abilities;
+using Skills;
 using UnityEngine;
 using Random = System.Random;
 

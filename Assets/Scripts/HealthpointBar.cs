@@ -15,12 +15,12 @@ public class HealthpointBar : MonoBehaviour
         if (unit.IsDead)
             gameObject.SetActive(false);
 
-        var healthUpdated = (int)unit.Hitpoints != (int)currentHealth;
+        var healthUpdated = (int)unit.CurrentHitpoints != (int)currentHealth;
 
         if (healthUpdated)
         {
-            greenBar.fillAmount = unit.Hitpoints / unit.MaximumHitpoints;
-            currentHealth       = unit.Hitpoints;
+            greenBar.fillAmount = unit.CurrentHitpoints / unit.MaximumHitpoints;
+            currentHealth       = unit.CurrentHitpoints;
         }
     }
 }

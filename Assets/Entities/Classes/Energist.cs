@@ -1,5 +1,4 @@
 ﻿using System.Linq;
-using Abilities;
 using UnityEngine;
 
 namespace Entities.Classes

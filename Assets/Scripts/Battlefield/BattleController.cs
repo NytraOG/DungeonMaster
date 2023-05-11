@@ -1,10 +1,10 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
-using Abilities;
 using Entities;
 using Entities.Classes;
 using Entities.Enemies;
+using Skills;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
@@ -217,7 +217,7 @@ namespace Battlefield
         {
             var textcomponent = CreateTextComponent(unitInstance);
 
-            if (unitInstance.Hitpoints <= 0)
+            if (unitInstance.CurrentHitpoints <= 0)
             {
                 textcomponent.color = new Color(255, 0, 0);
                 textcomponent.SetText($"({damageDealt}) Killing Blow!");

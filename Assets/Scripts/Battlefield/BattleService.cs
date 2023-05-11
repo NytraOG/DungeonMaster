@@ -18,6 +18,7 @@ namespace Battlefield
         public  InventoryItemData itemData1;
         public  InventoryItemData itemData2;
         public  InventoryItemData itemData3;
+        public  InventoryItemData itemData4;
         public  GameObject        inventoryPanel;
         private List<BaseUnit>    combatants = new();
         private bool              inventoryShown;
@@ -54,6 +55,8 @@ namespace Battlefield
                 MachItemInInventoryRein(itemData2);
             else if (Input.GetKeyDown(KeyCode.L))
                 MachItemInInventoryRein(itemData3);
+            else if (Input.GetKeyDown(KeyCode.K))
+                MachItemInInventoryRein(itemData4);
         }
 
         private void MachItemInInventoryRein(InventoryItemData item)

@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
-using Abilities;
 using System.Linq;
+using Skills;
 
 namespace Entities.Classes
 {

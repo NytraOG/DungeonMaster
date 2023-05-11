@@ -1,6 +1,6 @@
-﻿using Abilities;
-using Entities.Enums;
+﻿using Entities.Enums;
 using Inventory;
+using Skills;
 using UnityEngine.Events;
 
 namespace Entities.Classes

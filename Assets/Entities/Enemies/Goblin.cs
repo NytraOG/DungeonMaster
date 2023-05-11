@@ -1,4 +1,4 @@
-﻿using Abilities;
+﻿using Skills;
 
 namespace Entities.Enemies
 {
@@ -9,7 +9,7 @@ namespace Entities.Enemies
             Intuition = 1;
             Charisma  = 1;
 
-            Hitpoints = 10;
+            CurrentHitpoints = 10;
             Schaden   = 4;
 
             InitiativeBestimmen(2);

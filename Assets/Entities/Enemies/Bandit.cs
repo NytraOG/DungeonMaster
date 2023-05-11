@@ -1,5 +1,5 @@
-using Abilities;
 using Battlefield;
+using Skills;
 using UnityEngine;
 
 namespace Entities.Enemies

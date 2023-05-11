@@ -1,5 +1,5 @@
 ﻿using System.Reflection;
-using Abilities;
+using Skills;
 using UnityEngine;
 
 namespace Entities.Races

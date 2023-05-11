@@ -3,7 +3,14 @@ guid: e51f459987407584fb465f65833c85f3
 MonoImporter:
   externalObjects: {}
   serializedVersion: 2
-  defaultReferences: []
+  defaultReferences:
+  - healthbarPrefab: {instanceID: 0}
+  - itemData1: {instanceID: 0}
+  - itemData2: {instanceID: 0}
+  - itemData3: {instanceID: 0}
+  - itemData4: {instanceID: 0}
+  - inventoryPanel: {instanceID: 0}
+  - openBagAudioSource: {instanceID: 0}
   executionOrder: 0
   icon: {instanceID: 0}
   userData: 

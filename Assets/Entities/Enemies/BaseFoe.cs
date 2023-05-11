@@ -1,6 +1,6 @@
 ﻿using System.Linq;
-using Abilities;
 using Entities.Enums;
+using Skills;
 using UnityEngine;
 using Random = System.Random;
 
@@ -29,7 +29,7 @@ namespace Entities.Enemies
 
         private void FixedUpdate()
         {
-            if (abilities.All(a => a.AbilityName != AbilityNames.Shiv))
+            if (abilities.All(a => a.AbilityName != Skillnames.Shiv))
                 abilities.Add(ScriptableObject.CreateInstance<Shiv>());
         }
 
