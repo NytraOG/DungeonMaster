@@ -3,7 +3,7 @@ using System.Text;
 using Entities;
 using UnityEngine;
 
-namespace Skills.neu
+namespace Skills
 {
     public abstract class BaseSkill : ScriptableObject
     {

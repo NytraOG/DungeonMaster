@@ -3,7 +3,7 @@ using Entities;
 using Entities.Classes;
 using Entities.Races;
 using Inventory;
-using Skills.neu;
+using Skills;
 using UI;
 using UnityEngine;
 
@@ -11,7 +11,7 @@ namespace Battlefield
 {
     public class Hero : BaseHero
     {
-        public          BaseRace   race;
+        public          Race   race;
         public          BaseClass  classe;
         public          GameObject inventoryPanel;
         public override float      Schadensmodifier => 1.25f;

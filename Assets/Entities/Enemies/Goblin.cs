@@ -1,5 +1,4 @@
 ﻿using Skills;
-using Skills.neu;
 
 namespace Entities.Enemies
 {

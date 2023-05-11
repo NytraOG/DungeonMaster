@@ -1,48 +1,49 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
-public class Simple_Door_Interaction : MonoBehaviour
+namespace AssetStore.GoldenSkullStudios._2D._2D_Iso_Tile_Pack_Starter.Extras.Scripts
 {
-    [SerializeField]
-    private bool replaceDoorSprite = false;
-    [SerializeField]
-    private SpriteRenderer doorSpriteObject;
-    [SerializeField]
-    private Sprite doorOpenSprite;
-    private Sprite doorCloseSprite;
-
-    [SerializeField]
-    private GameObject interactionTextObject;
-
-    // Start is called before the first frame update
-    void Start()
+    public class Simple_Door_Interaction : MonoBehaviour
     {
-        doorCloseSprite = doorSpriteObject.sprite;
-        interactionTextObject.SetActive(false);
-    }
+        [SerializeField]
+        private bool replaceDoorSprite = false;
+        [SerializeField]
+        private SpriteRenderer doorSpriteObject;
+        [SerializeField]
+        private Sprite doorOpenSprite;
+        private Sprite doorCloseSprite;
 
-    // Update is called once per frame
-    void Update()
-    {
-    }
+        [SerializeField]
+        private GameObject interactionTextObject;
 
-    private void OnTriggerEnter2D(Collider2D collision)
-    {
-        if( replaceDoorSprite )
+        // Start is called before the first frame update
+        void Start()
         {
-            doorSpriteObject.sprite = doorOpenSprite;
+            doorCloseSprite = doorSpriteObject.sprite;
+            interactionTextObject.SetActive(false);
         }
 
-        interactionTextObject.SetActive(true);
-    }
-
-    private void OnTriggerExit2D(Collider2D collision)
-    {
-        if (replaceDoorSprite)
+        // Update is called once per frame
+        void Update()
         {
-            doorSpriteObject.sprite = doorCloseSprite;
         }
-        interactionTextObject.SetActive(false);
+
+        private void OnTriggerEnter2D(Collider2D collision)
+        {
+            if( replaceDoorSprite )
+            {
+                doorSpriteObject.sprite = doorOpenSprite;
+            }
+
+            interactionTextObject.SetActive(true);
+        }
+
+        private void OnTriggerExit2D(Collider2D collision)
+        {
+            if (replaceDoorSprite)
+            {
+                doorSpriteObject.sprite = doorCloseSprite;
+            }
+            interactionTextObject.SetActive(false);
+        }
     }
 }

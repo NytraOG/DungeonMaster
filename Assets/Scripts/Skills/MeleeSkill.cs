@@ -1,10 +1,10 @@
 ﻿using Entities;
 using UnityEngine;
 
-namespace Skills.neu
+namespace Skills
 {
-    [CreateAssetMenu(fileName = "Magic Skill", menuName = "Skills/Magic")]
-    public class MagicSkill : BaseDamageSkill
+    [CreateAssetMenu(fileName = "Melee Skill", menuName = "Skills/Melee")]
+    public class MeleeSkill : BaseDamageSkill
     {
         public override Factions TargetableFaction => Factions.Foe;
 

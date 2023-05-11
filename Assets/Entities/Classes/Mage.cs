@@ -1,5 +1,5 @@
 ﻿using System.Linq;
-using Skills.neu;
+using Skills;
 using UnityEngine;
 
 namespace Entities.Classes

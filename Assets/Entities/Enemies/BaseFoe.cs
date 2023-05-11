@@ -1,7 +1,6 @@
 ﻿using System.Linq;
 using Entities.Enums;
 using Skills;
-using Skills.neu;
 using UnityEngine;
 using Random = System.Random;
 

@@ -3,7 +3,7 @@ using UnityEngine;
 
 namespace Entities.Classes
 {
-    [CreateAssetMenu(fileName = "Energist", menuName = "Classes/Energist", order = 0)]
+    [CreateAssetMenu(fileName = "HeroClass", menuName = "Hero/Class", order = 0)]
     public class Energist : BaseClass
     {
         //public BaseAbility ability1;

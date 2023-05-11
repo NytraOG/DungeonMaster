@@ -2,7 +2,7 @@
 using Entities;
 using UnityEngine;
 
-namespace Skills.neu
+namespace Skills
 {
     [CreateAssetMenu(fileName = "Support Skill", menuName = "Skills/Support")]
     public class SupportSkill : BaseSkill

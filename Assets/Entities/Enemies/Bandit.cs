@@ -1,6 +1,6 @@
 using System;
 using Battlefield;
-using Skills.neu;
+using Skills;
 using UnityEngine;
 
 namespace Entities.Enemies

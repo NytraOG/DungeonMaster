@@ -1,6 +1,6 @@
 ﻿using Entities;
 
-namespace Skills.neu
+namespace Skills
 {
     public abstract class BaseDamageSkill : BaseSkill
     {

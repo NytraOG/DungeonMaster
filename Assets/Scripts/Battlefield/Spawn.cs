@@ -1,11 +1,14 @@
 using UnityEngine;
 
-public class Spawn : MonoBehaviour
+namespace Battlefield
 {
-    public Tile TopLeft;
-    public Tile TopMiddle;
-    public Tile TopRight;
-    public Tile BotLeft;
-    public Tile BotMiddle;
-    public Tile BotRight;
+    public class Spawn : MonoBehaviour
+    {
+        public Tile TopLeft;
+        public Tile TopMiddle;
+        public Tile TopRight;
+        public Tile BotLeft;
+        public Tile BotMiddle;
+        public Tile BotRight;
+    }
 }

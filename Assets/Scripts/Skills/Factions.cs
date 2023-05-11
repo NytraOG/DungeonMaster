@@ -1,4 +1,4 @@
-﻿namespace Skills.neu
+﻿namespace Skills
 {
     public enum Factions
     {

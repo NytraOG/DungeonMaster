@@ -5,7 +5,6 @@ using Entities;
 using Entities.Classes;
 using Entities.Enemies;
 using Skills;
-using Skills.neu;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
