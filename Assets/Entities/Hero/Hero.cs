@@ -15,6 +15,12 @@ namespace Entities.Hero
 
         protected override void Awake()
         {
+            MapProperties();
+            InitializeHero();
+        }
+
+        private void MapProperties()
+        {
             Strength     = strength;
             Constitution = constitution;
             Dexterity    = dexterity;
@@ -24,7 +30,10 @@ namespace Entities.Hero
             Willpower    = willpower;
             Wisdom       = wisdom;
             Charisma     = charisma;
+        }
 
+        private void InitializeHero()
+        {
             skills.Add(inherentSkill);
 
             race.ApplyAbilities(this);
@@ -33,11 +42,12 @@ namespace Entities.Hero
             SetInitialHitpointsAndMana();
 
             race.ApplyModifiers(this);
+
+            base.Awake();
+
             classe.ApplyModifiers(this);
 
             inventorySystem = new InventorySystem(inventorySize);
-
-            base.Awake();
         }
 
         private void OnMouseDown()

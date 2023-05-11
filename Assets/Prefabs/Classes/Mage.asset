@@ -12,5 +12,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a26d3e5c92414d10b99fcd1b89bf48ce, type: 3}
   m_Name: Mage
   m_EditorClassIdentifier: 
+  meleeAttack: 0.05
+  rangedAttack: 0.15
+  magicAttack: 0.15
+  socialAttack: 0.15
+  meleeDefense: -0.1
+  rangedDefense: 0
+  magicDefense: 0
+  socialDefense: -0.05
+  health: -0.2
+  mana: 0.4
+  explosion: 0
   skills:
   - {fileID: 11400000, guid: 2b712452ad4235a4bb00cda402076756, type: 2}

@@ -8,19 +8,19 @@ namespace Entities.Hero
     [CreateAssetMenu(fileName = "HeroClass", menuName = "Hero/Class")]
     public class HeroClass : ScriptableObject
     {
-        [Header("Modifier in Prozent")] [Range(0, 1)]
+        [Header("Modifier in Prozent: [-1, .., 1]")]
         public float meleeAttack;
-        [Range(0, 1)] public float           rangedAttack;
-        [Range(0, 1)] public float           magicAttack;
-        [Range(0, 1)] public float           socialAttack;
-        [Range(0, 1)] public float           meleeDefense;
-        [Range(0, 1)] public float           rangedDefense;
-        [Range(0, 1)] public float           magicDefense;
-        [Range(0, 1)] public float           socialDefense;
-        [Range(0, 1)] public float           health;
-        [Range(0, 1)] public float           mana;
-        [Range(0, 1)] public float           explosion;
-        public               List<BaseSkill> skills;
+        public float           rangedAttack;
+        public float           magicAttack;
+        public float           socialAttack;
+        public float           meleeDefense;
+        public float           rangedDefense;
+        public float           magicDefense;
+        public float           socialDefense;
+        public float           health;
+        public float           mana;
+        public float           explosion;
+        public List<BaseSkill> skills;
 
         public void ApplyModifiers(BaseUnit unit)
         {
@@ -33,7 +33,9 @@ namespace Entities.Hero
             unit.MagicDefense               += unit.MagicDefense * magicDefense;
             unit.SocialDefense              += unit.SocialDefense * socialDefense;
             unit.MaximumHitpoints           += unit.MaximumHitpoints * health;
+            unit.CurrentHitpoints           =  unit.MaximumHitpoints;
             unit.MaximumMana                += unit.MaximumMana * mana;
+            unit.CurrentMana                =  unit.MaximumMana;
         }
 
         public void ApplySkills(BaseUnit unit) => skills.ForEach(s =>

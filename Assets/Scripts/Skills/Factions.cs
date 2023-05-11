@@ -3,6 +3,7 @@
     public enum Factions
     {
         Friend,
-        Foe
+        Foe,
+        All
     }
 }
