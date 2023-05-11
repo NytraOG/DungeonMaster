@@ -20,36 +20,37 @@ namespace Entities
         public          int             wisdom;
         public          int             charisma;
         public          List<BaseSkill> skills = new();
-        public          string          Name                 { get; }
-        public abstract Party           Party                { get; }
-        public          BaseSkill       SelectedSkill        { get; set; }
-        public          float           Angriffswurf         { get; set; } // Müsste später durch Skills ersetzt werden
-        public          int             Schaden              { get; set; } // Wird später auf Waffen migriert (?)
-        public abstract float           Schadensmodifier     { get; }
-        public          int             AktionenGesamt       { get; set; }
-        public          int             AktionenAktuell      { get; set; }
-        public          float           ManaregenerationRate { get; set; }
-        public          int             Armour               { get; set; }           // Wird später auf Rüstungen migriert
-        public          int             CritDamage           { get; protected set; } // Wird später auf Waffen migriert
-        public          float           MagicDefense         { get; set; }
-        public          float           SocialDefense        { get; set; }
-        public          float           MeleeDefense         { get; set; }
-        public          float           RangedDefense        { get; set; }
-        public          float           CurrentMana          { get; set; }
-        public          float           MaximumMana          { get; set; }
-        public          float           CurrentHitpoints     { get; set; }
-        public          float           MaximumHitpoints     { get; set; }
-        public          float           CurrentInitiative    { get; set; }
-        public          bool            IsStunned            { get; set; }
-        public          bool            IsDead               => CurrentHitpoints <= 0;
-        public          bool            IstKampfunfähig      => CurrentHitpoints <= 0;
-        public          float           BaseMeleeDefense     => 2 * Dexterity + Quickness;
-        public          float           BaseRangedDefense    => 2 * Quickness + Dexterity;
-        public          float           BaseMagicDefense     => 2 * Willpower + Wisdom;
-        public          float           BaseSocialDefense    => 2 * Logic + Charisma;
-        public          int             BaseInitiative       => 2 * Intuition + Quickness;
+        public          string          Name                       { get; }
+        public abstract Party           Party                      { get; }
+        public          BaseSkill       SelectedSkill              { get; set; }
+        public          int             AktionenGesamt             { get; set; }
+        public          int             AktionenAktuell            { get; set; }
+        public          float           ManaregenerationRate       { get; set; }
+        public          int             Armour                     { get; set; }
+        public          int             CritDamage                 { get; set; }
+        public          float           MeleeAttackratingModifier  { get; set; }
+        public          float           RangedAttackratingModifier { get; set; }
+        public          float           MagicAttackratingModifier  { get; set; }
+        public          float           SocialAttackratingModifier { get; set; }
+        public          float           MagicDefense               { get; set; }
+        public          float           SocialDefense              { get; set; }
+        public          float           MeleeDefense               { get; set; }
+        public          float           RangedDefense              { get; set; }
+        public          float           CurrentMana                { get; set; }
+        public          float           MaximumMana                { get; set; }
+        public          float           CurrentHitpoints           { get; set; }
+        public          float           MaximumHitpoints           { get; set; }
+        public          float           CurrentInitiative          { get; set; }
+        public          bool            IsStunned                  { get; set; }
+        public          bool            IsDead                     => CurrentHitpoints <= 0;
+        public          bool            IstKampfunfähig            => CurrentHitpoints <= 0;
+        public          float           BaseMeleeDefense           => 2 * Dexterity + Quickness;
+        public          float           BaseRangedDefense          => 2 * Quickness + Dexterity;
+        public          float           BaseMagicDefense           => 2 * Willpower + Wisdom;
+        public          float           BaseSocialDefense          => 2 * Logic + Charisma;
+        public          int             BaseInitiative             => 2 * Intuition + Quickness;
 
-        private void Awake()
+        protected virtual void Awake()
         {
             MagicDefense  = BaseMagicDefense;
             SocialDefense = BaseSocialDefense;
@@ -80,7 +81,6 @@ namespace Entities
             panel.transform.Find("Name").gameObject.GetComponent<TextMeshProUGUI>().text     = Name;
             panel.transform.Find("StrValue").gameObject.GetComponent<TextMeshProUGUI>().text = Strength.ToString();
             panel.transform.Find("DexValue").gameObject.GetComponent<TextMeshProUGUI>().text = Dexterity.ToString();
-            panel.transform.Find("DmgValue").gameObject.GetComponent<TextMeshProUGUI>().text = Schaden.ToString();
             panel.transform.Find("HPValue").gameObject.GetComponent<TextMeshProUGUI>().text  = $"{(int)CurrentHitpoints} / {(int)MaximumHitpoints}";
 
             panel.gameObject.SetActive(true);

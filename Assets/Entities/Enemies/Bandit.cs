@@ -7,8 +7,6 @@ namespace Entities.Enemies
 {
     public class Bandit : BaseFoe
     {
-        public override float Schadensmodifier => 1f;
-
         private void OnMouseDown()
         {
             var controller = FindObjectOfType<BattleController>();
@@ -19,9 +17,7 @@ namespace Entities.Enemies
 
         public override float GetApproximateDamage(BaseSkill ability) => ability switch
         {
-            MagicSkill skill => skill.GetDamage(this),
-            MeleeSkill skill => skill.GetDamage(this),
-            RangedSkill skill => skill.GetDamage(this),
+            BaseDamageSkill skill => skill.GetDamage(this),
             SupportSkill _ => 0,
             _ => throw new ArgumentOutOfRangeException(nameof(ability))
         };

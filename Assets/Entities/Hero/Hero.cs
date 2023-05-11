@@ -1,22 +1,19 @@
 using System;
-using Entities;
-using Entities.Classes;
-using Entities.Races;
+using Battlefield;
 using Inventory;
 using Skills;
 using UI;
 using UnityEngine;
 
-namespace Battlefield
+namespace Entities.Hero
 {
     public class Hero : BaseHero
     {
         public          Race   race;
-        public          BaseClass  classe;
+        public          HeroClass  classe;
         public          GameObject inventoryPanel;
-        public override float      Schadensmodifier => 1.25f;
 
-        private void Awake()
+        protected override void Awake()
         {
             Strength     = strength;
             Constitution = constitution;
@@ -30,14 +27,17 @@ namespace Battlefield
 
             skills.Add(inherentSkill);
 
-            race.ApplyModifiers(this);
             race.ApplyAbilities(this);
-            classe.ApplyModifiers(this);
-            classe.ApplyAbilities(this);
+            classe.ApplySkills(this);
 
             SetInitialHitpointsAndMana();
 
+            race.ApplyModifiers(this);
+            classe.ApplyModifiers(this);
+
             inventorySystem = new InventorySystem(inventorySize);
+
+            base.Awake();
         }
 
         private void OnMouseDown()

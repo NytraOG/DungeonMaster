@@ -11,7 +11,7 @@ namespace Entities.Enemies
         public          MeleeSkill meleeSkill;
         public override Party      Party => Party.Foe;
 
-        public void Awake()
+        protected override void Awake()
         {
             Strength     = strength;
             Constitution = constitution;
@@ -26,6 +26,8 @@ namespace Entities.Enemies
             SetInitialHitpointsAndMana();
 
             skills.Add(meleeSkill);
+
+            base.Awake();
         }
 
         private void FixedUpdate()

@@ -7,8 +7,6 @@ namespace Entities.Enemies
     public class Skeleton : BaseFoe
     {
         private         Random rng;
-        public override float  Schadensmodifier => 1.0f;
-
         private void Start()
         {
             rng          = new Random();
@@ -21,7 +19,6 @@ namespace Entities.Enemies
             Willpower    = 1;
             Wisdom       = 1;
             Charisma     = 1;
-            Schaden      = 6;
 
             SetInitialHitpointsAndMana();
             Initialize();

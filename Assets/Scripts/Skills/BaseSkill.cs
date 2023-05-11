@@ -7,21 +7,21 @@ namespace Skills
 {
     public abstract class BaseSkill : ScriptableObject
     {
-        public                  Sprite   sprite;
-        public                  string   displayName;
-        [TextArea(4, 4)] public string   description;
-        public                  float    scalingStrength;
-        public                  float    scalingConstitution;
-        public                  float    scalingDexterity;
-        public                  float    scalingQuickness;
-        public                  float    scalingIntuition;
-        public                  float    scalingLogic;
-        public                  float    scalingWillpower;
-        public                  float    scalingWisdom;
-        public                  float    scalingCharisma;
-        public                  int      addedFlatDamage;
-        public                  bool     appliesStun;
-        public                  string[] keywords;
+        public                     Sprite   sprite;
+        public                     string   displayName;
+        public                     bool     appliesStun;
+        public                     string[] keywords;
+        [TextArea(4, 4)]    public string   description;
+        [Header("Scaling")] public float    dStrength;
+        public                     float    dConstitution;
+        public                     float    dDexterity;
+        public                     float    dQuickness;
+        public                     float    dIntuition;
+        public                     float    dLogic;
+        public                     float    dWillpower;
+        public                     float    dWisdom;
+        public                     float    dCharisma;
+        public                     int      addedFlatDamage;
 
         private string Description
         {
@@ -30,16 +30,42 @@ namespace Skills
                 var input             = description;
                 var lineBreakInterval = 60;
 
-                var emil = new StringBuilder();
+                var lineBreak = Environment.NewLine;
 
-                for (var i = 0; i < input.Length; i += lineBreakInterval)
+                var emil  = new StringBuilder();
+                var count = 0;
+
+                for (var i = 0; i < input.Length; i++)
                 {
-                    var remainingLength = Math.Min(lineBreakInterval, input.Length - i);
-                    var segment         = input.Substring(i, remainingLength);
-                    emil.Append(segment);
+                    emil.Append(input[i]);
+                    count++;
 
-                    if (i + remainingLength < input.Length)
-                        emil.AppendLine();
+                    if (count < lineBreakInterval)
+                        continue;
+
+                    if (char.IsWhiteSpace(input[i]) && i < input.Length - 1 && !char.IsWhiteSpace(input[i + 1]))
+                    {
+                        emil.Append(lineBreak);
+                        count = 0;
+                    }
+                    else
+                    {
+                        var index = i;
+
+                        while (index > 0 && !char.IsWhiteSpace(input[index]))
+                            index--;
+
+                        if (index > 0)
+                        {
+                            emil.Insert(index + 1, lineBreak);
+                            count = i - (index + 1);
+                        }
+                        else
+                        {
+                            emil.Append(lineBreak);
+                            count = 0;
+                        }
+                    }
                 }
 
                 return emil.ToString();

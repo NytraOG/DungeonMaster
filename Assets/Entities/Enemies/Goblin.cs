@@ -10,12 +10,9 @@ namespace Entities.Enemies
             Charisma  = 1;
 
             CurrentHitpoints = 10;
-            Schaden   = 4;
 
             InitiativeBestimmen(2);
         }
-
-        public override float Schadensmodifier => 1f;
 
         public override float GetApproximateDamage(BaseSkill ability) => throw new System.NotImplementedException();
 

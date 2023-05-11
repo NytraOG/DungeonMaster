@@ -2,8 +2,8 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using Entities;
-using Entities.Classes;
 using Entities.Enemies;
+using Entities.Hero;
 using Skills;
 using TMPro;
 using UnityEngine;
@@ -135,7 +135,17 @@ namespace Battlefield
                     }
                     else
                     {
-                        var abilityResult = selection.Actor.UseAbility(selection.Ability, selection.Target);
+                        string abilityResult;
+
+                        if (selection is { Ability: BaseDamageSkill damageSkill, Target: BaseFoe foe })
+                        {
+                            var hitroll = damageSkill.GetHitroll(selection.Actor);
+                            var isMiss  = (int)foe.MeleeDefense >= hitroll;
+
+                            abilityResult = isMiss ? "MISS" : selection.Actor.UseAbility(selection.Ability, selection.Target);
+                        }
+                        else
+                            abilityResult = selection.Actor.UseAbility(selection.Ability, selection.Target);
 
                         if (selection.Target.IsDead)
                         {

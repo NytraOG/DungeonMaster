@@ -3,7 +3,7 @@ using Inventory;
 using Skills;
 using UnityEngine.Events;
 
-namespace Entities.Classes
+namespace Entities.Hero
 {
     public abstract class BaseHero : BaseUnit
     {

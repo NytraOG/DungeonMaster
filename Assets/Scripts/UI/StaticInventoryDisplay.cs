@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using Battlefield;
+using Entities.Hero;
 using Inventory;
 using UnityEngine;
 

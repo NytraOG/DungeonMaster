@@ -9,7 +9,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 1237aed810934c098fe3faa8b1e1135f, type: 3}
+  m_Script: {fileID: 11500000, guid: a26d3e5c92414d10b99fcd1b89bf48ce, type: 3}
   m_Name: Energist
   m_EditorClassIdentifier: 
-  ability1: {fileID: 0}
+  skills: []

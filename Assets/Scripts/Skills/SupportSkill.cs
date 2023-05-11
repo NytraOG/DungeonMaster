@@ -7,16 +7,16 @@ namespace Skills
     [CreateAssetMenu(fileName = "Support Skill", menuName = "Skills/Support")]
     public class SupportSkill : BaseSkill
     {
-        public          bool     selfcastOnly;
-        public          bool     isHealing;
-        public          bool     isBuffing;
-        public          int      targets;
-        public          string   @operator;
-        public          float    modifierMeleeDefense;
-        public          float    modifierRangedDefense;
-        public          float    modifierMagicDefense;
-        public          float    modifierSocialDefense;
-        public override Factions TargetableFaction => Factions.Friend;
+        public                                    bool     selfcastOnly;
+        public                                    bool     isHealing;
+        public                                    bool     isBuffing;
+        public                                    int      targets;
+        [Header("Attribute Modification")] public string   @operator;
+        public                                    float    modifierMeleeDefense;
+        public                                    float    modifierRangedDefense;
+        public                                    float    modifierMagicDefense;
+        public                                    float    modifierSocialDefense;
+        public override                           Factions TargetableFaction => Factions.Friend;
 
         private void Awake()
         {
@@ -27,6 +27,8 @@ namespace Skills
         public override string Activate(BaseUnit actor, BaseUnit target)
         {
             var ultimateTarget = target;
+
+            ultimateTarget.IsStunned = appliesStun;
 
             ultimateTarget.MeleeDefense  = ApplyOperation(ultimateTarget.MeleeDefense, modifierMeleeDefense);
             ultimateTarget.RangedDefense = ApplyOperation(ultimateTarget.RangedDefense, modifierRangedDefense);

@@ -14,22 +14,32 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   sprite: {fileID: 21300000, guid: 86f33082bbc836048ae50e8c6f5129a1, type: 3}
   displayName: Firebeam
-  description: 'A devastating ability that conjures a sphere of flames,
-
-    dealing
-    massive damage to enemies caught in its blast radius.'
-  scalingStrength: 0
-  scalingConstitution: 0
-  scalingDexterity: 0
-  scalingQuickness: 1
-  scalingIntuition: 0
-  scalingLogic: 0
-  scalingWillpower: 0.5
-  scalingWisdom: 0.3333333
-  scalingCharisma: 0
-  addedFlatDamage: 0
   appliesStun: 0
   keywords:
   - Magic
   - Elemental
   - DoT
+  description: 'A devastating ability that conjures a sphere of flames,
+
+    dealing
+    massive damage to enemies caught in its blast radius.'
+  dStrength: 0
+  dConstitution: 0
+  dDexterity: 0
+  dQuickness: 0.5
+  dIntuition: 0
+  dLogic: 0
+  dWillpower: 0.5
+  dWisdom: 0.3333333
+  dCharisma: 0
+  addedFlatDamage: 0
+  hStrength: 0
+  hConstitution: 0
+  hDexterity: 0
+  hQuickness: 0
+  hIntuition: 0
+  hLogic: 2
+  hWillpower: 1
+  hWisdom: 0
+  hCharisma: 0
+  hMultiplier: 0.9

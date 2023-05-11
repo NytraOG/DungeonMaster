@@ -14,20 +14,30 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   sprite: {fileID: 21300000, guid: 545dba896aa8b904c9eea7cf385d8789, type: 3}
   displayName: Shiv
-  description: A basic stab with a small blade, that can actually deal some harm
-    and cause bleeding. It's perfect for close combat and surprise attacks, but requires
-    precision and timing to use effectively
-  scalingStrength: 0
-  scalingConstitution: 0
-  scalingDexterity: 0.5
-  scalingQuickness: 0.5
-  scalingIntuition: 0
-  scalingLogic: 0
-  scalingWillpower: 0
-  scalingWisdom: 0.3333333
-  scalingCharisma: 0
-  addedFlatDamage: -1
   appliesStun: 0
   keywords:
   - Melee
   - Basic
+  description: A basic stab with a small blade, that can actually deal some harm
+    and cause bleeding. It's perfect for close combat and surprise attacks, but requires
+    precision and timing to use effectively
+  dStrength: 0
+  dConstitution: 0
+  dDexterity: 0.5
+  dQuickness: 0.3333333
+  dIntuition: 0
+  dLogic: 0
+  dWillpower: 0
+  dWisdom: 0
+  dCharisma: 0
+  addedFlatDamage: -1
+  hStrength: 0
+  hConstitution: 0
+  hDexterity: 1
+  hQuickness: 2
+  hIntuition: 0
+  hLogic: 0
+  hWillpower: 0
+  hWisdom: 0
+  hCharisma: 0
+  hMultiplier: 1.1

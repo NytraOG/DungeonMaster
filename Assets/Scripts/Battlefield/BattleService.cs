@@ -2,6 +2,7 @@ using System.Collections.Generic;
 using System.Linq;
 using Entities;
 using Entities.Enemies;
+using Entities.Hero;
 using Items;
 using UI;
 using UnityEngine;

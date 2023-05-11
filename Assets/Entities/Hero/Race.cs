@@ -3,7 +3,7 @@ using System.Linq;
 using Skills;
 using UnityEngine;
 
-namespace Entities.Races
+namespace Entities.Hero
 {
 
     [CreateAssetMenu(fileName = "HeroRace", menuName = "Hero/Race")]
