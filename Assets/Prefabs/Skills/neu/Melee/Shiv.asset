@@ -27,3 +27,7 @@ MonoBehaviour:
   scalingWisdom: 0.3333333
   scalingCharisma: 0
   addedFlatDamage: -1
+  appliesStun: 0
+  keywords:
+  - Melee
+  - Basic

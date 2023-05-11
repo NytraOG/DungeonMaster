@@ -1,13 +1,13 @@
-﻿using UnityEngine;
-using System.Linq;
-using Skills;
+﻿using System.Linq;
+using Skills.neu;
+using UnityEngine;
 
 namespace Entities.Classes
 {
     [CreateAssetMenu(fileName = "Mage", menuName = "Classes/Mage", order = 0)]
     public class Mage : BaseClass
     {
-        public BaseAbility ability1;
+        public BaseSkill ability1;
 
         public override void ApplyModifiers<T>(T unit)
         {
@@ -20,8 +20,8 @@ namespace Entities.Classes
 
         public override void ApplyAbilities<T>(T unit)
         {
-            if (unit.abilities.All(a => a.name != ability1.name))
-                unit.abilities.Add(ability1);
+            if (unit.skills.All(a => a.name != ability1.name))
+                unit.skills.Add(ability1);
         }
     }
 }

@@ -1,5 +1,5 @@
 ﻿using System.Linq;
-using Skills;
+using Skills.neu;
 using UnityEngine;
 
 namespace Entities.Races
@@ -7,8 +7,8 @@ namespace Entities.Races
     [CreateAssetMenu(fileName = "Orc", menuName = "Races/Orc", order = 0)]
     public class Orc : BaseRace
     {
-        public Roar            roarAbility;
-        public MagicResistance magicResistanceAbility;
+        public BaseSkill skill1;
+        public BaseSkill skill2;
 
         public override void ApplyModifiers<T>(T unit)
         {
@@ -20,11 +20,11 @@ namespace Entities.Races
 
         public override void ApplyAbilities<T>(T unit)
         {
-            if (unit.abilities.All(a => a.name != roarAbility.name))
-                unit.abilities.Add(roarAbility);
+            if (unit.skills.All(a => a.name != skill1.name))
+                unit.skills.Add(skill1);
 
-            if (unit.abilities.All(a => a.name != magicResistanceAbility.name))
-                unit.abilities.Add(magicResistanceAbility);
+            if (unit.skills.All(a => a.name != skill2.name))
+                unit.skills.Add(skill2);
         }
     }
 }

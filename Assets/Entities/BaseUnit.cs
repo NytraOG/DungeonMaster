@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using Entities.Enums;
 using Skills;
+using Skills.neu;
 using TMPro;
 using UnityEngine.SceneManagement;
 
@@ -10,44 +11,44 @@ namespace Entities
 {
     public abstract class BaseUnit : Base
     {
-        public          int               strength;
-        public          int               constitution;
-        public          int               dexterity;
-        public          int               quickness;
-        public          int               intuition;
-        public          int               logic;
-        public          int               willpower;
-        public          int               wisdom;
-        public          int               charisma;
-        public          List<BaseAbility> abilities = new();
-        public          string            Name                 { get; }
-        public abstract Party             Party                { get; }
-        public          BaseAbility       SelectedAbility      { get; set; }
-        public          float             Angriffswurf         { get; set; } // Müsste später durch Skills ersetzt werden
-        public          int               Schaden              { get; set; } // Wird später auf Waffen migriert (?)
-        public abstract float             Schadensmodifier     { get; }
-        public          int               AktionenGesamt       { get; set; }
-        public          int               AktionenAktuell      { get; set; }
-        public          float             ManaregenerationRate { get; set; }
-        public          int               Armour               { get; set; }           // Wird später auf Rüstungen migriert
-        public          int               CritDamage           { get; protected set; } // Wird später auf Waffen migriert
-        public          float             MagicDefense         { get; set; }
-        public          float             SocialDefense        { get; set; }
-        public          float             MeleeDefense         { get; set; }
-        public          float             RangedDefense        { get; set; }
-        public          float             CurrentMana          { get; set; }
-        public          float             MaximumMana          { get; set; }
-        public          float             CurrentHitpoints     { get; set; }
-        public          float             MaximumHitpoints     { get; set; }
-        public          float             CurrentInitiative    { get; set; }
-        public          bool              IsStunned            { get; set; }
-        public          bool              IsDead               => CurrentHitpoints <= 0;
-        public          bool              IstKampfunfähig      => CurrentHitpoints <= 0;
-        public          float             BaseMeleeDefense     => 2 * Dexterity + Quickness;
-        public          float             BaseRangedDefense    => 2 * Quickness + Dexterity;
-        public          float             BaseMagicDefense     => 2 * Willpower + Wisdom;
-        public          float             BaseSocialDefense    => 2 * Logic + Charisma;
-        public          int               BaseInitiative       => 2 * Intuition + Quickness;
+        public          int             strength;
+        public          int             constitution;
+        public          int             dexterity;
+        public          int             quickness;
+        public          int             intuition;
+        public          int             logic;
+        public          int             willpower;
+        public          int             wisdom;
+        public          int             charisma;
+        public          List<BaseSkill> skills = new();
+        public          string          Name                 { get; }
+        public abstract Party           Party                { get; }
+        public          BaseSkill       SelectedSkill        { get; set; }
+        public          float           Angriffswurf         { get; set; } // Müsste später durch Skills ersetzt werden
+        public          int             Schaden              { get; set; } // Wird später auf Waffen migriert (?)
+        public abstract float           Schadensmodifier     { get; }
+        public          int             AktionenGesamt       { get; set; }
+        public          int             AktionenAktuell      { get; set; }
+        public          float           ManaregenerationRate { get; set; }
+        public          int             Armour               { get; set; }           // Wird später auf Rüstungen migriert
+        public          int             CritDamage           { get; protected set; } // Wird später auf Waffen migriert
+        public          float           MagicDefense         { get; set; }
+        public          float           SocialDefense        { get; set; }
+        public          float           MeleeDefense         { get; set; }
+        public          float           RangedDefense        { get; set; }
+        public          float           CurrentMana          { get; set; }
+        public          float           MaximumMana          { get; set; }
+        public          float           CurrentHitpoints     { get; set; }
+        public          float           MaximumHitpoints     { get; set; }
+        public          float           CurrentInitiative    { get; set; }
+        public          bool            IsStunned            { get; set; }
+        public          bool            IsDead               => CurrentHitpoints <= 0;
+        public          bool            IstKampfunfähig      => CurrentHitpoints <= 0;
+        public          float           BaseMeleeDefense     => 2 * Dexterity + Quickness;
+        public          float           BaseRangedDefense    => 2 * Quickness + Dexterity;
+        public          float           BaseMagicDefense     => 2 * Willpower + Wisdom;
+        public          float           BaseSocialDefense    => 2 * Logic + Charisma;
+        public          int             BaseInitiative       => 2 * Intuition + Quickness;
 
         private void Awake()
         {
@@ -86,9 +87,9 @@ namespace Entities
             panel.gameObject.SetActive(true);
         }
 
-        public abstract float GetApproximateDamage(BaseAbility ability);
+        public abstract float GetApproximateDamage(BaseSkill ability);
 
-        public abstract string UseAbility(BaseAbility ability, BaseUnit target = null);
+        public abstract string UseAbility(BaseSkill ability, BaseUnit target = null);
 
         public virtual void InitiativeBestimmen(double modifier = 1)
         {

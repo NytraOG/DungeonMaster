@@ -27,12 +27,15 @@ MonoBehaviour:
   scalingCharisma: 0
   addedFlatDamage: 0
   appliesStun: 0
+  keywords:
+  - Defense
+  - Magic
   selfcastOnly: 1
   isHealing: 0
   isBuffing: 1
   targets: 1
-  operator: 
+  operator: +
   modifierMeleeDefense: 0
   modifierRangedDefense: 0
-  modifierMagicDefense: 0
+  modifierMagicDefense: 10
   modifierSocialDefense: 0

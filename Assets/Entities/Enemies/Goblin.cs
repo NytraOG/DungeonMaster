@@ -1,4 +1,5 @@
 ﻿using Skills;
+using Skills.neu;
 
 namespace Entities.Enemies
 {
@@ -17,8 +18,8 @@ namespace Entities.Enemies
 
         public override float Schadensmodifier => 1f;
 
-        public override float GetApproximateDamage(BaseAbility ability) => throw new System.NotImplementedException();
+        public override float GetApproximateDamage(BaseSkill ability) => throw new System.NotImplementedException();
 
-        public override string UseAbility(BaseAbility ability, BaseUnit target = null) => throw new System.NotImplementedException();
+        public override string UseAbility(BaseSkill ability, BaseUnit target = null) => throw new System.NotImplementedException();
     }
 }

@@ -1,6 +1,7 @@
 ﻿using System.Linq;
 using Entities.Enums;
 using Skills;
+using Skills.neu;
 using UnityEngine;
 using Random = System.Random;
 
@@ -8,7 +9,8 @@ namespace Entities.Enemies
 {
     public abstract class BaseFoe : BaseUnit
     {
-        public override Party Party => Party.Foe;
+        public          MeleeSkill meleeSkill;
+        public override Party      Party => Party.Foe;
 
         public void Awake()
         {
@@ -24,23 +26,23 @@ namespace Entities.Enemies
             
             SetInitialHitpointsAndMana();
 
-            abilities.Add(ScriptableObject.CreateInstance<Shiv>());
+            skills.Add(meleeSkill);
         }
 
         private void FixedUpdate()
         {
-            if (abilities.All(a => a.AbilityName != Skillnames.Shiv))
-                abilities.Add(ScriptableObject.CreateInstance<Shiv>());
+            if (skills.All(a => a.displayName != meleeSkill.displayName))
+                skills.Add(meleeSkill);
         }
 
         public void PickAbility()
         {
-            if (!abilities.Any())
+            if (!skills.Any())
                 return;
 
-            var abilityIndex = new Random().Next(0, abilities.Count);
+            var abilityIndex = new Random().Next(0, skills.Count);
 
-            SelectedAbility = abilities[abilityIndex];
+            SelectedSkill = skills[abilityIndex];
         }
     }
 }

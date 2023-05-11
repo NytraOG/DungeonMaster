@@ -12,6 +12,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 83073530c92a49118bb941851fd23dc2, type: 3}
   m_Name: OrcRace
   m_EditorClassIdentifier: 
-  image: {fileID: 0}
-  roarAbility: {fileID: 11400000, guid: 0af72ac0af57f6343a1ec8457549d42e, type: 2}
-  magicResistanceAbility: {fileID: 11400000, guid: b1c52410f4c923a45988d142c6f58b2a, type: 2}
+  sprite: {fileID: 0}
+  skill1: {fileID: 11400000, guid: 1844bcb1f4e589f439ebec8555a972e4, type: 2}
+  skill2: {fileID: 11400000, guid: fefbd0d3b9531e846ab938f445ef781c, type: 2}

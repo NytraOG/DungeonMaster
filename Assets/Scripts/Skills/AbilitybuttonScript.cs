@@ -1,17 +1,18 @@
 ﻿using System.Globalization;
 using Battlefield;
+using Skills.neu;
 using UnityEngine;
 
 namespace Skills
 {
     public class AbilitybuttonScript : MonoBehaviour
     {
-        public int         sortingIndex;
-        public BaseAbility ability;
+        public int       sortingIndex;
+        public BaseSkill skill;
 
         public void ShowTooltip()
         {
-            if (ability is null)
+            if (skill is null)
                 return;
 
             var tooltipInstance = transform.parent.transform.parent
@@ -19,8 +20,8 @@ namespace Skills
                                            .GetComponent<Tooltip>();
 
             var controller = FindObjectOfType<BattleController>();
-            var damage     = controller.selectedHero.GetApproximateDamage(ability);
-            var tooltip    = ability.GetTooltip(int.Parse(damage.ToString(CultureInfo.InvariantCulture)));
+            var damage     = controller.selectedHero.GetApproximateDamage(skill);
+            var tooltip    = skill.GetTooltip(int.Parse(damage.ToString(CultureInfo.InvariantCulture)));
 
             tooltipInstance.gameObject.SetActive(true);
             tooltipInstance.RenderTooltip(tooltip);

@@ -1,6 +1,6 @@
 ﻿using Entities.Enums;
 using Inventory;
-using Skills;
+using Skills.neu;
 using UnityEngine.Events;
 
 namespace Entities.Classes
@@ -8,7 +8,7 @@ namespace Entities.Classes
     public abstract class BaseHero : BaseUnit
     {
         public static   UnityAction<InventorySystem> OnDynamicInventoryDisplayRequested;
-        public          BaseAbility                  inherentAbility;
+        public          BaseSkill                    inherentSkill;
         public          int                          inventorySize;
         public          InventorySystem              inventorySystem;
         public override Party                        Party           => Party.Ally;

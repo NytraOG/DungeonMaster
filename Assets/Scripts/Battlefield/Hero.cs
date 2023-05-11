@@ -1,8 +1,9 @@
+using System;
 using Entities;
 using Entities.Classes;
 using Entities.Races;
 using Inventory;
-using Skills;
+using Skills.neu;
 using UI;
 using UnityEngine;
 
@@ -27,7 +28,7 @@ namespace Battlefield
             Wisdom       = wisdom;
             Charisma     = charisma;
 
-            abilities.Add(inherentAbility);
+            skills.Add(inherentSkill);
 
             race.ApplyModifiers(this);
             race.ApplyAbilities(this);
@@ -41,18 +42,35 @@ namespace Battlefield
 
         private void OnMouseDown()
         {
+            Debug.Log($"{name} clicked");
+
             var controller = FindObjectOfType<BattleController>();
 
+            if (controller.selectedAbility is SupportSkill { TargetableFaction: Factions.Friend })
+                controller.selectedTarget = this;
+            else
+                ChangeSelectedHero(controller);
+        }
+
+        private void ChangeSelectedHero(BattleController controller)
+        {
             controller.selectedHero             = this;
-            controller.abilitiesOfSelectedHero  = abilities;
+            controller.abilitiesOfSelectedHero  = skills;
             controller.abilityanzeigeIstAktuell = false;
 
             var inventoryDisplay = inventoryPanel.GetComponent<StaticInventoryDisplay>();
             inventoryDisplay.ChangeHero(this);
         }
 
-        public override float GetApproximateDamage(BaseAbility ability) => ability.GetDamage(this);
+        public override float GetApproximateDamage(BaseSkill ability) => ability switch
+        {
+            MagicSkill skill => skill.GetDamage(this),
+            MeleeSkill skill => skill.GetDamage(this),
+            RangedSkill skill => skill.GetDamage(this),
+            SupportSkill _ => 0,
+            _ => throw new ArgumentOutOfRangeException(nameof(ability))
+        };
 
-        public override string UseAbility(BaseAbility ability, BaseUnit target = null) => ability.TriggerAbility(this, target);
+        public override string UseAbility(BaseSkill ability, BaseUnit target = null) => ability.Activate(this, target);
     }
 }

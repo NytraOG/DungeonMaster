@@ -29,3 +29,7 @@ MonoBehaviour:
   scalingCharisma: 0
   addedFlatDamage: 0
   appliesStun: 0
+  keywords:
+  - Magic
+  - Elemental
+  - DoT

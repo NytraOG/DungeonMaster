@@ -29,11 +29,15 @@ MonoBehaviour:
   scalingCharisma: 0
   addedFlatDamage: 0
   appliesStun: 1
+  keywords:
+  - Support
+  - Stun
+  - Ranged
   selfcastOnly: 0
   isHealing: 0
   isBuffing: 1
   targets: 1
-  operator: 
+  operator: +
   modifierMeleeDefense: 0
   modifierRangedDefense: 0
   modifierMagicDefense: 0

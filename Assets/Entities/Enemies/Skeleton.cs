@@ -1,4 +1,5 @@
 using Skills;
+using Skills.neu;
 using UnityEngine;
 using Random = System.Random;
 
@@ -29,8 +30,8 @@ namespace Entities.Enemies
 
         private void OnMouseDown() => Debug.Log("Bur");
 
-        public override float GetApproximateDamage(BaseAbility ability) => throw new System.NotImplementedException();
+        public override float GetApproximateDamage(BaseSkill ability) => throw new System.NotImplementedException();
 
-        public override string UseAbility(BaseAbility ability, BaseUnit target = null) => throw new System.NotImplementedException();
+        public override string UseAbility(BaseSkill ability, BaseUnit target = null) => throw new System.NotImplementedException();
     }
 }

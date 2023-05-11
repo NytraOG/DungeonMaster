@@ -1,5 +1,6 @@
+using System;
 using Battlefield;
-using Skills;
+using Skills.neu;
 using UnityEngine;
 
 namespace Entities.Enemies
@@ -11,17 +12,24 @@ namespace Entities.Enemies
         private void OnMouseDown()
         {
             var controller = FindObjectOfType<BattleController>();
-            controller.selectedEnemy = this;
+            controller.selectedTarget = this;
 
-            Debug.Log("Bur");
+            Debug.Log($"{name} clicked");
         }
 
-        public override float GetApproximateDamage(BaseAbility ability) => ability.GetDamage(this);
-
-        public override string UseAbility(BaseAbility ability, BaseUnit target = null)
+        public override float GetApproximateDamage(BaseSkill ability) => ability switch
         {
-            var dmg = ability.TriggerAbility(this, target);
-            SelectedAbility = null;
+            MagicSkill skill => skill.GetDamage(this),
+            MeleeSkill skill => skill.GetDamage(this),
+            RangedSkill skill => skill.GetDamage(this),
+            SupportSkill _ => 0,
+            _ => throw new ArgumentOutOfRangeException(nameof(ability))
+        };
+
+        public override string UseAbility(BaseSkill ability, BaseUnit target = null)
+        {
+            var dmg = ability.Activate(this, target);
+            SelectedSkill = null;
 
             return dmg;
         }

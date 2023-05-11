@@ -13,4 +13,4 @@ MonoBehaviour:
   m_Name: Neo Terran
   m_EditorClassIdentifier: 
   sprite: {fileID: 0}
-  ability1: {fileID: 11400000, guid: a96e86f714b389b48b7d117159474a0c, type: 2}
+  ability1: {fileID: 11400000, guid: fefbd0d3b9531e846ab938f445ef781c, type: 2}

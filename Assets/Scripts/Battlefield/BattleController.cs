@@ -5,6 +5,7 @@ using Entities;
 using Entities.Classes;
 using Entities.Enemies;
 using Skills;
+using Skills.neu;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
@@ -17,9 +18,9 @@ namespace Battlefield
         public  GameObject             floatingCombatText;
         public  GameObject             battlefield;
         public  BaseHero               selectedHero;
-        public  BaseFoe                selectedEnemy;
-        public  BaseAbility            selectedAbility;
-        public  List<BaseAbility>      abilitiesOfSelectedHero = new();
+        public  BaseUnit               selectedTarget;
+        public  BaseSkill              selectedAbility;
+        public  List<BaseSkill>        abilitiesOfSelectedHero = new();
         public  bool                   abilityanzeigeIstAktuell;
         public  Text                   toastMessageText;
         public  Sprite                 originalButtonBackground;
@@ -38,7 +39,7 @@ namespace Battlefield
             if (Input.GetKeyDown(KeyCode.Escape))
             {
                 selectedHero    = null;
-                selectedEnemy   = null;
+                selectedTarget  = null;
                 selectedAbility = null;
             }
 
@@ -51,7 +52,7 @@ namespace Battlefield
         {
             if (AbilitySelection.Any(s => s.Actor == selectedHero))
                 ShowToast("Selected Hero is already acting");
-            else if (selectedAbility is not null && selectedEnemy is null)
+            else if (selectedAbility is not null && selectedTarget is null)
                 ShowToast("No Target selected");
             else if (selectedAbility is null)
                 ShowToast("No Ability selected");
@@ -63,11 +64,11 @@ namespace Battlefield
                 {
                     Ability = selectedAbility,
                     Actor   = selectedHero,
-                    Target  = selectedEnemy
+                    Target  = selectedTarget
                 });
             }
 
-            selectedEnemy   = null;
+            selectedTarget  = null;
             selectedAbility = null;
         }
 
@@ -79,9 +80,9 @@ namespace Battlefield
             {
                 skillbuttons.ForEach(b =>
                 {
-                    b.GetComponent<Image>().sprite                = originalButtonBackground;
-                    b.GetComponent<Button>().enabled              = false;
-                    b.GetComponent<AbilitybuttonScript>().ability = null;
+                    b.GetComponent<Image>().sprite              = originalButtonBackground;
+                    b.GetComponent<Button>().enabled            = false;
+                    b.GetComponent<AbilitybuttonScript>().skill = null;
                 });
             }
 
@@ -92,18 +93,18 @@ namespace Battlefield
 
             while (counter < abilitiesOfSelectedHero.Count)
             {
-                skillbuttons[counter].GetComponent<Image>().sprite                = abilitiesOfSelectedHero[counter].sprite;
-                skillbuttons[counter].GetComponent<AbilitybuttonScript>().ability = abilitiesOfSelectedHero[counter];
-                skillbuttons[counter].GetComponent<Button>().enabled              = true;
+                skillbuttons[counter].GetComponent<Image>().sprite              = abilitiesOfSelectedHero[counter].sprite;
+                skillbuttons[counter].GetComponent<AbilitybuttonScript>().skill = abilitiesOfSelectedHero[counter];
+                skillbuttons[counter].GetComponent<Button>().enabled            = true;
 
                 counter++;
             }
 
             while (counter < skillbuttons.Count)
             {
-                skillbuttons[counter].GetComponent<Image>().sprite                = originalButtonBackground;
-                skillbuttons[counter].GetComponent<Button>().enabled              = false;
-                skillbuttons[counter].GetComponent<AbilitybuttonScript>().ability = null;
+                skillbuttons[counter].GetComponent<Image>().sprite              = originalButtonBackground;
+                skillbuttons[counter].GetComponent<Button>().enabled            = false;
+                skillbuttons[counter].GetComponent<AbilitybuttonScript>().skill = null;
 
                 counter++;
             }
@@ -179,7 +180,7 @@ namespace Battlefield
                 return;
 
             var notCombatReadyEnemies = enemies.Where(e => !e.IsDead &&
-                                                           e.SelectedAbility is null);
+                                                           e.SelectedSkill is null);
             var rando = new Random();
 
             foreach (var enemy in notCombatReadyEnemies)
@@ -189,7 +190,7 @@ namespace Battlefield
 
                 AbilitySelection.Add(new AbilitySelection
                 {
-                    Ability = enemy.SelectedAbility,
+                    Ability = enemy.SelectedSkill,
                     Actor   = enemy,
                     Target  = heroes[rando.Next(0, heroes.Count)]
                 });
@@ -243,8 +244,8 @@ namespace Battlefield
 
         private void SetSelectedAbility(GameObject g)
         {
-            selectedEnemy   = null;
-            selectedAbility = g.GetComponent<AbilitybuttonScript>().ability;
+            selectedTarget  = null;
+            selectedAbility = g.GetComponent<AbilitybuttonScript>().skill;
         }
 
         private void ShowToast(string text, int duration = 2) => StartCoroutine(ShowToastCore(text, duration));
@@ -332,8 +333,8 @@ namespace Battlefield
 
     public struct AbilitySelection
     {
-        public BaseAbility Ability { get; set; }
-        public BaseUnit    Target  { get; set; }
-        public BaseUnit    Actor   { get; set; }
+        public BaseSkill Ability { get; set; }
+        public BaseUnit  Target  { get; set; }
+        public BaseUnit  Actor   { get; set; }
     }
 }

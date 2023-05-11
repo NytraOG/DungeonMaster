@@ -7,15 +7,16 @@ namespace Skills.neu
     [CreateAssetMenu(fileName = "Support Skill", menuName = "Skills/Support")]
     public class SupportSkill : BaseSkill
     {
-        public bool   selfcastOnly;
-        public bool   isHealing;
-        public bool   isBuffing;
-        public int    targets;
-        public string @operator;
-        public float  modifierMeleeDefense;
-        public float  modifierRangedDefense;
-        public float  modifierMagicDefense;
-        public float  modifierSocialDefense;
+        public          bool     selfcastOnly;
+        public          bool     isHealing;
+        public          bool     isBuffing;
+        public          int      targets;
+        public          string   @operator;
+        public          float    modifierMeleeDefense;
+        public          float    modifierRangedDefense;
+        public          float    modifierMagicDefense;
+        public          float    modifierSocialDefense;
+        public override Factions TargetableFaction => Factions.Friend;
 
         private void Awake()
         {
@@ -23,7 +24,7 @@ namespace Skills.neu
                 @operator = "+";
         }
 
-        public override void Activate(BaseUnit actor, BaseUnit target)
+        public override string Activate(BaseUnit actor, BaseUnit target)
         {
             var ultimateTarget = target;
 
@@ -31,6 +32,8 @@ namespace Skills.neu
             ultimateTarget.RangedDefense = ApplyOperation(ultimateTarget.RangedDefense, modifierRangedDefense);
             ultimateTarget.MagicDefense  = ApplyOperation(ultimateTarget.MagicDefense, modifierMagicDefense);
             ultimateTarget.SocialDefense = ApplyOperation(ultimateTarget.SocialDefense, modifierSocialDefense);
+
+            return $"Granted {displayName} by {actor.name}";
         }
 
         private float ApplyOperation(float attributeValue, float modifier) => @operator switch
