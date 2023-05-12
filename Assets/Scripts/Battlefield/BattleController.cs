@@ -14,6 +14,8 @@ namespace Battlefield
 {
     public class BattleController : MonoBehaviour
     {
+        public  GameObject             combatLog;
+        public  GameObject             logmessagePrefab;
         public  GameObject             floatingCombatText;
         public  GameObject             battlefield;
         public  BaseHero               selectedHero;
@@ -113,12 +115,12 @@ namespace Battlefield
 
         private IEnumerator KampfrundeAbhandeln()
         {
+            combatActive = true;
+
             if (!AbilitySelection.Any())
                 ShowToast("No Abilities have been selected", 1);
             else
             {
-                combatActive = true;
-
                 AbilitySelection = AbilitySelection.OrderByDescending(a => a.Actor.CurrentInitiative)
                                                    .ToList();
 
@@ -135,38 +137,98 @@ namespace Battlefield
                     }
                     else
                     {
-                        string abilityResult;
-
-                        if (selection is { Ability: BaseDamageSkill damageSkill, Target: BaseFoe foe })
-                        {
-                            var hitroll = damageSkill.GetHitroll(selection.Actor);
-                            var isMiss  = (int)foe.MeleeDefense >= hitroll;
-
-                            abilityResult = isMiss ? "MISS" : selection.Actor.UseAbility(selection.Ability, selection.Target);
-                        }
-                        else
-                            abilityResult = selection.Actor.UseAbility(selection.Ability, selection.Target);
-
-                        if (selection.Target.IsDead)
-                        {
-                            selection.Target.transform.gameObject.GetComponent<SpriteRenderer>().sprite     = bloodPuddle;
-                            selection.Target.transform.gameObject.GetComponent<CapsuleCollider2D>().enabled = false;
-                        }
-
-                        var wasDamage = int.TryParse(abilityResult, out var damage);
-
-                        if (wasDamage)
-                            InstantiateFloatingCombatText(selection.Target, damage);
-                        else
-                            InstantiateFloatingCombatText(selection.Target, abilityResult);
+                        ProcessSkillactivation(selection, out var abilityResult);
+                        ProcessDeath(selection);
+                        ProcessFloatingCombatText(abilityResult, selection);
 
                         yield return new WaitForSeconds(0.5f);
                     }
                 }
 
                 AbilitySelection.Clear();
+            }
 
-                combatActive = false;
+            combatActive = false;
+        }
+
+        private void ProcessSkillactivation(AbilitySelection selection, out string abilityResult)
+        {
+            switch (selection)
+            {
+                case { Ability: BaseDamageSkill damageSkill, Target: BaseFoe foe }:
+                {
+                    var isHit = CalculateHit(selection, damageSkill, foe);
+
+                    if (isHit)
+                        DealDamage(selection, out abilityResult);
+                    else
+                        LogMiss(selection, out abilityResult);
+                    break;
+                }
+                case { Ability: BaseDamageSkill foeDamageSkill, Target: BaseHero target, Actor: BaseFoe actor}:
+                {
+                    var isHit = CalculateHit(selection, foeDamageSkill, target);
+
+                    if (isHit)
+                        DealDamage(selection, out abilityResult);
+                    else
+                    {
+                        LogMiss(selection, out abilityResult);
+
+                        actor.SelectedSkill = null;
+                    }
+                    break;
+                }
+                default:
+                    LogSupportskillUsage(selection, out abilityResult);
+                    break;
+            }
+        }
+
+        private void LogSupportskillUsage(AbilitySelection selection, out string abilityResult)
+        {
+            abilityResult = selection.Actor.UseAbility(selection.Ability, selection.Target);
+
+            Log($"[{(int)selection.Actor.CurrentInitiative}]{selection.Actor.name} used {selection.Ability.name} on {selection.Target.name}");
+        }
+
+        private void LogMiss(AbilitySelection selection, out string abilityResult)
+        {
+            abilityResult = "MISS";
+
+            Log($"[{(int)selection.Actor.CurrentInitiative}]{selection.Actor.name}'s {selection.Ability.name} missed {selection.Target.name}.");
+        }
+
+        private void DealDamage(AbilitySelection selection, out string abilityResult)
+        {
+            abilityResult = selection.Actor.UseAbility(selection.Ability, selection.Target);
+
+            Log($"[{(int)selection.Actor.CurrentInitiative}]{selection.Actor.name}'s {selection.Ability.name} hit {selection.Target.name} for {abilityResult} damage.");
+        }
+
+        private static bool CalculateHit(AbilitySelection selection, BaseDamageSkill damageSkill, BaseUnit target)
+        {
+            var hitroll = damageSkill.GetHitroll(selection.Actor);
+
+            return (int)target.MeleeDefense < hitroll;
+        }
+
+        private void ProcessFloatingCombatText(string abilityResult, AbilitySelection selection)
+        {
+            var wasDamage = int.TryParse(abilityResult, out var damage);
+
+            if (wasDamage)
+                InstantiateFloatingCombatText(selection.Target, damage);
+            else
+                InstantiateFloatingCombatText(selection.Target, abilityResult);
+        }
+
+        private void ProcessDeath(AbilitySelection selection)
+        {
+            if (selection.Target.IsDead)
+            {
+                selection.Target.transform.gameObject.GetComponent<SpriteRenderer>().sprite     = bloodPuddle;
+                selection.Target.transform.gameObject.GetComponent<CapsuleCollider2D>().enabled = false;
             }
         }
 
@@ -190,11 +252,11 @@ namespace Battlefield
 
             var notCombatReadyEnemies = enemies.Where(e => !e.IsDead &&
                                                            e.SelectedSkill is null);
-            var rando = new Random();
+            var rando                 = new Random();
 
             foreach (var enemy in notCombatReadyEnemies)
             {
-                enemy.PickAbility();
+                enemy.PickSkill();
                 enemy.InitiativeBestimmen();
 
                 AbilitySelection.Add(new AbilitySelection
@@ -289,24 +351,13 @@ namespace Battlefield
             txt.color   = orginalColor;
         }
 
-        private IEnumerator MoveTextComponent(Text targetText, float duration)
+        private void Log(string message)
         {
-            var initialPosition = targetText.transform.position;
-            var initX           = initialPosition.x;
-            var initY           = initialPosition.y;
-            var initZ           = initialPosition.z;
-            var counter         = 0f;
+            var logEntry   = Instantiate(logmessagePrefab, combatLog.transform);
+            var textObject = logEntry.GetComponent<TextMeshProUGUI>();
 
-            while (counter < duration)
-            {
-                counter += Time.deltaTime;
-
-                targetText.transform.position = new Vector3(initX, initY + counter);
-
-                yield return null;
-            }
-
-            targetText.transform.position = new Vector3(initX, initY, initZ);
+            textObject.fontSize = 18;
+            textObject.text     = message;
         }
 
         private IEnumerator fadeInAndOut(Text targetText, bool fadeIn, float duration)

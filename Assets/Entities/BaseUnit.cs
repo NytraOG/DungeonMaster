@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 using Entities.Enums;
 using Skills;
@@ -48,7 +47,7 @@ namespace Entities
         public          float           BaseRangedDefense          => 2 * Quickness + Dexterity;
         public          float           BaseMagicDefense           => 2 * Willpower + Wisdom;
         public          float           BaseSocialDefense          => 2 * Logic + Charisma;
-        public          int             BaseInitiative             => 2 * Intuition + Quickness;
+        public          float           BaseInitiative             => 2 * Intuition + Quickness;
 
         protected virtual void Awake()
         {
@@ -92,9 +91,9 @@ namespace Entities
 
         public virtual void InitiativeBestimmen(double modifier = 1)
         {
-            modifier *= new Random().NextDouble() * 2.0;
+            modifier *= BaseInitiative;
 
-            CurrentInitiative = (float)(BaseInitiative * modifier);
+            CurrentInitiative = (BaseInitiative * (float)modifier).InfuseRandomness();
         }
 
         public virtual void Initialize() => CurrentHitpoints = MaximumHitpoints;

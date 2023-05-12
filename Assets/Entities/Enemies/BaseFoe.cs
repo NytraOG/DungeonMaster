@@ -36,7 +36,7 @@ namespace Entities.Enemies
                 skills.Add(meleeSkill);
         }
 
-        public void PickAbility()
+        public void PickSkill()
         {
             if (!skills.Any())
                 return;

@@ -26,7 +26,7 @@ MonoBehaviour:
   dStrength: 0
   dConstitution: 0
   dDexterity: 0
-  dQuickness: 0.5
+  dQuickness: 0
   dIntuition: 0
   dLogic: 0
   dWillpower: 0.5

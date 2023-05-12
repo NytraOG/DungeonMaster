@@ -13,9 +13,12 @@ public static class Extensions
 
     public static float InfuseRandomness(this float luckyBoyWhoIsAboutToBeRandomized)
     {
-        var modifier = new Random().NextDouble() * 2.0;
-        var result   = (float)(modifier * luckyBoyWhoIsAboutToBeRandomized);
+        var          random   = new Random();
+        const double minValue = 0.5;
+        const double maxValue = 1.5;
 
-        return result;
+        var modifier = random.NextDouble() * (maxValue - minValue) + minValue;
+
+        return (float)(modifier * luckyBoyWhoIsAboutToBeRandomized);
     }
 }
