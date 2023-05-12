@@ -7,6 +7,7 @@ using Entities.Hero;
 using Skills;
 using TMPro;
 using UnityEngine;
+using UnityEngine.Events;
 using UnityEngine.UI;
 using Random = System.Random;
 
@@ -14,24 +15,25 @@ namespace Battlefield
 {
     public class BattleController : MonoBehaviour
     {
-        public  GameObject             combatLog;
-        public  GameObject             logmessagePrefab;
-        public  GameObject             floatingCombatText;
-        public  GameObject             battlefield;
-        public  BaseHero               selectedHero;
-        public  BaseUnit               selectedTarget;
-        public  BaseSkill              selectedAbility;
-        public  List<BaseSkill>        abilitiesOfSelectedHero = new();
-        public  bool                   abilityanzeigeIstAktuell;
-        public  Text                   toastMessageText;
-        public  Sprite                 originalButtonBackground;
-        public  Sprite                 bloodPuddle;
-        public  bool                   allesDa;
-        public  List<BaseFoe>          enemies          = new();
-        public  List<AbilitySelection> AbilitySelection = new();
-        private bool                   combatActive;
-        private List<BaseHero>         heroes = new();
-        private List<GameObject>       skillbuttons;
+        public  GameObject                                         floatingCombatText;
+        public  GameObject                                         battlefield;
+        public  BaseHero                                           selectedHero;
+        public  BaseUnit                                           selectedTarget;
+        public  BaseSkill                                          selectedAbility;
+        public  List<BaseSkill>                                    abilitiesOfSelectedHero = new();
+        public  bool                                               abilityanzeigeIstAktuell;
+        public  Text                                               toastMessageText;
+        public  Sprite                                             originalButtonBackground;
+        public  Sprite                                             bloodPuddle;
+        public  bool                                               allesDa;
+        public  List<BaseFoe>                                      enemies          = new();
+        public  List<AbilitySelection>                             AbilitySelection = new();
+        private bool                                               combatActive;
+        private List<BaseHero>                                     heroes = new();
+        public  UnityAction<BaseUnit, BaseSkill, BaseUnit, string> OnBuffApplied;
+        public  UnityAction<CombatskillResolutionArgs>             OnHit;
+        public  UnityAction<CombatskillResolutionArgs>             OnMiss;
+        private List<GameObject>                                   skillbuttons;
 
         private void Awake() => ConfigureAbilityButtons();
 
@@ -135,6 +137,7 @@ namespace Battlefield
 
                         yield return new WaitForSeconds(0.5f);
                     }
+                    else if (selection.Target.IsDead) { }
                     else
                     {
                         ProcessSkillactivation(selection, out var abilityResult);
@@ -157,58 +160,73 @@ namespace Battlefield
             {
                 case { Ability: BaseDamageSkill damageSkill, Target: BaseFoe foe }:
                 {
-                    var isHit = CalculateHit(selection, damageSkill, foe);
+                    var isHit = CalculateHit(selection, damageSkill, foe, out var hitroll);
 
                     if (isHit)
-                        DealDamage(selection, out abilityResult);
+                        DealDamage(selection, hitroll, out abilityResult);
                     else
-                        LogMiss(selection, out abilityResult);
+                        Miss(selection, hitroll, out abilityResult);
                     break;
                 }
-                case { Ability: BaseDamageSkill foeDamageSkill, Target: BaseHero target, Actor: BaseFoe actor}:
+                case { Ability: BaseDamageSkill foeDamageSkill, Target: BaseHero target, Actor: BaseFoe actor }:
                 {
-                    var isHit = CalculateHit(selection, foeDamageSkill, target);
+                    var isHit = CalculateHit(selection, foeDamageSkill, target, out var hitroll);
 
                     if (isHit)
-                        DealDamage(selection, out abilityResult);
+                        DealDamage(selection, hitroll, out abilityResult);
                     else
                     {
-                        LogMiss(selection, out abilityResult);
+                        Miss(selection, hitroll, out abilityResult);
 
                         actor.SelectedSkill = null;
                     }
+
                     break;
                 }
                 default:
-                    LogSupportskillUsage(selection, out abilityResult);
+                    UseSupportskill(selection, out abilityResult);
                     break;
             }
         }
 
-        private void LogSupportskillUsage(AbilitySelection selection, out string abilityResult)
+        private void UseSupportskill(AbilitySelection selection, out string abilityResult)
         {
             abilityResult = selection.Actor.UseAbility(selection.Ability, selection.Target);
 
-            Log($"[{(int)selection.Actor.CurrentInitiative}]{selection.Actor.name} used {selection.Ability.name} on {selection.Target.name}");
+            OnBuffApplied?.Invoke(selection.Actor, selection.Ability, selection.Target, abilityResult);
         }
 
-        private void LogMiss(AbilitySelection selection, out string abilityResult)
+        private void Miss(AbilitySelection selection, int hitroll, out string abilityResult)
         {
             abilityResult = "MISS";
 
-            Log($"[{(int)selection.Actor.CurrentInitiative}]{selection.Actor.name}'s {selection.Ability.name} missed {selection.Target.name}.");
+            OnMiss?.Invoke(new CombatskillResolutionArgs
+            {
+                Actor         = selection.Actor,
+                Skill         = selection.Ability,
+                Hitroll       = hitroll,
+                Target        = selection.Target,
+                Abilityresult = abilityResult
+            });
         }
 
-        private void DealDamage(AbilitySelection selection, out string abilityResult)
+        private void DealDamage(AbilitySelection selection, int hitroll, out string abilityResult)
         {
             abilityResult = selection.Actor.UseAbility(selection.Ability, selection.Target);
 
-            Log($"[{(int)selection.Actor.CurrentInitiative}]{selection.Actor.name}'s {selection.Ability.name} hit {selection.Target.name} for {abilityResult} damage.");
+            OnHit?.Invoke(new CombatskillResolutionArgs
+            {
+                Actor         = selection.Actor,
+                Skill         = selection.Ability,
+                Hitroll       = hitroll,
+                Target        = selection.Target,
+                Abilityresult = abilityResult
+            });
         }
 
-        private static bool CalculateHit(AbilitySelection selection, BaseDamageSkill damageSkill, BaseUnit target)
+        private static bool CalculateHit(AbilitySelection selection, BaseDamageSkill damageSkill, BaseUnit target, out int hitroll)
         {
-            var hitroll = damageSkill.GetHitroll(selection.Actor);
+            hitroll = damageSkill.GetHitroll(selection.Actor);
 
             return (int)target.MeleeDefense < hitroll;
         }
@@ -252,7 +270,7 @@ namespace Battlefield
 
             var notCombatReadyEnemies = enemies.Where(e => !e.IsDead &&
                                                            e.SelectedSkill is null);
-            var rando                 = new Random();
+            var rando = new Random();
 
             foreach (var enemy in notCombatReadyEnemies)
             {
@@ -351,15 +369,6 @@ namespace Battlefield
             txt.color   = orginalColor;
         }
 
-        private void Log(string message)
-        {
-            var logEntry   = Instantiate(logmessagePrefab, combatLog.transform);
-            var textObject = logEntry.GetComponent<TextMeshProUGUI>();
-
-            textObject.fontSize = 18;
-            textObject.text     = message;
-        }
-
         private IEnumerator fadeInAndOut(Text targetText, bool fadeIn, float duration)
         {
             //Set Values depending on if fadeIn or fadeOut
@@ -396,5 +405,14 @@ namespace Battlefield
         public BaseSkill Ability { get; set; }
         public BaseUnit  Target  { get; set; }
         public BaseUnit  Actor   { get; set; }
+    }
+
+    public struct CombatskillResolutionArgs
+    {
+        public BaseUnit  Actor         { get; set; }
+        public BaseSkill Skill         { get; set; }
+        public int       Hitroll       { get; set; }
+        public BaseUnit  Target        { get; set; }
+        public string    Abilityresult { get; set; }
     }
 }

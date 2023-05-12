@@ -91,9 +91,9 @@ namespace Entities
 
         public virtual void InitiativeBestimmen(double modifier = 1)
         {
-            modifier *= BaseInitiative;
+            var initiative = (float)modifier * BaseInitiative;
 
-            CurrentInitiative = (BaseInitiative * (float)modifier).InfuseRandomness();
+            CurrentInitiative = initiative.InfuseRandomness();
         }
 
         public virtual void Initialize() => CurrentHitpoints = MaximumHitpoints;

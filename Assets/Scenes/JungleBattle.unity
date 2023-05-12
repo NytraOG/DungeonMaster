@@ -1272,7 +1272,7 @@ MonoBehaviour:
     m_SelectOnRight: {fileID: 0}
   m_Transition: 1
   m_Colors:
-    m_NormalColor: {r: 0.3207547, g: 0.3207547, b: 0.3207547, a: 1}
+    m_NormalColor: {r: 1, g: 1, b: 1, a: 1}
     m_HighlightedColor: {r: 0.9607843, g: 0.9607843, b: 0.9607843, a: 1}
     m_PressedColor: {r: 0.78431374, g: 0.78431374, b: 0.78431374, a: 1}
     m_SelectedColor: {r: 0.9607843, g: 0.9607843, b: 0.9607843, a: 1}
@@ -1291,11 +1291,11 @@ MonoBehaviour:
     m_SelectedTrigger: Selected
     m_DisabledTrigger: Disabled
   m_Interactable: 1
-  m_TargetGraphic: {fileID: 183910956}
-  m_HandleRect: {fileID: 183910955}
-  m_Direction: 2
+  m_TargetGraphic: {fileID: 138873210}
+  m_HandleRect: {fileID: 0}
+  m_Direction: 0
   m_Value: 0
-  m_Size: 1
+  m_Size: 0
   m_NumberOfSteps: 0
   m_OnValueChanged:
     m_PersistentCalls:
@@ -12159,6 +12159,59 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!1 &298141434
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 298141435}
+  - component: {fileID: 298141436}
+  m_Layer: 0
+  m_Name: LoggingService
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!224 &298141435
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 298141434}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 737347651}
+  m_RootOrder: -1
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0.5, y: 0.5}
+  m_AnchorMax: {x: 0.5, y: 0.5}
+  m_AnchoredPosition: {x: 0, y: 0}
+  m_SizeDelta: {x: 100, y: 100}
+  m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &298141436
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 298141434}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: dce9ff2652d660141a3a71d1803375bc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  combatLog: {fileID: 384980578}
+  logmessagePrefab: {fileID: 1075269467792426336, guid: 29be99777be92e545b0b5bbf9d1bfae4, type: 3}
+  battleController: {fileID: 645586930}
+  fontsize: 15
 --- !u!4 &299544766 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 8699595325102636958, guid: 0565163b65eb1984782ebb68972525c5, type: 3}
@@ -12876,8 +12929,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 0, y: -0.000015258789}
-  m_SizeDelta: {x: 0, y: 194.31}
+  m_AnchoredPosition: {x: 0, y: 249.3352}
+  m_SizeDelta: {x: 0, y: 443.6452}
   m_Pivot: {x: 0, y: 1}
 --- !u!114 &384980580
 MonoBehaviour:
@@ -16288,8 +16341,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e06e51928850b2a46b6c007d9246660d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  combatLog: {fileID: 384980578}
-  logmessagePrefab: {fileID: 1075269467792426336, guid: 29be99777be92e545b0b5bbf9d1bfae4, type: 3}
   floatingCombatText: {fileID: 9064207740128421596, guid: 7ab02fdfb12bb554680cfa911c0331e3, type: 3}
   battlefield: {fileID: 496665486}
   selectedHero: {fileID: 0}
@@ -17302,6 +17353,7 @@ RectTransform:
   - {fileID: 227990643}
   - {fileID: 1450391258}
   - {fileID: 581220584}
+  - {fileID: 298141435}
   - {fileID: 1373771204}
   m_Father: {fileID: 1207617437}
   m_RootOrder: -1
@@ -23686,7 +23738,7 @@ MonoBehaviour:
   m_Elasticity: 0.1
   m_Inertia: 1
   m_DecelerationRate: 0.135
-  m_ScrollSensitivity: 1
+  m_ScrollSensitivity: 10
   m_Viewport: {fileID: 2135839987}
   m_HorizontalScrollbar: {fileID: 642711407}
   m_VerticalScrollbar: {fileID: 138873209}
@@ -25734,7 +25786,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7188784997491589576, guid: 1b4092d81f9d93a429916b413e0a7542, type: 3}
       propertyPath: dexterity
-      value: 6
+      value: 5
       objectReference: {fileID: 0}
     - target: {fileID: 7188784997491589576, guid: 1b4092d81f9d93a429916b413e0a7542, type: 3}
       propertyPath: intuition
@@ -25742,7 +25794,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7188784997491589576, guid: 1b4092d81f9d93a429916b413e0a7542, type: 3}
       propertyPath: quickness
-      value: 4
+      value: 6
       objectReference: {fileID: 0}
     - target: {fileID: 7188784997491589576, guid: 1b4092d81f9d93a429916b413e0a7542, type: 3}
       propertyPath: willpower
@@ -29541,7 +29593,7 @@ PrefabInstance:
       objectReference: {fileID: 11400000, guid: ab0915937bee23c4981aa5b81cfadf96, type: 2}
     - target: {fileID: 7188784997491589576, guid: 1b4092d81f9d93a429916b413e0a7542, type: 3}
       propertyPath: logic
-      value: 4
+      value: 6
       objectReference: {fileID: 0}
     - target: {fileID: 7188784997491589576, guid: 1b4092d81f9d93a429916b413e0a7542, type: 3}
       propertyPath: classe
@@ -29561,7 +29613,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7188784997491589576, guid: 1b4092d81f9d93a429916b413e0a7542, type: 3}
       propertyPath: dexterity
-      value: 3
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 7188784997491589576, guid: 1b4092d81f9d93a429916b413e0a7542, type: 3}
       propertyPath: intuition
