@@ -114,6 +114,36 @@ MonoBehaviour:
   charisma: 1
   skills: []
   meleeSkill: {fileID: 11400000, guid: ad53a6868dc32be41a91e89cb5050118, type: 2}
+  firstnames:
+  - Peter
+  - Fritz
+  - Udo
+  - Karl
+  - Uwe
+  - Hans
+  - Gunter
+  - Achim
+  - Adelbert
+  - Ambrosius
+  - Rickert
+  - Thorald
+  - Helmolt
+  - Barnabas
+  - Timotheus
+  - Landulf
+  - Liebwin
+  - Bobfried
+  - Wunibald
+  - Clemens
+  lastnames:
+  - "M\xFCller"
+  - Schmidt
+  - Schneider
+  - Fischer
+  - Weber
+  - Meyer
+  - Wagner
+  - Becker
 --- !u!70 &5679231102968963830
 CapsuleCollider2D:
   m_ObjectHideFlags: 0

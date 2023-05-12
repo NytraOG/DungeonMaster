@@ -24,6 +24,7 @@ namespace UI
 
             component.OnHit         += OnHit;
             component.OnMiss        += OnMiss;
+            component.OnMisc += OnMisc;
             component.OnBuffApplied += OnBuffApplied;
         }
 
@@ -52,6 +53,8 @@ namespace UI
 
         private void OnBuffApplied(BaseUnit actor, BaseSkill skill, BaseUnit target, string abilityResult)
             => Log($"[{(int)actor.CurrentInitiative}]{actor.name} used {skill.name} on {target.name}");
+
+        private void OnMisc(string message) => Log(message);
 
         private void Log(string message)
         {

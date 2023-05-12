@@ -30,6 +30,7 @@ namespace Battlefield
         public  List<AbilitySelection>                             AbilitySelection = new();
         private bool                                               combatActive;
         private List<BaseHero>                                     heroes = new();
+        public  UnityAction<string>                                OnMisc;
         public  UnityAction<BaseUnit, BaseSkill, BaseUnit, string> OnBuffApplied;
         public  UnityAction<CombatskillResolutionArgs>             OnHit;
         public  UnityAction<CombatskillResolutionArgs>             OnMiss;
@@ -132,6 +133,8 @@ namespace Battlefield
                         yield return new WaitForSeconds(0.25f);
                     else if (selection.Actor.IsStunned)
                     {
+                        OnMisc?.Invoke($"{selection.Actor.name}'s <b><color=yellow>Stun</color></b> expired");
+
                         InstantiateFloatingCombatText(selection.Actor, "STUNNED");
                         selection.Actor.IsStunned = false;
 
