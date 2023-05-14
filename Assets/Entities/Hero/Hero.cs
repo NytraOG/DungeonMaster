@@ -9,6 +9,7 @@ namespace Entities.Hero
 {
     public class Hero : BaseHero
     {
+        public GameObject healthbarPrefab;
         public Race       race;
         public HeroClass  heroClass;
         public GameObject inventoryPanel;
@@ -61,6 +62,8 @@ namespace Entities.Hero
             heroClass.ApplyModifiers(this);
 
             inventorySystem = new InventorySystem(inventorySize);
+
+            MachDirNeHealthbarFeddich();
         }
 
         private void ChangeSelectedHero(BattleController controller)
@@ -83,5 +86,27 @@ namespace Entities.Hero
         };
 
         public override string UseAbility(BaseSkill ability, BaseUnit target = null) => ability.Activate(this, target);
+
+        private void MachDirNeHealthbarFeddich()
+        {
+            var healthbar = Instantiate(healthbarPrefab, transform);
+            healthbar.GetComponent<HealthpointBar>().unit = this;
+
+            var canvas = healthbar.transform.Find("Canvas")
+                                  .gameObject.GetComponent<Canvas>();
+
+            var background    = canvas.transform.Find("Border");
+            var missinghealth = canvas.transform.Find("MissingHealth");
+            var currenthealth = canvas.transform.Find("CurrentHealth");
+
+            var enemyposition = gameObject.transform.position;
+
+            var enemyWidth  = GetComponent<RectTransform>().rect.width;
+            var enemyHeight = GetComponent<RectTransform>().rect.height;
+
+            background.transform.position    = new Vector3(enemyposition.x * 100 + 960 + enemyWidth / 2, enemyposition.y * 100 + 540 + enemyHeight, enemyposition.z);
+            missinghealth.transform.position = new Vector3(enemyposition.x * 100 + 960 + enemyWidth / 2, enemyposition.y * 100 + 540 + enemyHeight, enemyposition.z);
+            currenthealth.transform.position = new Vector3(enemyposition.x * 100 + 960 + enemyWidth / 2, enemyposition.y * 100 + 540 + enemyHeight, enemyposition.z);
+        }
     }
 }
