@@ -20,12 +20,15 @@ namespace Entities.Enemies
 
         protected override void Awake()
         {
-            base.Awake();
-
-            displayname = $"{monstertype.displayname} {string.Join(",", keywords.Select(k => k.displayname))}";
+            displayname = $"{monstertype.displayname} {string.Join(", ", keywords.Select(k => k.displayname))}";
             name        = displayname;
 
+            monstertype.ApplyValues(this);
+
             SetAttributeByLevel();
+
+            base.Awake();
+
             ApplyKeywords();
             SetInitialHitpointsAndMana();
 
@@ -60,7 +63,9 @@ namespace Entities.Enemies
         {
             foreach (var keyword in keywords)
             {
-                keyword.ApplyValues(this);
+                keyword.ApplyAttributeModifier(this);
+                keyword.ApplyRatingModifier(this);
+                keyword.ApplyDamageModifier(this);
                 keyword.PopulateSkills(this);
             }
         }
@@ -77,6 +82,9 @@ namespace Entities.Enemies
 
         private void SetAttributeByLevel()
         {
+            if(level == 1)
+                return;
+
             var modifier = levelModifier * level;
 
             Strength     += (int)(monstertype.strength * modifier);

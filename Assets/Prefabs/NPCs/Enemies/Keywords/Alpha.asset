@@ -10,21 +10,21 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: a4275161a43940028c7a45d8c01d4ab9, type: 3}
-  m_Name: Savage
+  m_Name: Alpha
   m_EditorClassIdentifier: 
-  displayname: Savage
-  strengthMultiplier: 1.5
-  constitutionMultiplier: 1
-  dexterityMultiplier: 1
-  quicknessMultiplier: 2
-  intuitionMultiplier: 1
-  logicMultiplier: 1
-  wisdomMultiplier: 1
-  willpowerMultiplier: 1
-  charismaMultiplier: 1
+  displayname: Alpha
+  strengthMultiplier: 2
+  constitutionMultiplier: 5
+  dexterityMultiplier: 1.5
+  quicknessMultiplier: 1
+  intuitionMultiplier: 1.5
+  logicMultiplier: 3
+  wisdomMultiplier: 3
+  willpowerMultiplier: 4
+  charismaMultiplier: 4
   actionsModifier: 0
   flatDamageModifier: 2
-  meleeAttackratingModifier: 0.1
+  meleeAttackratingModifier: 0
   rangedAttackratingModifier: 0
   magicAttackratingModifier: 0
   socialAttackratingModifier: 0
@@ -34,3 +34,4 @@ MonoBehaviour:
   socialDefensemodifier: 0
   skills:
   - {fileID: 11400000, guid: 3c2ee681f6703b94d92abe1079dcb0b3, type: 2}
+  - {fileID: 11400000, guid: a751be0d008244a478fdc645f03e1e27, type: 2}

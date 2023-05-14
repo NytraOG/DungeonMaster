@@ -235,7 +235,7 @@ namespace Battlefield
         {
             hitroll = damageSkill.GetHitroll(selection.Actor);
 
-            return (int)target.MeleeDefense < hitroll;
+            return (int)(target.MeleeDefense * target.MeleeDefensmodifier) < hitroll;
         }
 
         private void ProcessFloatingCombatText(string abilityResult, AbilitySelection selection)

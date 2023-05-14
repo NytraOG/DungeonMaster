@@ -1295,7 +1295,7 @@ MonoBehaviour:
   m_HandleRect: {fileID: 0}
   m_Direction: 0
   m_Value: 0
-  m_Size: 0.43798512
+  m_Size: 0
   m_NumberOfSteps: 0
   m_OnValueChanged:
     m_PersistentCalls:
@@ -30987,7 +30987,7 @@ PrefabInstance:
     - target: {fileID: 2943883214842200648, guid: 309b55b815389854b99e9fd182242fda, type: 3}
       propertyPath: enemiesToSpawn.Array.data[1]
       value: 
-      objectReference: {fileID: 6052278003749724499, guid: 1e630c27fa38bf74f961602fbaf52f46, type: 3}
+      objectReference: {fileID: 3416829931744439384, guid: 983a7a0b5d8b61f478bb17edf12fa183, type: 3}
     - target: {fileID: 2943883214842200648, guid: 309b55b815389854b99e9fd182242fda, type: 3}
       propertyPath: enemiesToSpawn.Array.data[2]
       value: 

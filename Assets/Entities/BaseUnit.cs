@@ -32,6 +32,12 @@ namespace Entities
         public          float           RangedAttackratingModifier { get; set; }
         public          float           MagicAttackratingModifier  { get; set; }
         public          float           SocialAttackratingModifier { get; set; }
+        public          int             ActionsModifier            { get; set; }
+        public          float           FlatDamageModifier         { get; set; }
+        public          float           MeleeDefensmodifier        { get; set; }
+        public          float           RangedDefensemodifier      { get; set; }
+        public          float           MagicDefensemodifier       { get; set; }
+        public          float           SocialDefensemodifier      { get; set; }
         public          float           MagicDefense               { get; set; }
         public          float           SocialDefense              { get; set; }
         public          float           MeleeDefense               { get; set; }
@@ -56,6 +62,16 @@ namespace Entities
             SocialDefense = BaseSocialDefense;
             MeleeDefense  = BaseMeleeDefense;
             RangedDefense = BaseRangedDefense;
+
+            MeleeAttackratingModifier  = 1;
+            RangedAttackratingModifier = 1;
+            MagicAttackratingModifier  = 1;
+            SocialAttackratingModifier = 1;
+
+            MeleeDefensmodifier   = 1;
+            RangedDefensemodifier = 1;
+            MagicDefensemodifier  = 1;
+            SocialDefensemodifier = 1;
 
             AktionenGesamt  = 1;
             AktionenAktuell = AktionenGesamt;

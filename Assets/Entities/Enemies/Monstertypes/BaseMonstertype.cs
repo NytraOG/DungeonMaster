@@ -5,15 +5,15 @@ namespace Entities.Enemies.Monstertypes
     public abstract class BaseMonstertype : ScriptableObject
     {
         public string displayname;
-        public int    strength;
-        public int    constitution;
-        public int    dexterity;
-        public int    quickness;
-        public int    intuition;
-        public int    logic;
-        public int    wisdom;
-        public int    willpower;
-        public int    charisma;
+        public int    strength = 1;
+        public int    constitution = 1;
+        public int    dexterity = 1;
+        public int    quickness = 1;
+        public int    intuition = 1;
+        public int    logic = 1;
+        public int    wisdom = 1;
+        public int    willpower = 1;
+        public int    charisma = 1;
         public Sprite sprite;
         public int    health;
         public float  maximumHealth;

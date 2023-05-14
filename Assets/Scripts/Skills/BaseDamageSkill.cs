@@ -1,4 +1,5 @@
-﻿using Entities;
+﻿using System;
+using Entities;
 using UnityEngine;
 
 namespace Skills
@@ -14,7 +15,7 @@ namespace Skills
         public                                int   hWillpower;
         public                                int   hWisdom;
         public                                int   hCharisma;
-        public                                float hMultiplier;
+        public                                float hMultiplier = 1;
 
         public int GetHitroll(BaseUnit actor) => (int)((actor.Strength * hStrength +
                                                         actor.Constitution * hConstitution +
@@ -24,7 +25,9 @@ namespace Skills
                                                         actor.Logic * hLogic +
                                                         actor.Willpower * hWillpower +
                                                         actor.Wisdom * hWisdom +
-                                                        actor.Charisma * hCharisma) * hMultiplier).InfuseRandomness();
+                                                        actor.Charisma * hCharisma) *
+                                                       hMultiplier *
+                                                       GetModifier(this, actor)).InfuseRandomness();
 
         public int GetDamage(BaseUnit actor) => (int)(actor.Strength * dStrength +
                                                       actor.Constitution * dConstitution +
@@ -34,6 +37,16 @@ namespace Skills
                                                       actor.Logic * dLogic +
                                                       actor.Willpower * dWillpower +
                                                       actor.Wisdom * dWisdom +
-                                                      actor.Charisma * dCharisma + addedFlatDamage);
+                                                      actor.Charisma * dCharisma +
+                                                      addedFlatDamage +
+                                                      actor.FlatDamageModifier);
+
+        private float GetModifier(BaseDamageSkill baseDamageSkill, BaseUnit actor) => baseDamageSkill switch
+        {
+            MagicSkill => actor.MagicAttackratingModifier,
+            MeleeSkill => actor.MeleeAttackratingModifier,
+            RangedSkill => actor.RangedAttackratingModifier,
+            _ => throw new ArgumentOutOfRangeException(nameof(baseDamageSkill))
+        };
     }
 }

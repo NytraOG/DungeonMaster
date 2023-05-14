@@ -11,7 +11,7 @@ namespace Skills
         public                                    bool     isHealing;
         public                                    bool     isBuffing;
         public                                    int      targets;
-        [Header("Attribute Modification")] public string   @operator;
+        [Header("Attribute Modification")] public string   @operator = "+";
         public                                    float    modifierMeleeDefense;
         public                                    float    modifierRangedDefense;
         public                                    float    modifierMagicDefense;
