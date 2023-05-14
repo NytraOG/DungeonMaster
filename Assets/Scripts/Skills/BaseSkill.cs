@@ -12,7 +12,7 @@ namespace Skills
         public                     bool     appliesStun;
         public                     string[] keywords;
         [TextArea(4, 4)]    public string   description;
-        [Header("Scaling")] public float    dStrength;
+        [Header("Damage Scaling")] public float    dStrength;
         public                     float    dConstitution;
         public                     float    dDexterity;
         public                     float    dQuickness;
@@ -22,6 +22,7 @@ namespace Skills
         public                     float    dWisdom;
         public                     float    dCharisma;
         public                     int      addedFlatDamage;
+        public                     int      level;
 
         private string Description
         {

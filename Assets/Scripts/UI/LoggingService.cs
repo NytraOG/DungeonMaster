@@ -17,6 +17,7 @@ namespace UI
         public           int              fontsize;
         private readonly List<GameObject> logTracker      = new();
         private readonly int              maxMessagecount = 30;
+        private          string           StunInfo => " <b><color=yellow>Stun</color></b> applied";
 
         public void Awake()
         {
@@ -24,7 +25,7 @@ namespace UI
 
             component.OnHit         += OnHit;
             component.OnMiss        += OnMiss;
-            component.OnMisc += OnMisc;
+            component.OnMisc        += OnMisc;
             component.OnBuffApplied += OnBuffApplied;
         }
 
@@ -35,7 +36,7 @@ namespace UI
                           $"for {args.Abilityresult} damage.";
 
             if (args.Target.IsStunned)
-                content += " <b><color=yellow>Stunned</color></b>";
+                content += StunInfo;
 
             if (args.Target.IsDead)
                 content += " <b><color=red>FATAL!</color></b>";
@@ -52,7 +53,14 @@ namespace UI
         }
 
         private void OnBuffApplied(BaseUnit actor, BaseSkill skill, BaseUnit target, string abilityResult)
-            => Log($"[{(int)actor.CurrentInitiative}]{actor.name} used {skill.name} on {target.name}");
+        {
+            var content = $"{actor.name}[{(int)actor.CurrentInitiative}] used {skill.name} on {target.name}.";
+
+            if (target.IsStunned)
+                content += StunInfo;
+
+            Log(content);
+        }
 
         private void OnMisc(string message) => Log(message);
 
@@ -72,9 +80,11 @@ namespace UI
             textObject.text     = message;
 
             if (logTracker.Any())
+            {
                 logTracker[^1]
                        .GetComponent<TextMeshProUGUI>()
                        .margin = new Vector4(5, 0, 0, 2);
+            }
 
             logTracker.Add(logEntry);
         }

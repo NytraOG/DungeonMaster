@@ -1,0 +1,43 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1daa57d2a92c40b7a988734f73f3ded6, type: 3}
+  m_Name: Bite
+  m_EditorClassIdentifier: 
+  sprite: {fileID: 0}
+  displayName: Bite
+  appliesStun: 0
+  keywords:
+  - Basic
+  - Melee
+  - Infectious
+  description: Its a bite, ouch!
+  dStrength: 0.5
+  dConstitution: 0
+  dDexterity: 0.3333333
+  dQuickness: 0.3333333
+  dIntuition: 0
+  dLogic: 0
+  dWillpower: 0
+  dWisdom: 0
+  dCharisma: 0
+  addedFlatDamage: 0
+  level: 0
+  hStrength: 0
+  hConstitution: 0
+  hDexterity: 1
+  hQuickness: 3
+  hIntuition: 1
+  hLogic: 0
+  hWillpower: 0
+  hWisdom: 0
+  hCharisma: 0
+  hMultiplier: 0

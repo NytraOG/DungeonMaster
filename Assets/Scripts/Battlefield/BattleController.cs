@@ -26,13 +26,13 @@ namespace Battlefield
         public  Sprite                                             originalButtonBackground;
         public  Sprite                                             bloodPuddle;
         public  bool                                               allesDa;
-        public  List<BaseFoe>                                      enemies          = new();
+        public  List<Creature>                                     enemies          = new();
         public  List<AbilitySelection>                             AbilitySelection = new();
         private bool                                               combatActive;
         private List<BaseHero>                                     heroes = new();
-        public  UnityAction<string>                                OnMisc;
         public  UnityAction<BaseUnit, BaseSkill, BaseUnit, string> OnBuffApplied;
         public  UnityAction<CombatskillResolutionArgs>             OnHit;
+        public  UnityAction<string>                                OnMisc;
         public  UnityAction<CombatskillResolutionArgs>             OnMiss;
         private List<GameObject>                                   skillbuttons;
 
@@ -136,7 +136,11 @@ namespace Battlefield
                         OnMisc?.Invoke($"{selection.Actor.name}'s <b><color=yellow>Stun</color></b> expired");
 
                         InstantiateFloatingCombatText(selection.Actor, "STUNNED");
+
                         selection.Actor.IsStunned = false;
+
+                        if (selection.Actor is Creature creature)
+                            creature.SelectedSkill = null;
 
                         yield return new WaitForSeconds(0.5f);
                     }
@@ -161,9 +165,9 @@ namespace Battlefield
         {
             switch (selection)
             {
-                case { Ability: BaseDamageSkill damageSkill, Target: BaseFoe foe }:
+                case { Ability: BaseDamageSkill damageSkill, Target: Creature creature }:
                 {
-                    var isHit = CalculateHit(selection, damageSkill, foe, out var hitroll);
+                    var isHit = CalculateHit(selection, damageSkill, creature, out var hitroll);
 
                     if (isHit)
                         DealDamage(selection, hitroll, out abilityResult);
@@ -171,7 +175,7 @@ namespace Battlefield
                         Miss(selection, hitroll, out abilityResult);
                     break;
                 }
-                case { Ability: BaseDamageSkill foeDamageSkill, Target: BaseHero target, Actor: BaseFoe actor }:
+                case { Ability: BaseDamageSkill foeDamageSkill, Target: BaseHero target, Actor: Creature creature }:
                 {
                     var isHit = CalculateHit(selection, foeDamageSkill, target, out var hitroll);
 
@@ -181,7 +185,7 @@ namespace Battlefield
                     {
                         Miss(selection, hitroll, out abilityResult);
 
-                        actor.SelectedSkill = null;
+                        creature.SelectedSkill = null;
                     }
 
                     break;

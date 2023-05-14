@@ -1295,7 +1295,7 @@ MonoBehaviour:
   m_HandleRect: {fileID: 0}
   m_Direction: 0
   m_Value: 0
-  m_Size: 0
+  m_Size: 0.43798512
   m_NumberOfSteps: 0
   m_OnValueChanged:
     m_PersistentCalls:
@@ -25789,6 +25789,10 @@ PrefabInstance:
       value: 5
       objectReference: {fileID: 0}
     - target: {fileID: 7188784997491589576, guid: 1b4092d81f9d93a429916b413e0a7542, type: 3}
+      propertyPath: heroClass
+      value: 
+      objectReference: {fileID: 11400000, guid: 299b1ad6a0fae514db3b3e9d2d7afca6, type: 2}
+    - target: {fileID: 7188784997491589576, guid: 1b4092d81f9d93a429916b413e0a7542, type: 3}
       propertyPath: intuition
       value: 3
       objectReference: {fileID: 0}
@@ -29616,6 +29620,10 @@ PrefabInstance:
       value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 7188784997491589576, guid: 1b4092d81f9d93a429916b413e0a7542, type: 3}
+      propertyPath: heroClass
+      value: 
+      objectReference: {fileID: 11400000, guid: ee8e11e2f82bc6a42a1ae911862d90be, type: 2}
+    - target: {fileID: 7188784997491589576, guid: 1b4092d81f9d93a429916b413e0a7542, type: 3}
       propertyPath: intuition
       value: 3
       objectReference: {fileID: 0}
@@ -30975,11 +30983,11 @@ PrefabInstance:
     - target: {fileID: 2943883214842200648, guid: 309b55b815389854b99e9fd182242fda, type: 3}
       propertyPath: enemiesToSpawn.Array.data[0]
       value: 
-      objectReference: {fileID: 2647223647782926190, guid: ac5de662b970a2d43a2b45b6b254c270, type: 3}
+      objectReference: {fileID: 6052278003749724499, guid: 1e630c27fa38bf74f961602fbaf52f46, type: 3}
     - target: {fileID: 2943883214842200648, guid: 309b55b815389854b99e9fd182242fda, type: 3}
       propertyPath: enemiesToSpawn.Array.data[1]
       value: 
-      objectReference: {fileID: 2647223647782926190, guid: ac5de662b970a2d43a2b45b6b254c270, type: 3}
+      objectReference: {fileID: 6052278003749724499, guid: 1e630c27fa38bf74f961602fbaf52f46, type: 3}
     - target: {fileID: 2943883214842200648, guid: 309b55b815389854b99e9fd182242fda, type: 3}
       propertyPath: enemiesToSpawn.Array.data[2]
       value: 

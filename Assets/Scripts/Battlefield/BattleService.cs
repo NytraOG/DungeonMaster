@@ -13,7 +13,7 @@ namespace Battlefield
     public class BattleService : MonoBehaviour
     {
         public  GameObject        healthbarPrefab;
-        public  List<BaseFoe>     enemies;
+        public  List<Creature>    enemies;
         public  List<GameObject>  heroes;
         public  List<GameObject>  enemiesToSpawn = new();
         public  InventoryItemData itemData1;
@@ -21,9 +21,9 @@ namespace Battlefield
         public  InventoryItemData itemData3;
         public  InventoryItemData itemData4;
         public  GameObject        inventoryPanel;
+        public  GameObject        openBagAudioSource;
         private List<BaseUnit>    combatants = new();
         private bool              inventoryShown;
-        public  GameObject        openBagAudioSource;
 
         public void Start() => InitScene();
 
@@ -80,9 +80,9 @@ namespace Battlefield
                                       .transform.Find("BattleController")
                                       .gameObject.GetComponent<BattleController>();
 
-            enemies = new List<BaseFoe>();
+            enemies = new List<Creature>();
 
-            foreach (var enemie in FindObjectsOfType<BaseFoe>())
+            foreach (var enemie in FindObjectsOfType<Creature>())
                 Destroy(enemie.gameObject);
 
             InitScene();
@@ -95,16 +95,16 @@ namespace Battlefield
         {
             inventoryShown = inventoryPanel.GetComponent<StaticInventoryDisplay>().showInventory;
 
-            var banditTransforms = new[]
+            var enemyTransforms = new[]
             {
-                new Vector3(1.78f, 1.38f),
-                new Vector3(2.86f, 1.94f)
+                new Vector3(1.78f, 0.9f),
+                new Vector3(2.86f, 1.5f)
             };
 
             for (var i = 0; i < enemiesToSpawn.Count; i++)
             {
-                var enemyGameobject = Instantiate(enemiesToSpawn[i], banditTransforms[i], Quaternion.identity);
-                var enemy           = enemyGameobject.GetComponent<Bandit>();
+                var enemyGameobject = Instantiate(enemiesToSpawn[i], enemyTransforms[i], Quaternion.identity);
+                var enemy           = enemyGameobject.GetComponent<Creature>();
                 var healthbar       = Instantiate(healthbarPrefab, enemy.transform);
 
                 healthbar.GetComponent<HealthpointBar>().unit = enemy;

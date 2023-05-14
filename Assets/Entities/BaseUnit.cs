@@ -9,6 +9,7 @@ namespace Entities
 {
     public abstract class BaseUnit : Base
     {
+        public          int             level;
         public          int             strength;
         public          int             constitution;
         public          int             dexterity;

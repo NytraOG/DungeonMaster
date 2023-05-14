@@ -35,7 +35,7 @@ namespace Skills
             ultimateTarget.MagicDefense  = ApplyOperation(ultimateTarget.MagicDefense, modifierMagicDefense);
             ultimateTarget.SocialDefense = ApplyOperation(ultimateTarget.SocialDefense, modifierSocialDefense);
 
-            return $"Granted {displayName} by {actor.name}";
+            return appliesStun ? "STUN" : $"Granted {displayName} by {actor.name}";
         }
 
         private float ApplyOperation(float attributeValue, float modifier) => @operator switch

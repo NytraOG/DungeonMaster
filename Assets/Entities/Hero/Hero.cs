@@ -9,14 +9,27 @@ namespace Entities.Hero
 {
     public class Hero : BaseHero
     {
-        public          Race   race;
-        public          HeroClass  classe;
-        public          GameObject inventoryPanel;
+        public Race       race;
+        public HeroClass  heroClass;
+        public GameObject inventoryPanel;
 
         protected override void Awake()
         {
             MapProperties();
             InitializeHero();
+            name = $"{race.name}_{heroClass.name}";
+        }
+
+        private void OnMouseDown()
+        {
+            Debug.Log($"{name} clicked");
+
+            var controller = FindObjectOfType<BattleController>();
+
+            if (controller.selectedAbility is SupportSkill { TargetableFaction: Factions.Friend })
+                controller.selectedTarget = this;
+            else
+                ChangeSelectedHero(controller);
         }
 
         private void MapProperties()
@@ -37,7 +50,7 @@ namespace Entities.Hero
             skills.Add(inherentSkill);
 
             race.ApplyAbilities(this);
-            classe.ApplySkills(this);
+            heroClass.ApplySkills(this);
 
             SetInitialHitpointsAndMana();
 
@@ -45,21 +58,9 @@ namespace Entities.Hero
 
             base.Awake();
 
-            classe.ApplyModifiers(this);
+            heroClass.ApplyModifiers(this);
 
             inventorySystem = new InventorySystem(inventorySize);
-        }
-
-        private void OnMouseDown()
-        {
-            Debug.Log($"{name} clicked");
-
-            var controller = FindObjectOfType<BattleController>();
-
-            if (controller.selectedAbility is SupportSkill { TargetableFaction: Factions.Friend })
-                controller.selectedTarget = this;
-            else
-                ChangeSelectedHero(controller);
         }
 
         private void ChangeSelectedHero(BattleController controller)
