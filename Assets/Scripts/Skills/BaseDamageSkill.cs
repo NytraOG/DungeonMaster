@@ -1,5 +1,8 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Linq;
 using Entities;
+using Entities.Buffs;
 using UnityEngine;
 using UnityEngine.Events;
 
@@ -7,6 +10,7 @@ namespace Skills
 {
     public abstract class BaseDamageSkill : BaseSkill
     {
+        public                                bool                appliesDebuff;
         [Header("Hitroll Multiplier")] public int                 hStrength;
         public                                int                 hConstitution;
         public                                int                 hDexterity;
@@ -18,6 +22,7 @@ namespace Skills
         public                                int                 hCharisma;
         public                                float               hMultiplier = 1;
         public                                UnityAction<string> OnDamageDealt;
+        public                                List<Debuff>        appliedDebuffs = new();
 
         public int GetHitroll(BaseUnit actor) => (int)((actor.Strength * hStrength +
                                                         actor.Constitution * hConstitution +
@@ -48,6 +53,28 @@ namespace Skills
             var minhit = (int)(maxhit * (1 - damageRange));
 
             return (minhit, maxhit);
+        }
+
+        protected void ApplyDebuffs(BaseUnit actor, BaseUnit target)
+        {
+            if (!appliesDebuff)
+                return;
+
+            foreach (var debuff in appliedDebuffs)
+            {
+                if (target.debuffs.Any(b => b.displayname == debuff.displayname))
+                {
+                    target.debuffs.First(b => b.displayname == debuff.displayname).currentDuration += debuff.duration;
+                }
+                else
+                {
+                    debuff.appliedBy   = this;
+                    debuff.appliedFrom = actor;
+                    target.debuffs.Add(debuff);
+                    debuff.ApplyDamageModifier(target);
+                    debuff.ApplyRatingModifier(target);
+                }
+            }
         }
 
         private float GetModifier(BaseDamageSkill baseDamageSkill, BaseUnit actor) => baseDamageSkill switch

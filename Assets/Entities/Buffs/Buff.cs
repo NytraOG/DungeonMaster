@@ -1,14 +1,18 @@
-﻿using UnityEngine;
+﻿using Skills;
+using UnityEngine;
 
 namespace Entities.Buffs
 {
-    public abstract class Buff : ScriptableObject
+    [CreateAssetMenu(fileName = "Buff")]
+    public class Buff : BaseUnitModifikator
     {
-        public BaseUnit Target            { get; set; }
-        public float    Duration          { get; set; }
-        public bool     IsEffectStacked   { get; set; }
-        public bool     IsDurationStacked { get; set; }
+        public int       duration = 1;
+        public int       currentDuration;
+        public BaseSkill appliedBy;
+        public BaseUnit  appliedFrom;
+        public bool      DurationEnded => currentDuration <= 0;
 
-        public abstract TimedBuff InitializeBuff(GameObject obj);
+        private void Awake() => currentDuration = duration;
+        public void Reverse(){}
     }
 }

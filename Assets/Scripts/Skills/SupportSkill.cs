@@ -1,5 +1,8 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Linq;
 using Entities;
+using Entities.Buffs;
 using UnityEngine;
 
 namespace Skills
@@ -7,16 +10,17 @@ namespace Skills
     [CreateAssetMenu(fileName = "Support Skill", menuName = "Skills/Support")]
     public class SupportSkill : BaseSkill
     {
-        public                                    bool     selfcastOnly;
-        public                                    bool     isHealing;
-        public                                    bool     isBuffing;
-        public                                    int      targets;
-        [Header("Attribute Modification")] public string   @operator = "+";
-        public                                    float    modifierMeleeDefense;
-        public                                    float    modifierRangedDefense;
-        public                                    float    modifierMagicDefense;
-        public                                    float    modifierSocialDefense;
-        public override                           Factions TargetableFaction => Factions.Friend;
+        public                                    bool       selfcastOnly;
+        public                                    bool       isHealing;
+        public                                    bool       isBuffing;
+        public                                    int        targets;
+        [Header("Attribute Modification")] public string     @operator = "+";
+        public                                    float      modifierMeleeDefense;
+        public                                    float      modifierRangedDefense;
+        public                                    float      modifierMagicDefense;
+        public                                    float      modifierSocialDefense;
+        public                                    List<Buff> appliedBuffs = new();
+        public override                           Factions   TargetableFaction => Factions.Friend;
 
         private void Awake()
         {
@@ -26,6 +30,9 @@ namespace Skills
 
         public override string Activate(BaseUnit actor, BaseUnit target)
         {
+            if (isBuffing)
+                ApplyBuffs(target);
+
             var ultimateTarget = target;
 
             ultimateTarget.IsStunned = appliesStun;
@@ -35,7 +42,24 @@ namespace Skills
             ultimateTarget.MagicDefense  = ApplyOperation(ultimateTarget.MagicDefense, modifierMagicDefense);
             ultimateTarget.SocialDefense = ApplyOperation(ultimateTarget.SocialDefense, modifierSocialDefense);
 
-            return appliesStun ? "STUN" : $"Granted {displayName} by {actor.name}";
+            return appliesStun ? "STUN" : $"{displayName} granted ";
+        }
+
+        private void ApplyBuffs(BaseUnit target)
+        {
+            foreach (var buff in appliedBuffs)
+            {
+                if (target.buffs.Any(b => b.displayname == buff.displayname))
+                {
+                    target.buffs.First(b => b.displayname == buff.displayname).currentDuration += buff.duration;
+                }
+                else
+                {
+                    target.buffs.Add(buff);
+                    buff.ApplyDamageModifier(target);
+                    buff.ApplyRatingModifier(target);
+                }
+            }
         }
 
         private float ApplyOperation(float attributeValue, float modifier) => @operator switch

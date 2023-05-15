@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using Entities;
+using Entities.Buffs;
 using Entities.Enemies;
 using Entities.Hero;
 using Skills;
@@ -31,6 +32,7 @@ namespace Battlefield
         private bool                                               combatActive;
         private List<BaseHero>                                     heroes = new();
         public  UnityAction<BaseUnit, BaseSkill, BaseUnit, string> OnBuffApplied;
+        public  UnityAction<BaseUnit, Debuff>                      OnDebuffTick;
         public  UnityAction<CombatskillResolutionArgs>             OnHit;
         public  UnityAction<string>                                OnMisc;
         public  UnityAction<CombatskillResolutionArgs>             OnMiss;
@@ -130,7 +132,7 @@ namespace Battlefield
                 foreach (var selection in AbilitySelection)
                 {
                     if (selection.Actor.IsDead)
-                        yield return new WaitForSeconds(0.25f);
+                        yield return new WaitForSeconds(0.5f);
                     else if (selection.Actor.IsStunned)
                     {
                         OnMisc?.Invoke($"{selection.Actor.name}'s <b><color=yellow>Stun</color></b> expired");
@@ -142,16 +144,37 @@ namespace Battlefield
                         if (selection.Actor is Creature creature)
                             creature.SelectedSkill = null;
 
-                        yield return new WaitForSeconds(0.5f);
+                        yield return new WaitForSeconds(1f);
                     }
+                    else if (selection.Target.IsDead && selection.Actor is Creature creature)
+                        creature.SelectedSkill = null;
                     else if (selection.Target.IsDead) { }
                     else
                     {
                         ProcessSkillactivation(selection, out var abilityResult);
                         ProcessDeath(selection);
-                        ProcessFloatingCombatText(abilityResult, selection);
+                        ProcessFloatingCombatText(abilityResult, selection.Target);
 
-                        yield return new WaitForSeconds(0.5f);
+                        yield return new WaitForSeconds(1f);
+                    }
+
+                    foreach (var debuff in selection.Actor.debuffs)
+                    {
+                        debuff.DealDamage(selection.Actor);
+                        debuff.currentDuration -= 1;
+
+                        OnDebuffTick?.Invoke(selection.Actor, debuff);
+
+                        ProcessFloatingCombatText(debuff.damagePerTick.ToString(), selection.Actor);
+
+                        yield return new WaitForSeconds(1f);
+
+                        if (!debuff.DurationEnded)
+                            continue;
+
+                        debuff.Reverse();
+
+                        Destroy(debuff);
                     }
                 }
 
@@ -159,6 +182,8 @@ namespace Battlefield
             }
 
             combatActive = false;
+
+            OnMisc?.Invoke("-------------------------------------------------------------------------------------------");
         }
 
         private void ProcessSkillactivation(AbilitySelection selection, out string abilityResult)
@@ -238,14 +263,14 @@ namespace Battlefield
             return (int)(target.MeleeDefense * target.MeleeDefensmodifier) < hitroll;
         }
 
-        private void ProcessFloatingCombatText(string abilityResult, AbilitySelection selection)
+        private void ProcessFloatingCombatText(string abilityResult, BaseUnit target)
         {
             var wasDamage = int.TryParse(abilityResult, out var damage);
 
             if (wasDamage)
-                InstantiateFloatingCombatText(selection.Target, damage);
+                InstantiateFloatingCombatText(target, damage);
             else
-                InstantiateFloatingCombatText(selection.Target, abilityResult);
+                InstantiateFloatingCombatText(target, abilityResult);
         }
 
         private void ProcessDeath(AbilitySelection selection)

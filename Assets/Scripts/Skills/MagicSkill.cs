@@ -25,6 +25,8 @@ namespace Skills
 
             OnDamageDealt?.Invoke(finalDamage);
 
+            ApplyDebuffs(actor, target);
+
             return finalDamage;
         }
     }

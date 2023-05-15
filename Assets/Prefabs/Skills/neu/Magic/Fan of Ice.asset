@@ -9,21 +9,18 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 1daa57d2a92c40b7a988734f73f3ded6, type: 3}
-  m_Name: Bite
+  m_Script: {fileID: 11500000, guid: 2ff5835f049f4d24b0c0a2dcdd58e4b7, type: 3}
+  m_Name: Fan of Ice
   m_EditorClassIdentifier: 
   sprite: {fileID: 0}
-  displayName: Bite
+  displayName: 
   appliesStun: 0
-  keywords:
-  - Basic
-  - Melee
-  - Infectious
-  description: Its a bite, ouch!
-  dStrength: 0.5
+  keywords: []
+  description: 
+  dStrength: 0
   dConstitution: 0
-  dDexterity: 0.3333333
-  dQuickness: 0.3333333
+  dDexterity: 0
+  dQuickness: 0.5
   dIntuition: 0
   dLogic: 0
   dWillpower: 0
@@ -31,17 +28,16 @@ MonoBehaviour:
   dCharisma: 0
   addedFlatDamage: 0
   level: 0
-  damageRange: 0.3
+  damageRange: 0
   appliesDebuff: 1
   hStrength: 0
   hConstitution: 0
-  hDexterity: 1
-  hQuickness: 3
-  hIntuition: 1
+  hDexterity: 3
+  hQuickness: 0
+  hIntuition: 0
   hLogic: 0
   hWillpower: 0
   hWisdom: 0
   hCharisma: 0
   hMultiplier: 1
-  appliedDebuffs:
-  - {fileID: 11400000, guid: ae9e4f08f3e741c4e9c414fb8b17e92e, type: 2}
+  appliedDebuffs: []

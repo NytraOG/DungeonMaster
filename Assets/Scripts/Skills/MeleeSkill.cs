@@ -1,4 +1,5 @@
 ﻿using System.Globalization;
+using System.Linq;
 using Entities;
 using UnityEngine;
 
@@ -24,6 +25,8 @@ namespace Skills
             var finalDamage = ((int)damageInRange).ToString();
 
             OnDamageDealt?.Invoke(finalDamage);
+
+            ApplyDebuffs(actor, target);
 
             return finalDamage;
         }

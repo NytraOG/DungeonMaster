@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using Battlefield;
 using Entities;
+using Entities.Buffs;
 using Skills;
 using TMPro;
 using UnityEngine;
@@ -27,7 +28,10 @@ namespace UI
             component.OnMiss        += OnMiss;
             component.OnMisc        += OnMisc;
             component.OnBuffApplied += OnBuffApplied;
+            component.OnDebuffTick  += OnDebuffTick;
         }
+
+        private void OnDebuffTick(BaseUnit target, Debuff debuff) => Log($"{target.name} lost {debuff.damagePerTick} Health to {debuff.name}, {debuff.currentDuration} turns remaining.");
 
         private void OnHit(CombatskillResolutionArgs args)
         {

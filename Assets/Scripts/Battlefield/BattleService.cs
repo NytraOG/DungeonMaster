@@ -33,15 +33,19 @@ namespace Battlefield
         {
             if (Input.GetKeyDown(KeyCode.I))
             {
+                var controller = transform.parent
+                                          .transform.Find("BattleController")
+                                          .gameObject.GetComponent<BattleController>();
+
+                if(controller.selectedHero is null)
+                    return;
+
                 inventoryShown = !inventoryShown;
 
                 if (inventoryShown)
                 {
                     var inventoryDisplay = inventoryPanel.GetComponent<StaticInventoryDisplay>();
 
-                    var controller = transform.parent
-                                              .transform.Find("BattleController")
-                                              .gameObject.GetComponent<BattleController>();
 
                     if (controller.selectedHero is not null)
                         inventoryDisplay.ChangeHero(controller.selectedHero.GetComponent<Hero>());

@@ -33,6 +33,7 @@ MonoBehaviour:
   addedFlatDamage: -1
   level: 0
   damageRange: 0.6
+  appliesDebuff: 0
   hStrength: 0
   hConstitution: 0
   hDexterity: 1
@@ -43,3 +44,4 @@ MonoBehaviour:
   hWisdom: 0
   hCharisma: 0
   hMultiplier: 1.1
+  appliedDebuffs: []

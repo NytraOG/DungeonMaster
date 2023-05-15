@@ -1,5 +1,5 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
+using Entities.Buffs;
 using Entities.Enums;
 using Skills;
 using UnityEngine;
@@ -19,7 +19,9 @@ namespace Entities
         public          int             willpower;
         public          int             wisdom;
         public          int             charisma;
-        public          List<BaseSkill> skills = new();
+        public          List<BaseSkill> skills  = new();
+        public          List<Buff>      buffs   = new();
+        public          List<Debuff>    debuffs = new();
         public          HealthpointBar  healthbarInstance;
         public          GameObject      unitTooltip;
         public abstract Party           Party                      { get; }

@@ -1,0 +1,39 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 76dd5476367a41aa91350116cdbeadfa, type: 3}
+  m_Name: Bleed
+  m_EditorClassIdentifier: 
+  displayname: Bleed
+  strengthMultiplier: 1
+  constitutionMultiplier: 1
+  dexterityMultiplier: 1
+  quicknessMultiplier: 1
+  intuitionMultiplier: 1
+  logicMultiplier: 1
+  wisdomMultiplier: 1
+  willpowerMultiplier: 1
+  charismaMultiplier: 1
+  actionsModifier: 0
+  flatDamageModifier: 0
+  meleeAttackratingModifier: 0
+  rangedAttackratingModifier: 0
+  magicAttackratingModifier: 0
+  socialAttackratingModifier: 0
+  meleeDefensmodifier: 0
+  rangedDefensemodifier: 0
+  magicDefensemodifier: 0
+  socialDefensemodifier: 0
+  duration: 5
+  currentDuration: 0
+  appliedBy: {fileID: 0}
+  appliedFrom: {fileID: 0}
+  damagePerTick: 2
