@@ -12,6 +12,7 @@ GameObject:
   - component: {fileID: 153909982108434569}
   - component: {fileID: 7188784997491589576}
   - component: {fileID: 3296811050415863963}
+  - component: {fileID: 3135070353698272488}
   m_Layer: 0
   m_Name: Hero
   m_TagString: Untagged
@@ -32,7 +33,7 @@ RectTransform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: -1
+  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
@@ -103,22 +104,22 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4c33a690a2001a7459375a9323e17d90, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  level: 0
-  strength: 0
-  constitution: 0
-  dexterity: 0
-  quickness: 0
-  intuition: 0
-  logic: 0
-  willpower: 0
-  wisdom: 0
-  charisma: 0
+  healthbarPrefab: {fileID: 5074898879768582473, guid: 73f1142b14a6827419db2c8aa3b23a63, type: 3}
+  level: 1
+  strength: 1
+  constitution: 1
+  dexterity: 1
+  quickness: 1
+  intuition: 1
+  logic: 1
+  willpower: 1
+  wisdom: 1
+  charisma: 1
   skills: []
   inherentSkill: {fileID: 11400000, guid: ad53a6868dc32be41a91e89cb5050118, type: 2}
   inventorySize: 5
   inventorySystem:
     inventorySlots: []
-  healthbarPrefab: {fileID: 5074898879768582473, guid: 73f1142b14a6827419db2c8aa3b23a63, type: 3}
   race: {fileID: 11400000, guid: be7d84c11473d0d4789c4fba2721b035, type: 2}
   heroClass: {fileID: 0}
   inventoryPanel: {fileID: 0}
@@ -157,3 +158,11 @@ CapsuleCollider2D:
   m_Offset: {x: 0, y: 0}
   m_Size: {x: 1, y: 1}
   m_Direction: 0
+--- !u!222 &3135070353698272488
+CanvasRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1409174420932021222}
+  m_CullTransparentMesh: 1

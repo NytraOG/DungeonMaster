@@ -9,7 +9,6 @@ namespace Entities.Hero
 {
     public class Hero : BaseHero
     {
-        public GameObject healthbarPrefab;
         public Race       race;
         public HeroClass  heroClass;
         public GameObject inventoryPanel;
@@ -78,9 +77,7 @@ namespace Entities.Hero
 
         public override float GetApproximateDamage(BaseSkill ability) => ability switch
         {
-            MagicSkill skill => skill.GetDamage(this),
-            MeleeSkill skill => skill.GetDamage(this),
-            RangedSkill skill => skill.GetDamage(this),
+            BaseDamageSkill skill => skill.GetDamage(this),
             SupportSkill _ => 0,
             _ => throw new ArgumentOutOfRangeException(nameof(ability))
         };
@@ -90,7 +87,8 @@ namespace Entities.Hero
         private void MachDirNeHealthbarFeddich()
         {
             var healthbar = Instantiate(healthbarPrefab, transform);
-            healthbar.GetComponent<HealthpointBar>().unit = this;
+            healthbarInstance      = healthbar.GetComponent<HealthpointBar>();
+            healthbarInstance.unit = this;
 
             var canvas = healthbar.transform.Find("Canvas")
                                   .gameObject.GetComponent<Canvas>();
@@ -107,6 +105,10 @@ namespace Entities.Hero
             background.transform.position    = new Vector3(enemyposition.x * 100 + 960 + enemyWidth / 2, enemyposition.y * 100 + 540 + enemyHeight, enemyposition.z);
             missinghealth.transform.position = new Vector3(enemyposition.x * 100 + 960 + enemyWidth / 2, enemyposition.y * 100 + 540 + enemyHeight, enemyposition.z);
             currenthealth.transform.position = new Vector3(enemyposition.x * 100 + 960 + enemyWidth / 2, enemyposition.y * 100 + 540 + enemyHeight, enemyposition.z);
+
+            background.gameObject.SetActive(false);
+            missinghealth.gameObject.SetActive(false);
+            currenthealth.gameObject.SetActive(false);
         }
     }
 }

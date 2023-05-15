@@ -71,7 +71,7 @@ namespace Battlefield
             if (controller.selectedHero is null)
                 return;
 
-            controller.selectedHero.InventorySystem.AddToInventory(item, new Random().Next(0, 4));
+            controller.selectedHero.InventorySystem.AddToInventory(item, 1);
         }
 
         public void ToggleHealthbars() { }
@@ -154,8 +154,9 @@ namespace Battlefield
             var enemy           = enemyGameobject.GetComponent<Creature>();
             var healthbar       = Instantiate(healthbarPrefab, enemy.transform);
 
-
-            healthbar.GetComponent<HealthpointBar>().unit = enemy;
+            var healthbarInstance = healthbar.GetComponent<HealthpointBar>();
+            healthbarInstance.unit  = enemy;
+            enemy.healthbarInstance = healthbarInstance;
 
             var canvas = healthbar.transform.Find("Canvas")
                                   .gameObject.GetComponent<Canvas>();
@@ -172,6 +173,10 @@ namespace Battlefield
             background.transform.position    = new Vector3(enemyposition.x * 100 + 960 + enemyWidth / 2, enemyposition.y * 100 + 540 + enemyHeight, enemyposition.z);
             missinghealth.transform.position = new Vector3(enemyposition.x * 100 + 960 + enemyWidth / 2, enemyposition.y * 100 + 540 + enemyHeight, enemyposition.z);
             currenthealth.transform.position = new Vector3(enemyposition.x * 100 + 960 + enemyWidth / 2, enemyposition.y * 100 + 540 + enemyHeight, enemyposition.z);
+
+            background.gameObject.SetActive(false);
+            missinghealth.gameObject.SetActive(false);
+            currenthealth.gameObject.SetActive(false);
 
             enemies.Add(enemy);
         }

@@ -3,12 +3,14 @@ using System.Linq;
 using Entities.Enums;
 using Skills;
 using TMPro;
+using UnityEngine;
 using UnityEngine.SceneManagement;
 
 namespace Entities
 {
     public abstract class BaseUnit : Base
     {
+        public          GameObject      healthbarPrefab;
         public          int             level;
         public          int             strength;
         public          int             constitution;
@@ -20,6 +22,7 @@ namespace Entities
         public          int             wisdom;
         public          int             charisma;
         public          List<BaseSkill> skills = new();
+        public          HealthpointBar  healthbarInstance;
         public          string          Name                       { get; }
         public abstract Party           Party                      { get; }
         public          BaseSkill       SelectedSkill              { get; set; }
@@ -77,6 +80,10 @@ namespace Entities
             AktionenAktuell = AktionenGesamt;
         }
 
+        private void OnMouseEnter() => ShowHealthbar();
+
+        private void OnMouseExit() => HideHealthbar();
+
         protected void SetInitialHitpointsAndMana()
         {
             MaximumMana      = 2 * Wisdom + Logic;
@@ -100,6 +107,36 @@ namespace Entities
             panel.transform.Find("HPValue").gameObject.GetComponent<TextMeshProUGUI>().text  = $"{(int)CurrentHitpoints} / {(int)MaximumHitpoints}";
 
             panel.gameObject.SetActive(true);
+        }
+
+        public void ShowHealthbar()
+        {
+            var canvas = healthbarInstance.transform.Find("Canvas")
+                                          .gameObject.GetComponent<Canvas>();
+
+            var background = canvas.transform.Find("Border");
+            background.gameObject.SetActive(true);
+            var missinghealth = canvas.transform.Find("MissingHealth");
+            missinghealth.gameObject.SetActive(true);
+            var currenthealth = canvas.transform.Find("CurrentHealth");
+            currenthealth.gameObject.SetActive(true);
+
+            Debug.Log($"Pointer entered {name}");
+        }
+
+        public void HideHealthbar()
+        {
+            var canvas = healthbarInstance.transform.Find("Canvas")
+                                          .gameObject.GetComponent<Canvas>();
+
+            var background = canvas.transform.Find("Border");
+            background.gameObject.SetActive(false);
+            var missinghealth = canvas.transform.Find("MissingHealth");
+            missinghealth.gameObject.SetActive(false);
+            var currenthealth = canvas.transform.Find("CurrentHealth");
+            currenthealth.gameObject.SetActive(false);
+
+            Debug.Log($"Pointer entered {name}");
         }
 
         public abstract float GetApproximateDamage(BaseSkill ability);

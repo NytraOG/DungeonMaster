@@ -51,7 +51,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2c5421ef8f744ec0a823fc30f6fd9e10, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  level: 1
+  healthbarPrefab: {fileID: 0}
+  level: 5
   strength: 0
   constitution: 0
   dexterity: 0
