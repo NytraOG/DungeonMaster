@@ -1,10 +1,8 @@
-﻿using System.Collections.Generic;
-using System.Linq;
+﻿using System.Collections;
+using System.Collections.Generic;
 using Entities.Enums;
 using Skills;
-using TMPro;
 using UnityEngine;
-using UnityEngine.SceneManagement;
 
 namespace Entities
 {
@@ -23,7 +21,7 @@ namespace Entities
         public          int             charisma;
         public          List<BaseSkill> skills = new();
         public          HealthpointBar  healthbarInstance;
-        public          string          Name                       { get; }
+        public          GameObject      unitTooltip;
         public abstract Party           Party                      { get; }
         public          BaseSkill       SelectedSkill              { get; set; }
         public          int             AktionenGesamt             { get; set; }
@@ -80,9 +78,22 @@ namespace Entities
             AktionenAktuell = AktionenGesamt;
         }
 
-        private void OnMouseEnter() => ShowHealthbar();
+        private void OnMouseEnter() => ShowUnitTooltip();
 
         private void OnMouseExit() => HideHealthbar();
+
+        private void ShowUnitTooltip()
+        {
+            //Debug.Log($"Pointer entered {name}");
+            //
+            // yield return new WaitForSeconds(0.3f);
+            //
+            // if (unitTooltip is null)
+            //     yield break;
+
+            unitTooltip.SetActive(true);
+            unitTooltip.GetComponent<UnitTooltip>().unit = this;
+        }
 
         protected void SetInitialHitpointsAndMana()
         {
@@ -92,54 +103,15 @@ namespace Entities
             CurrentHitpoints = MaximumHitpoints;
         }
 
-        private void ShowCharPanel()
-        {
-            var panel = SceneManager.GetActiveScene()
-                                    .GetRootGameObjects()
-                                    .First(x => x.name == "Battlefield")
-                                    .transform.Find("UI")
-                                    .transform.Find("Canvas")
-                                    .transform.Find("CharacterSheetPanel");
-
-            panel.transform.Find("Name").gameObject.GetComponent<TextMeshProUGUI>().text     = Name;
-            panel.transform.Find("StrValue").gameObject.GetComponent<TextMeshProUGUI>().text = Strength.ToString();
-            panel.transform.Find("DexValue").gameObject.GetComponent<TextMeshProUGUI>().text = Dexterity.ToString();
-            panel.transform.Find("HPValue").gameObject.GetComponent<TextMeshProUGUI>().text  = $"{(int)CurrentHitpoints} / {(int)MaximumHitpoints}";
-
-            panel.gameObject.SetActive(true);
-        }
-
-        public void ShowHealthbar()
-        {
-            var canvas = healthbarInstance.transform.Find("Canvas")
-                                          .gameObject.GetComponent<Canvas>();
-
-            var background = canvas.transform.Find("Border");
-            background.gameObject.SetActive(true);
-            var missinghealth = canvas.transform.Find("MissingHealth");
-            missinghealth.gameObject.SetActive(true);
-            var currenthealth = canvas.transform.Find("CurrentHealth");
-            currenthealth.gameObject.SetActive(true);
-
-            Debug.Log($"Pointer entered {name}");
-        }
-
         public void HideHealthbar()
         {
-            var canvas = healthbarInstance.transform.Find("Canvas")
-                                          .gameObject.GetComponent<Canvas>();
-
-            var background = canvas.transform.Find("Border");
-            background.gameObject.SetActive(false);
-            var missinghealth = canvas.transform.Find("MissingHealth");
-            missinghealth.gameObject.SetActive(false);
-            var currenthealth = canvas.transform.Find("CurrentHealth");
-            currenthealth.gameObject.SetActive(false);
+            unitTooltip.SetActive(false);
+            unitTooltip.GetComponent<UnitTooltip>().unit = null;
 
             Debug.Log($"Pointer entered {name}");
         }
 
-        public abstract float GetApproximateDamage(BaseSkill ability);
+        public abstract (int, int) GetApproximateDamage(BaseSkill ability);
 
         public abstract string UseAbility(BaseSkill ability, BaseUnit target = null);
 

@@ -15,12 +15,12 @@ namespace Skills
                 return;
 
             var tooltipInstance = transform.parent.transform.parent
-                                           .Find("Tooltip")
+                                           .Find("SkillTooltip")
                                            .GetComponent<Tooltip>();
 
             var controller = FindObjectOfType<BattleController>();
             var damage     = controller.selectedHero.GetApproximateDamage(skill);
-            var tooltip    = skill.GetTooltip(int.Parse(damage.ToString(CultureInfo.InvariantCulture)));
+            var tooltip    = skill.GetTooltip($"{damage.Item1}-{damage.Item2}");
 
             tooltipInstance.gameObject.SetActive(true);
             tooltipInstance.RenderTooltip(tooltip);
@@ -29,7 +29,7 @@ namespace Skills
         public void HideTooltip()
         {
             var tooltipInstance = transform.parent.transform.parent
-                                           .Find("Tooltip")
+                                           .Find("SkillTooltip")
                                            .GetComponent<Tooltip>();
 
             tooltipInstance.gameObject.SetActive(false);

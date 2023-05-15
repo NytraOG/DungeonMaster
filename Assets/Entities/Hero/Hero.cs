@@ -75,10 +75,10 @@ namespace Entities.Hero
             inventoryDisplay.ChangeHero(this);
         }
 
-        public override float GetApproximateDamage(BaseSkill ability) => ability switch
+        public override (int, int) GetApproximateDamage(BaseSkill ability) => ability switch
         {
             BaseDamageSkill skill => skill.GetDamage(this),
-            SupportSkill _ => 0,
+            SupportSkill _ => (0, 0),
             _ => throw new ArgumentOutOfRangeException(nameof(ability))
         };
 

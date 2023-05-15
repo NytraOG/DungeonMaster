@@ -63,6 +63,8 @@ MonoBehaviour:
   wisdom: 0
   charisma: 0
   skills: []
+  healthbarInstance: {fileID: 0}
+  unitTooltip: {fileID: 2023842038209081751, guid: a6d4c6dacba66d942ab02703f9bbc2c9, type: 3}
   displayname: displayname
   levelModifier: 1.4
   monstertype: {fileID: 0}

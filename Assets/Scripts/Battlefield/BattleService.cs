@@ -154,9 +154,12 @@ namespace Battlefield
             var enemy           = enemyGameobject.GetComponent<Creature>();
             var healthbar       = Instantiate(healthbarPrefab, enemy.transform);
 
-            var healthbarInstance = healthbar.GetComponent<HealthpointBar>();
-            healthbarInstance.unit  = enemy;
-            enemy.healthbarInstance = healthbarInstance;
+            var unitTooltip = GameObject.Find("UiCanvas").transform.Find("UnitTooltip");
+            enemy.unitTooltip = unitTooltip.gameObject;
+
+            // var healthbarInstance = healthbar.GetComponent<HealthpointBar>();
+            // healthbarInstance.unit  = enemy;
+            // enemy.healthbarInstance = healthbarInstance;
 
             var canvas = healthbar.transform.Find("Canvas")
                                   .gameObject.GetComponent<Canvas>();

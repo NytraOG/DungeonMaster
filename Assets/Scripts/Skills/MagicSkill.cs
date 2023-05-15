@@ -1,4 +1,5 @@
-﻿using Entities;
+﻿using System.Globalization;
+using Entities;
 using UnityEngine;
 
 namespace Skills
@@ -10,10 +11,21 @@ namespace Skills
 
         public override string Activate(BaseUnit actor, BaseUnit target)
         {
-            var damageDealt = GetDamage(actor);
-            target.CurrentHitpoints -= damageDealt;
+            var damage = GetDamage(actor);
 
-            return damageDealt.ToString();
+            var minhit = damage.Item1;
+            var maxhit = damage.Item2;
+
+            var rando         = new System.Random();
+            var damageInRange = rando.NextDouble() * (maxhit - minhit) + minhit;
+
+            target.CurrentHitpoints -= (int)damageInRange;
+
+            var finalDamage = ((int)damageInRange).ToString();
+
+            OnDamageDealt?.Invoke(finalDamage);
+
+            return finalDamage;
         }
     }
 }

@@ -9,18 +9,18 @@ public class Tooltip : MonoBehaviour
     private       TextMeshProUGUI text;
     public static Tooltip         Instance { get; set; }
 
-    private void Awake()
+    protected virtual void Awake()
     {
         Instance = this;
 
         rectTransform       = transform.GetComponent<RectTransform>();
         backgroundTransform = transform.Find("Background").GetComponent<RectTransform>();
-        text                = transform.Find("Text").GetComponent<TextMeshProUGUI>();
+        text                = transform.Find("Text")?.GetComponent<TextMeshProUGUI>();
 
         gameObject.SetActive(false);
     }
 
-    private void Update()
+    protected virtual void Update()
     {
         Vector2 anchoredPosition = Input.mousePosition / canvasRectTransform.localScale.x;
 

@@ -16,11 +16,12 @@ namespace Entities.Enemies
         public          float           levelModifier;
         public          BaseMonstertype monstertype;
         public          List<Keyword>   keywords;
+
         public override Party           Party => Party.Foe;
 
         protected override void Awake()
         {
-            displayname = $"{monstertype.displayname} {string.Join(", ", keywords.Select(k => k.displayname))}";
+            displayname = $"{monstertype.displayname} {keywords[0]?.displayname}";
             name        = displayname;
 
             monstertype.ApplyValues(this);
@@ -44,10 +45,10 @@ namespace Entities.Enemies
             Debug.Log($"{name} clicked");
         }
 
-        public override float GetApproximateDamage(BaseSkill ability) => ability switch
+        public override (int, int) GetApproximateDamage(BaseSkill ability) => ability switch
         {
-            BaseDamageSkill damageSkill => damageSkill.GetDamage(this),
-            SupportSkill => 0,
+            BaseDamageSkill skill => skill.GetDamage(this),
+            SupportSkill _ => (0, 0),
             _ => throw new ArgumentOutOfRangeException(nameof(ability))
         };
 

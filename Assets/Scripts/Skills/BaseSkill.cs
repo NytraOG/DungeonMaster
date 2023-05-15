@@ -7,22 +7,24 @@ namespace Skills
 {
     public abstract class BaseSkill : ScriptableObject
     {
-        public                     Sprite   sprite;
-        public                     string   displayName;
-        public                     bool     appliesStun;
-        public                     string[] keywords;
-        [TextArea(4, 4)]    public string   description;
+        public                            Sprite   sprite;
+        public                            string   displayName;
+        public                            bool     appliesStun;
+        public                            string[] keywords;
+        [TextArea(4, 4)]           public string   description;
         [Header("Damage Scaling")] public float    dStrength;
-        public                     float    dConstitution;
-        public                     float    dDexterity;
-        public                     float    dQuickness;
-        public                     float    dIntuition;
-        public                     float    dLogic;
-        public                     float    dWillpower;
-        public                     float    dWisdom;
-        public                     float    dCharisma;
-        public                     int      addedFlatDamage;
-        public                     int      level;
+        public                            float    dConstitution;
+        public                            float    dDexterity;
+        public                            float    dQuickness;
+        public                            float    dIntuition;
+        public                            float    dLogic;
+        public                            float    dWillpower;
+        public                            float    dWisdom;
+        public                            float    dCharisma;
+        public                            int      addedFlatDamage;
+        public                            int      level;
+        [Header("0 bis 1")]
+        public                            float    damageRange;
 
         private string Description
         {
@@ -77,11 +79,11 @@ namespace Skills
 
         public abstract string Activate(BaseUnit actor, BaseUnit target);
 
-        public string GetTooltip(int damage = 0) => $"<b>{displayName.ToUpper()}</b>{Environment.NewLine}" +
+        public string GetTooltip(string damage = "0-0") => $"<b>{displayName.ToUpper()}</b>{Environment.NewLine}" +
                                                     $"<i>{string.Join(", ", keywords)}</i>{Environment.NewLine}{Environment.NewLine}" +
                                                     GetDamageText(damage) +
                                                     Description;
 
-        private string GetDamageText(int damage) => damage == 0 ? string.Empty : $"Damage: <b>{damage}</b>{Environment.NewLine}{Environment.NewLine}";
+        private string GetDamageText(string damage) => damage == "0-0" ? string.Empty : $"Damage: <b>{damage}</b>{Environment.NewLine}{Environment.NewLine}";
     }
 }
