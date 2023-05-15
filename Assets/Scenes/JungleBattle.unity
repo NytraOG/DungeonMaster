@@ -14499,7 +14499,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 494570443}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 496665487}
+        m_TargetAssemblyTypeName: Battlefield.BattleService, Assembly-CSharp
+        m_MethodName: SpawnEnemy
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &494570443
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -25750,11 +25762,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7078209118110566298, guid: 1b4092d81f9d93a429916b413e0a7542, type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: 3.674
+      value: 3.365
       objectReference: {fileID: 0}
     - target: {fileID: 7078209118110566298, guid: 1b4092d81f9d93a429916b413e0a7542, type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: 0.96
+      value: 0.738
       objectReference: {fileID: 0}
     - target: {fileID: 7078209118110566298, guid: 1b4092d81f9d93a429916b413e0a7542, type: 3}
       propertyPath: m_LocalEulerAnglesHint.x
