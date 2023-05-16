@@ -4,7 +4,7 @@ using Random = System.Random;
 
 public static class Extensions
 {
-    public static T To<T>(this BaseUnitModifikator from)
+    public static T ToNewInstance<T>(this BaseUnitModifikator from)
             where T : BaseUnitModifikator
     {
         var newInstance = ScriptableObject.CreateInstance<T>();

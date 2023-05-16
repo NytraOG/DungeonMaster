@@ -51,6 +51,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2c5421ef8f744ec0a823fc30f6fd9e10, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  healthbarPrefab: {fileID: 0}
   level: 1
   strength: 0
   constitution: 0
@@ -62,13 +63,17 @@ MonoBehaviour:
   wisdom: 0
   charisma: 0
   skills: []
+  buffs: []
+  debuffs: []
+  healthbarInstance: {fileID: 0}
+  unitTooltip: {fileID: 0}
   displayname: Wolf Alpha
   levelModifier: 1.4
   monstertype: {fileID: 11400000, guid: 8d9fff1f8e3989b499c253a397080ea2, type: 2}
   keywords:
   - {fileID: 11400000, guid: 5359354bc9ca73f4a982b16dda1c5f71, type: 2}
   - {fileID: 11400000, guid: 3c9faf9f9cc606947bbbffd9ac2be09d, type: 2}
-  - {fileID: 11400000, guid: 23f27bf43e1617842bd008a03b4b3a78, type: 2}
+  favouritePositions: 010000000200000003000000
 --- !u!212 &2236026980879862489
 SpriteRenderer:
   m_ObjectHideFlags: 0

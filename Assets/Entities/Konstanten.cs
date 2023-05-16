@@ -1,7 +1,11 @@
-﻿namespace Entities
+﻿using System.Collections.Generic;
+using Entities.Enums;
+using UnityEngine;
+
+namespace Entities
 {
     public static class Konstanten
     {
-        public const string KnivesSkill = "KniveKekw";
+
     }
 }

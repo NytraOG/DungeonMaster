@@ -8,7 +8,7 @@ using UnityEngine.Events;
 
 namespace Skills
 {
-    public abstract class BaseDamageSkill : BaseSkill
+    public abstract class BaseDamageSkill : BaseTargetingSkill
     {
         public                                bool                appliesDebuff;
         [Header("Hitroll Multiplier")] public int                 hStrength;
@@ -20,9 +20,9 @@ namespace Skills
         public                                int                 hWillpower;
         public                                int                 hWisdom;
         public                                int                 hCharisma;
-        public                                float               hMultiplier = 1;
-        public                                UnityAction<string> OnDamageDealt;
+        public                                float               hMultiplier    = 1;
         public                                List<Debuff>        appliedDebuffs = new();
+        public                                UnityAction<string> OnDamageDealt;
 
         public int GetHitroll(BaseUnit actor) => (int)((actor.Strength * hStrength +
                                                         actor.Constitution * hConstitution +
@@ -63,9 +63,7 @@ namespace Skills
             foreach (var debuff in appliedDebuffs)
             {
                 if (target.debuffs.Any(b => b.displayname == debuff.displayname))
-                {
                     target.debuffs.First(b => b.displayname == debuff.displayname).currentDuration += debuff.duration;
-                }
                 else
                 {
                     debuff.appliedBy   = this;

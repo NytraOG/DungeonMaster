@@ -8,12 +8,11 @@ using UnityEngine;
 namespace Skills
 {
     [CreateAssetMenu(fileName = "Support Skill", menuName = "Skills/Support")]
-    public class SupportSkill : BaseSkill
+    public class SupportSkill : BaseTargetingSkill
     {
         public                                    bool       selfcastOnly;
         public                                    bool       isHealing;
         public                                    bool       isBuffing;
-        public                                    int        targets;
         [Header("Attribute Modification")] public string     @operator = "+";
         public                                    float      modifierMeleeDefense;
         public                                    float      modifierRangedDefense;
@@ -50,9 +49,7 @@ namespace Skills
             foreach (var buff in appliedBuffs)
             {
                 if (target.buffs.Any(b => b.displayname == buff.displayname))
-                {
                     target.buffs.First(b => b.displayname == buff.displayname).currentDuration += buff.duration;
-                }
                 else
                 {
                     target.buffs.Add(buff);

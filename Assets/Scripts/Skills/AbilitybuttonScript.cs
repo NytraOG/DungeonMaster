@@ -1,5 +1,4 @@
-﻿using System.Globalization;
-using Battlefield;
+﻿using Battlefield;
 using UnityEngine;
 
 namespace Skills

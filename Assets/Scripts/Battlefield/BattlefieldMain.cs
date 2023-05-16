@@ -3,6 +3,7 @@ using Entities;
 using Entities.Enums;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using UnityEngine.Serialization;
 
 namespace Battlefield
 {
@@ -12,7 +13,7 @@ namespace Battlefield
 
         private void Start()
         {
-            var enemies = BattleService.enemies;
+            var enemies = spawnController.enemies;
 
             SetPosition(enemies[0], SpawnFoeMiddle.TopLeft);
             SetPosition(enemies[1], SpawnFoeMiddle.TopRight);
@@ -43,9 +44,9 @@ namespace Battlefield
 
         #region Field
 
-        public BattleService BattleService;
-        public Spawn         SpawnAllyMiddle;
-        public Spawn         SpawnFoeMiddle;
+        [FormerlySerializedAs("BattleService")] public SpawnController spawnController;
+        public  Spawn           SpawnAllyMiddle;
+        public  Spawn           SpawnFoeMiddle;
 
         #endregion
     }

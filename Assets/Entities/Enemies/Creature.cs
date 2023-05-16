@@ -12,10 +12,11 @@ namespace Entities.Enemies
 {
     public class Creature : BaseUnit
     {
-        public          string          displayname;
-        public          float           levelModifier;
-        public          BaseMonstertype monstertype;
-        public          List<Keyword>   keywords;
+        public string          displayname;
+        public float           levelModifier;
+        public BaseMonstertype monstertype;
+        public List<Keyword>   keywords;
+        public List<Positions> favouritePositions = new () { Positions.None };
 
         public override Party           Party => Party.Foe;
 
@@ -35,6 +36,8 @@ namespace Entities.Enemies
 
             var spriterenderer = GetComponent<SpriteRenderer>();
             spriterenderer.sprite ??= monstertype.sprite;
+
+            unitTooltip = GameObject.Find("UiCanvas").transform.Find("UnitTooltip").gameObject;
         }
 
         private void OnMouseDown()

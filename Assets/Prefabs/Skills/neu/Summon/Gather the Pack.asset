@@ -9,13 +9,14 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 1824bf0e96894dce981af3c992cc336e, type: 3}
+  m_Script: {fileID: 11500000, guid: 1aa5d313835c407c8fdb408391c8f71f, type: 3}
   m_Name: Gather the Pack
   m_EditorClassIdentifier: 
   sprite: {fileID: 0}
   displayName: Gather the Pack
   appliesStun: 0
-  keywords: []
+  keywords:
+  - Summon
   description: 
   dStrength: 0
   dConstitution: 0
@@ -28,12 +29,8 @@ MonoBehaviour:
   dCharisma: 0
   addedFlatDamage: 0
   level: 0
-  selfcastOnly: 0
-  isHealing: 0
-  isBuffing: 0
-  targets: 0
-  operator: +
-  modifierMeleeDefense: 0
-  modifierRangedDefense: 0
-  modifierMagicDefense: 0
-  modifierSocialDefense: 10
+  manacost: 0
+  damageRange: 0
+  spawnsPerCast:
+  - {fileID: 6052278003749724499, guid: 1e630c27fa38bf74f961602fbaf52f46, type: 3}
+  - {fileID: 6052278003749724499, guid: 1e630c27fa38bf74f961602fbaf52f46, type: 3}

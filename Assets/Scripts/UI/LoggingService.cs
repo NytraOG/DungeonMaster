@@ -4,6 +4,7 @@ using System.Linq;
 using Battlefield;
 using Entities;
 using Entities.Buffs;
+using Entities.Enums;
 using Skills;
 using TMPro;
 using UnityEngine;
@@ -15,6 +16,7 @@ namespace UI
         public           GameObject       combatLog;
         public           GameObject       logmessagePrefab;
         public           GameObject       battleController;
+        public           GameObject       spawnController;
         public           int              fontsize;
         private readonly List<GameObject> logTracker      = new();
         private readonly int              maxMessagecount = 30;
@@ -22,14 +24,18 @@ namespace UI
 
         public void Awake()
         {
-            var component = battleController.GetComponent<BattleController>();
+            var bController = battleController.GetComponent<BattleController>();
+            var sController = spawnController.GetComponent<SpawnController>();
 
-            component.OnHit         += OnHit;
-            component.OnMiss        += OnMiss;
-            component.OnMisc        += OnMisc;
-            component.OnBuffApplied += OnBuffApplied;
-            component.OnDebuffTick  += OnDebuffTick;
+            bController.OnHit           += OnHit;
+            bController.OnMiss          += OnMiss;
+            bController.OnMisc          += OnMisc;
+            bController.OnBuffApplied   += OnBuffApplied;
+            bController.OnDebuffTick    += OnDebuffTick;
+            sController.OnCreateSpawned += OnCreateSpawned;
         }
+
+        private void OnCreateSpawned(SpawnController.SpawnEventArgs args) => Log($"{args.Creature.displayname} level {args.Creature.level} appeared at position <b>{GetPositionString(args.Position)}</b>.");
 
         private void OnDebuffTick(BaseUnit target, Debuff debuff) => Log($"{target.name} lost {debuff.damagePerTick} Health to {debuff.name}, {debuff.currentDuration} turns remaining.");
 
@@ -92,6 +98,28 @@ namespace UI
 
             logTracker.Add(logEntry);
         }
+
+        private string GetPositionString(Positions position) => position switch
+        {
+            Positions.None => "N/A",
+            Positions.FrontMiddel => "Front",
+            Positions.FrontLeft => "Front",
+            Positions.FrontRight => "Front",
+            Positions.LeftFlankMiddel => "Left flank",
+            Positions.LeftFlankLeft => "Left flank",
+            Positions.LeftFlankright => "Left flank",
+            Positions.RightFlankMiddle => "Right flank",
+            Positions.RightFlankLeft => "Right flank",
+            Positions.RightFlankRight => "Right flank",
+            Positions.CenterMiddle => "Center",
+            Positions.CenterLeft => "Center",
+            Positions.CenterRight => "Center",
+            Positions.BackMiddle => "Back",
+            Positions.BackLeft => "Back",
+            Positions.BackRight => "Back",
+            Positions.All => "N/A",
+            _ => throw new ArgumentOutOfRangeException(nameof(position), position, null)
+        };
 
         private int FetchDefenseattribute(CombatskillResolutionArgs info) => info.Skill switch
         {

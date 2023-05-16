@@ -1,6 +1,4 @@
-﻿using System;
-using System.Globalization;
-using Entities;
+﻿using Entities;
 using UnityEngine;
 using Random = System.Random;
 

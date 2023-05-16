@@ -12,7 +12,7 @@ namespace Skills
         public                            bool     appliesStun;
         public                            string[] keywords;
         [TextArea(4, 4)]           public string   description;
-        [Header("Damage Scaling")] public float    dStrength;
+        [Header("Effect Scaling")] public float    dStrength;
         public                            float    dConstitution;
         public                            float    dDexterity;
         public                            float    dQuickness;
@@ -23,8 +23,8 @@ namespace Skills
         public                            float    dCharisma;
         public                            int      addedFlatDamage;
         public                            int      level;
-        [Header("0 bis 1")]
-        public                            float    damageRange;
+        public                            int      manacost;
+        [Header("0 bis 1")] public        float    damageRange;
 
         private string Description
         {
@@ -75,14 +75,12 @@ namespace Skills
             }
         }
 
-        public abstract Factions TargetableFaction { get; }
-
         public abstract string Activate(BaseUnit actor, BaseUnit target);
 
         public string GetTooltip(string damage = "0-0") => $"<b>{displayName.ToUpper()}</b>{Environment.NewLine}" +
-                                                    $"<i>{string.Join(", ", keywords)}</i>{Environment.NewLine}{Environment.NewLine}" +
-                                                    GetDamageText(damage) +
-                                                    Description;
+                                                           $"<i>{string.Join(", ", keywords)}</i>{Environment.NewLine}{Environment.NewLine}" +
+                                                           GetDamageText(damage) +
+                                                           Description;
 
         private string GetDamageText(string damage) => damage == "0-0" ? string.Empty : $"Damage: <b>{damage}</b>{Environment.NewLine}{Environment.NewLine}";
     }

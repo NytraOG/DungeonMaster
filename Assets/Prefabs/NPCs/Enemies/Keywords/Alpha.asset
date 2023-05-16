@@ -34,4 +34,4 @@ MonoBehaviour:
   socialDefensemodifier: 0
   skills:
   - {fileID: 11400000, guid: 3c2ee681f6703b94d92abe1079dcb0b3, type: 2}
-  - {fileID: 11400000, guid: a751be0d008244a478fdc645f03e1e27, type: 2}
+  - {fileID: 11400000, guid: 623de55334e9eb04b9ae410a2c42ef3b, type: 2}

@@ -1295,7 +1295,7 @@ MonoBehaviour:
   m_HandleRect: {fileID: 0}
   m_Direction: 0
   m_Value: 0
-  m_Size: 0.43798512
+  m_Size: 0
   m_NumberOfSteps: 0
   m_OnValueChanged:
     m_PersistentCalls:
@@ -12211,6 +12211,7 @@ MonoBehaviour:
   combatLog: {fileID: 384980578}
   logmessagePrefab: {fileID: 1075269467792426336, guid: 29be99777be92e545b0b5bbf9d1bfae4, type: 3}
   battleController: {fileID: 645586930}
+  spawnController: {fileID: 496665486}
   fontsize: 15
 --- !u!4 &299544766 stripped
 Transform:
@@ -14502,7 +14503,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 496665487}
         m_TargetAssemblyTypeName: Battlefield.BattleService, Assembly-CSharp
-        m_MethodName: SpawnEnemy
+        m_MethodName: SpawnCreatureRandomly
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -30805,7 +30806,7 @@ PrefabInstance:
       objectReference: {fileID: 4640813734388174243, guid: 47ef540c221de3d428378c6ae0438b0e, type: 3}
     - target: {fileID: 7631227285680864984, guid: 309b55b815389854b99e9fd182242fda, type: 3}
       propertyPath: m_Name
-      value: Battlefield
+      value: SpawnController
       objectReference: {fileID: 0}
     - target: {fileID: 7631227285680864985, guid: 309b55b815389854b99e9fd182242fda, type: 3}
       propertyPath: m_RootOrder

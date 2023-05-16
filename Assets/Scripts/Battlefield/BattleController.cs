@@ -215,6 +215,16 @@ namespace Battlefield
 
                     break;
                 }
+                case { Ability: SummonSkill summonSkill, Actor: Creature creature }:
+                {
+                    abilityResult = summonSkill.Activate(selection.Actor, selection.Target);
+
+                    InstantiateFloatingCombatText(selection.Actor, $"<b>{summonSkill.displayName}</b>!");
+
+                    creature.SelectedSkill = null;
+
+                    break;
+                }
                 default:
                     UseSupportskill(selection, out abilityResult);
                     break;
@@ -287,7 +297,7 @@ namespace Battlefield
             if (allesDa)
                 return;
 
-            var battlefieldComponent = battlefield.GetComponent<BattleService>();
+            var battlefieldComponent = battlefield.GetComponent<SpawnController>();
 
             enemies = battlefieldComponent.enemies;
             heroes  = FindObjectsOfType<BaseHero>().ToList();
