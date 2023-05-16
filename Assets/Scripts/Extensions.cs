@@ -1,13 +1,15 @@
 ﻿using System;
+using Entities.Buffs;
 using UnityEngine;
 using Random = System.Random;
 
 public static class Extensions
 {
-    public static T ToNewInstance<T>(this BaseUnitModifikator from)
+    public static T ToNewInstance<T>(this T from)
             where T : BaseUnitModifikator
     {
         var newInstance = ScriptableObject.CreateInstance<T>();
+
         newInstance.displayname = from.displayname;
         newInstance.name        = from.name;
 
@@ -21,6 +23,25 @@ public static class Extensions
         newInstance.willpowerMultiplier    = from.willpowerMultiplier;
         newInstance.wisdomMultiplier       = from.wisdomMultiplier;
         newInstance.charismaMultiplier     = from.charismaMultiplier;
+
+        newInstance.meleeAttackratingModifier  = from.meleeAttackratingModifier;
+        newInstance.rangedAttackratingModifier = from.rangedAttackratingModifier;
+        newInstance.magicAttackratingModifier  = from.magicAttackratingModifier;
+        newInstance.socialAttackratingModifier = from.socialAttackratingModifier;
+
+        newInstance.meleeDefensmodifier   = from.meleeDefensmodifier;
+        newInstance.rangedDefensemodifier = from.rangedDefensemodifier;
+        newInstance.magicDefensemodifier  = from.magicDefensemodifier;
+        newInstance.socialDefensemodifier = from.socialDefensemodifier;
+
+        if (from is Debuff debuff && newInstance is Debuff newInstanceDebuff)
+        {
+            newInstanceDebuff.damagePerTick        = debuff.damagePerTick;
+            newInstanceDebuff.duration             = debuff.duration;
+            newInstanceDebuff.remainingDuration    = debuff.remainingDuration;
+            newInstanceDebuff.isStackable          = debuff.isStackable;
+            newInstanceDebuff.combatlogEffectColor = debuff.combatlogEffectColor;
+        }
 
         return newInstance;
     }

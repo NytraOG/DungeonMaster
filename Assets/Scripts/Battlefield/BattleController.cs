@@ -14,6 +14,15 @@ using Random = System.Random;
 
 namespace Battlefield
 {
+    public struct DebuffResolutionArgs
+    {
+        public BaseUnit Actor                { get; set; }
+        public Debuff   Debuff               { get; set; }
+        public int      Damage               { get; set; }
+        public int      RemainingDuration    { get; set; }
+        public Color    CombatlogEffectColor { get; set; }
+    }
+
     public class BattleController : MonoBehaviour
     {
         public  GameObject                                         floatingCombatText;
@@ -32,7 +41,7 @@ namespace Battlefield
         private bool                                               combatActive;
         private List<BaseHero>                                     heroes = new();
         public  UnityAction<BaseUnit, BaseSkill, BaseUnit, string> OnBuffApplied;
-        public  UnityAction<BaseUnit, Debuff>                      OnDebuffTick;
+        public  UnityAction<DebuffResolutionArgs>                  OnDebuffTick;
         public  UnityAction<CombatskillResolutionArgs>             OnHit;
         public  UnityAction<string>                                OnMisc;
         public  UnityAction<CombatskillResolutionArgs>             OnMiss;
@@ -68,7 +77,7 @@ namespace Battlefield
 
                 AbilitySelection.Add(new AbilitySelection
                 {
-                    Ability = selectedAbility,
+                    Skill = selectedAbility,
                     Actor   = selectedHero,
                     Target  = selectedTarget
                 });
@@ -100,8 +109,8 @@ namespace Battlefield
             while (counter < abilitiesOfSelectedHero.Count)
             {
                 skillbuttons[counter].GetComponent<Image>().sprite              = abilitiesOfSelectedHero[counter].sprite;
-                skillbuttons[counter].GetComponent<AbilitybuttonScript>().skill = abilitiesOfSelectedHero[counter];
                 skillbuttons[counter].GetComponent<Button>().enabled            = true;
+                skillbuttons[counter].GetComponent<AbilitybuttonScript>().skill = abilitiesOfSelectedHero[counter];
 
                 counter++;
             }
@@ -132,8 +141,12 @@ namespace Battlefield
                 foreach (var selection in AbilitySelection)
                 {
                     if (selection.Actor.IsDead)
+                    {
                         yield return new WaitForSeconds(0.5f);
-                    else if (selection.Actor.IsStunned)
+                        continue;
+                    }
+
+                    if (selection.Actor.IsStunned)
                     {
                         OnMisc?.Invoke($"{selection.Actor.name}'s <b><color=yellow>Stun</color></b> expired");
 
@@ -147,7 +160,10 @@ namespace Battlefield
                         yield return new WaitForSeconds(1f);
                     }
                     else if (selection.Target.IsDead && selection.Actor is Creature creature)
+                    {
                         creature.SelectedSkill = null;
+                        continue;
+                    }
                     else if (selection.Target.IsDead) { }
                     else
                     {
@@ -158,21 +174,70 @@ namespace Battlefield
                         yield return new WaitForSeconds(1f);
                     }
 
-                    foreach (var debuff in selection.Actor.debuffs)
+                    var debuffsToKill = new List<Debuff>();
+
+                    var stackableDebuffs        = selection.Actor.debuffs.Where(d => d.isStackable).ToList();
+                    var groupedStackableDebuffs = stackableDebuffs.GroupBy(d => d.displayname);
+
+                    var unstackableDebuffs = selection.Actor.debuffs.Except(stackableDebuffs);
+
+                    foreach (var debuffs in groupedStackableDebuffs)
+                    {
+                        var cumulatedDamage   = debuffs.Sum(d => d.damagePerTick);
+                        var remainingDuration = debuffs.Max(d => d.remainingDuration) - 1;
+
+                        debuffs.ToList()
+                               .ForEach(d =>
+                                {
+                                    d.remainingDuration--;
+
+                                    if (d.DurationEnded)
+                                        debuffsToKill.Add(d);
+                                });
+
+                        selection.Actor.CurrentHitpoints -= cumulatedDamage;
+
+                        OnDebuffTick?.Invoke(new DebuffResolutionArgs
+                        {
+                            Actor                = selection.Actor,
+                            Debuff               = debuffs.First(),
+                            Damage               = cumulatedDamage,
+                            RemainingDuration    = remainingDuration,
+                            CombatlogEffectColor = debuffs.First().combatlogEffectColor
+                        });
+
+                        ProcessFloatingCombatText(cumulatedDamage.ToString(), selection.Actor);
+
+                        yield return new WaitForSeconds(1f);
+                    }
+
+                    foreach (var debuff in unstackableDebuffs)
                     {
                         debuff.DealDamage(selection.Actor);
-                        debuff.currentDuration -= 1;
+                        debuff.remainingDuration--;
 
-                        OnDebuffTick?.Invoke(selection.Actor, debuff);
+                        if (debuff.DurationEnded)
+                            debuffsToKill.Add(debuff);
+
+                        OnDebuffTick?.Invoke(new DebuffResolutionArgs
+                        {
+                            Actor                = selection.Actor,
+                            Debuff               = debuff,
+                            Damage               = debuff.damagePerTick,
+                            RemainingDuration    = debuff.remainingDuration,
+                            CombatlogEffectColor = debuff.combatlogEffectColor
+                        });
 
                         ProcessFloatingCombatText(debuff.damagePerTick.ToString(), selection.Actor);
 
                         yield return new WaitForSeconds(1f);
+                    }
 
-                        if (!debuff.DurationEnded)
-                            continue;
-
+                    foreach (var debuff in debuffsToKill)
+                    {
                         debuff.Reverse();
+
+                        selection.Actor.debuffs.Remove(debuff);
 
                         Destroy(debuff);
                     }
@@ -190,7 +255,7 @@ namespace Battlefield
         {
             switch (selection)
             {
-                case { Ability: BaseDamageSkill damageSkill, Target: Creature creature }:
+                case { Skill: BaseDamageSkill damageSkill, Target: Creature creature }:
                 {
                     var isHit = CalculateHit(selection, damageSkill, creature, out var hitroll);
 
@@ -200,7 +265,7 @@ namespace Battlefield
                         Miss(selection, hitroll, out abilityResult);
                     break;
                 }
-                case { Ability: BaseDamageSkill foeDamageSkill, Target: BaseHero target, Actor: Creature creature }:
+                case { Skill: BaseDamageSkill foeDamageSkill, Target: BaseHero target, Actor: Creature creature }:
                 {
                     var isHit = CalculateHit(selection, foeDamageSkill, target, out var hitroll);
 
@@ -215,7 +280,7 @@ namespace Battlefield
 
                     break;
                 }
-                case { Ability: SummonSkill summonSkill, Actor: Creature creature }:
+                case { Skill: SummonSkill summonSkill, Actor: Creature creature }:
                 {
                     abilityResult = summonSkill.Activate(selection.Actor, selection.Target);
 
@@ -233,9 +298,9 @@ namespace Battlefield
 
         private void UseSupportskill(AbilitySelection selection, out string abilityResult)
         {
-            abilityResult = selection.Actor.UseAbility(selection.Ability, selection.Target);
+            abilityResult = selection.Actor.UseAbility(selection.Skill, selection.Target);
 
-            OnBuffApplied?.Invoke(selection.Actor, selection.Ability, selection.Target, abilityResult);
+            OnBuffApplied?.Invoke(selection.Actor, selection.Skill, selection.Target, abilityResult);
         }
 
         private void Miss(AbilitySelection selection, int hitroll, out string abilityResult)
@@ -245,24 +310,29 @@ namespace Battlefield
             OnMiss?.Invoke(new CombatskillResolutionArgs
             {
                 Actor         = selection.Actor,
-                Skill         = selection.Ability,
+                Skill         = selection.Skill,
                 Hitroll       = hitroll,
                 Target        = selection.Target,
                 Abilityresult = abilityResult
             });
         }
 
-        private void DealDamage(AbilitySelection selection, int hitroll, out string abilityResult)
+        private void DealDamage(AbilitySelection selection, int hitroll, out string skillResult)
         {
-            abilityResult = selection.Actor.UseAbility(selection.Ability, selection.Target);
+            skillResult = selection.Actor.UseAbility(selection.Skill, selection.Target);
+
+            var quotient    = hitroll / selection.Target.MeleeDefense;
+
+
+            var finalDamage = int.Parse(skillResult) + ((BaseDamageSkill)selection.Skill).FetchBonusDamage();
 
             OnHit?.Invoke(new CombatskillResolutionArgs
             {
                 Actor         = selection.Actor,
-                Skill         = selection.Ability,
+                Skill         = selection.Skill,
                 Hitroll       = hitroll,
                 Target        = selection.Target,
-                Abilityresult = abilityResult
+                Abilityresult = skillResult
             });
         }
 
@@ -321,7 +391,7 @@ namespace Battlefield
 
                 AbilitySelection.Add(new AbilitySelection
                 {
-                    Ability = enemy.SelectedSkill,
+                    Skill = enemy.SelectedSkill,
                     Actor   = enemy,
                     Target  = heroes[rando.Next(0, heroes.Count)]
                 });
@@ -444,7 +514,7 @@ namespace Battlefield
 
     public struct AbilitySelection
     {
-        public BaseSkill Ability { get; set; }
+        public BaseSkill Skill { get; set; }
         public BaseUnit  Target  { get; set; }
         public BaseUnit  Actor   { get; set; }
     }

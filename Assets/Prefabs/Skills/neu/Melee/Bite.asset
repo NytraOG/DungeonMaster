@@ -31,7 +31,9 @@ MonoBehaviour:
   dCharisma: 0
   addedFlatDamage: 0
   level: 0
+  manacost: 0
   damageRange: 0.3
+  targets: 1
   appliesDebuff: 1
   hStrength: 0
   hConstitution: 0
@@ -45,3 +47,4 @@ MonoBehaviour:
   hMultiplier: 1
   appliedDebuffs:
   - {fileID: 11400000, guid: ae9e4f08f3e741c4e9c414fb8b17e92e, type: 2}
+  - {fileID: 11400000, guid: 10c0f50b8a68f5c4290b773dcf6879e4, type: 2}

@@ -1,5 +1,6 @@
 ﻿using Entities;
 using TMPro;
+using UnityEngine;
 using UnityEngine.UI;
 
 public class UnitTooltip : Tooltip
@@ -17,10 +18,20 @@ public class UnitTooltip : Tooltip
 
     protected override void Update()
     {
-        base.Update();
-
         if (unit is null)
             return;
+
+        Vector2 anchoredPosition = unit.transform.position * 100 / canvasRectTransform.localScale.x;
+
+        anchoredPosition.y += 50;
+
+        // if (anchoredPosition.x + BackgroundTransform.rect.width > canvasRectTransform.rect.width)
+        //     anchoredPosition.x = canvasRectTransform.rect.width - BackgroundTransform.rect.width;
+        //
+        // if (anchoredPosition.y + BackgroundTransform.rect.height > canvasRectTransform.rect.height)
+        //     anchoredPosition.y = canvasRectTransform.rect.height - BackgroundTransform.rect.height;
+
+        RectTransform.anchoredPosition = anchoredPosition;
 
         transform.Find("UnitName").GetComponent<TextMeshProUGUI>().text = unit.name;
 

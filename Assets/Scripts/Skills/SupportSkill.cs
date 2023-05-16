@@ -49,7 +49,7 @@ namespace Skills
             foreach (var buff in appliedBuffs)
             {
                 if (target.buffs.Any(b => b.displayname == buff.displayname))
-                    target.buffs.First(b => b.displayname == buff.displayname).currentDuration += buff.duration;
+                    target.buffs.First(b => b.displayname == buff.displayname).remainingDuration += buff.duration;
                 else
                 {
                     target.buffs.Add(buff);

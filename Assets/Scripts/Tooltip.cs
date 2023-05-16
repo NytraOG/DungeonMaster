@@ -1,48 +1,50 @@
+using Skills;
 using TMPro;
 using UnityEngine;
 
 public class Tooltip : MonoBehaviour
 {
-    public        RectTransform   canvasRectTransform;
-    private       RectTransform   backgroundTransform;
-    private       RectTransform   rectTransform;
-    private       TextMeshProUGUI text;
-    public static Tooltip         Instance { get; set; }
+    public        RectTransform       canvasRectTransform;
+    protected     RectTransform       BackgroundTransform;
+    protected     RectTransform       RectTransform;
+    protected     TextMeshProUGUI     Text;
+    public        AbilitybuttonScript displayedSkill;
+    public static Tooltip             Instance { get; set; }
 
     protected virtual void Awake()
     {
         Instance = this;
 
-        rectTransform       = transform.GetComponent<RectTransform>();
-        backgroundTransform = transform.Find("Background").GetComponent<RectTransform>();
-        text                = transform.Find("Text")?.GetComponent<TextMeshProUGUI>();
+        RectTransform       = transform.GetComponent<RectTransform>();
+        BackgroundTransform = transform.Find("Background").GetComponent<RectTransform>();
+        Text                = transform.Find("Text")?.GetComponent<TextMeshProUGUI>();
 
         gameObject.SetActive(false);
     }
 
     protected virtual void Update()
     {
-        Vector2 anchoredPosition = Input.mousePosition / canvasRectTransform.localScale.x;
+        Vector2 anchoredPosition = displayedSkill.transform.position / canvasRectTransform.localScale.x;
 
-        anchoredPosition.y += 20;
+        anchoredPosition.y += 37;
 
-        if (anchoredPosition.x + backgroundTransform.rect.width > canvasRectTransform.rect.width)
-            anchoredPosition.x = canvasRectTransform.rect.width - backgroundTransform.rect.width;
+        if (anchoredPosition.x + BackgroundTransform.rect.width > canvasRectTransform.rect.width)
+            anchoredPosition.x = canvasRectTransform.rect.width - BackgroundTransform.rect.width;
 
-        if (anchoredPosition.y + backgroundTransform.rect.height > canvasRectTransform.rect.height)
-            anchoredPosition.y = canvasRectTransform.rect.height - backgroundTransform.rect.height;
+        if (anchoredPosition.y + BackgroundTransform.rect.height > canvasRectTransform.rect.height)
+            anchoredPosition.y = canvasRectTransform.rect.height - BackgroundTransform.rect.height;
 
-        rectTransform.anchoredPosition = anchoredPosition;
+        RectTransform.anchoredPosition = anchoredPosition;
     }
 
     public void RenderTooltip(string content)
     {
-        text.SetText(content);
-        text.ForceMeshUpdate();
+        Text.SetText(content);
+        Text.ForceMeshUpdate();
 
         var padding = new Vector2(8, 8);
 
-        backgroundTransform.sizeDelta = text.GetRenderedValues(false) + padding;
+        BackgroundTransform.sizeDelta = Text.GetRenderedValues(false) + padding;
     }
 
     public static void ShowTooltip(string message)

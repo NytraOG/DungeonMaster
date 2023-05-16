@@ -10,9 +10,9 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 76dd5476367a41aa91350116cdbeadfa, type: 3}
-  m_Name: Bleed
+  m_Name: Poison
   m_EditorClassIdentifier: 
-  displayname: Bleed
+  displayname: Poison
   strengthMultiplier: 1
   constitutionMultiplier: 1
   dexterityMultiplier: 1
@@ -32,10 +32,10 @@ MonoBehaviour:
   rangedDefensemodifier: 0
   magicDefensemodifier: 0
   socialDefensemodifier: 0
-  duration: 5
-  remainingDuration: 5
+  duration: 3
+  remainingDuration: 3
   appliedBy: {fileID: 0}
   appliedFrom: {fileID: 0}
   isStackable: 1
-  combatlogEffectColor: {r: 0.6431373, g: 0.04705883, b: 0.003921569, a: 1}
-  damagePerTick: 1
+  combatlogEffectColor: {r: 0.21726468, g: 0.38679248, b: 0.17332682, a: 1}
+  damagePerTick: 3

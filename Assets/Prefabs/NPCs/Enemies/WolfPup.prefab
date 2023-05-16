@@ -72,6 +72,7 @@ MonoBehaviour:
   monstertype: {fileID: 11400000, guid: 8d9fff1f8e3989b499c253a397080ea2, type: 2}
   keywords:
   - {fileID: 11400000, guid: 8ff459958cde66141b158ebf9ef2c986, type: 2}
+  - {fileID: 11400000, guid: b6a8a8e306f7c824e91813cf05d9946d, type: 2}
   favouritePositions: 0400000005000000060000000700000008000000090000000a0000000b0000000c000000
 --- !u!212 &6382005644006947832
 SpriteRenderer:

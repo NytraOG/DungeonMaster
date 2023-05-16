@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using Entities;
 using Entities.Buffs;
+using Entities.Enums;
 using UnityEngine;
 using UnityEngine.Events;
 
@@ -10,6 +11,9 @@ namespace Skills
 {
     public abstract class BaseDamageSkill : BaseTargetingSkill
     {
+        public                                int                 bonusDamageNormal;
+        public                                int                 bonusDamageGood;
+        public                                int                 bonusDamageCritical;
         public                                bool                appliesDebuff;
         [Header("Hitroll Multiplier")] public int                 hStrength;
         public                                int                 hConstitution;
@@ -55,6 +59,15 @@ namespace Skills
             return (minhit, maxhit);
         }
 
+        public int FetchBonusDamage(HitResult hitresult) => hitresult switch
+        {
+            HitResult.None => 0,
+            HitResult.Normal => bonusDamageNormal,
+            HitResult.Good => bonusDamageGood,
+            HitResult.Critical => bonusDamageCritical,
+            _ => throw new ArgumentOutOfRangeException(nameof(hitresult), hitresult, null)
+        };
+
         protected void ApplyDebuffs(BaseUnit actor, BaseUnit target)
         {
             if (!appliesDebuff)
@@ -62,17 +75,22 @@ namespace Skills
 
             foreach (var debuff in appliedDebuffs)
             {
-                if (target.debuffs.Any(b => b.displayname == debuff.displayname))
-                    target.debuffs.First(b => b.displayname == debuff.displayname).currentDuration += debuff.duration;
-                else
-                {
-                    debuff.appliedBy   = this;
-                    debuff.appliedFrom = actor;
-                    target.debuffs.Add(debuff);
-                    debuff.ApplyDamageModifier(target);
-                    debuff.ApplyRatingModifier(target);
-                }
+                if (target.debuffs.Any(d => d.displayname == debuff.displayname) && !debuff.isStackable)
+                    continue;
+
+                AddDebuff(actor, target, debuff);
             }
+        }
+
+        private void AddDebuff(BaseUnit actor, BaseUnit target, Debuff debuff)
+        {
+            var newInstance = debuff.ToNewInstance();
+
+            newInstance.appliedBy   = this;
+            newInstance.appliedFrom = actor;
+            target.debuffs.Add(newInstance);
+            newInstance.ApplyDamageModifier(target);
+            newInstance.ApplyRatingModifier(target);
         }
 
         private float GetModifier(BaseDamageSkill baseDamageSkill, BaseUnit actor) => baseDamageSkill switch

@@ -7,12 +7,15 @@ namespace Entities.Buffs
     public class Buff : BaseUnitModifikator
     {
         public int       duration = 1;
-        public int       currentDuration;
+        public int       remainingDuration;
         public BaseSkill appliedBy;
         public BaseUnit  appliedFrom;
-        public bool      DurationEnded => currentDuration <= 0;
+        public bool      isStackable;
+        public Color     combatlogEffectColor = Color.white;
+        public bool      DurationEnded => remainingDuration <= 0;
 
-        private void Awake() => currentDuration = duration;
-        public void Reverse(){}
+        private void Awake() => remainingDuration = duration;
+
+        public virtual void Reverse() { }
     }
 }

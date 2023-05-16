@@ -17,6 +17,7 @@ namespace Skills
                                            .Find("SkillTooltip")
                                            .GetComponent<Tooltip>();
 
+            tooltipInstance.displayedSkill = this;
             var controller = FindObjectOfType<BattleController>();
             var damage     = controller.selectedHero.GetApproximateDamage(skill);
             var tooltip    = skill.GetTooltip($"{damage.Item1}-{damage.Item2}");

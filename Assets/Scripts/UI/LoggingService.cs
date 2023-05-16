@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Linq;
 using Battlefield;
 using Entities;
-using Entities.Buffs;
 using Entities.Enums;
 using Skills;
 using TMPro;
@@ -37,7 +36,7 @@ namespace UI
 
         private void OnCreateSpawned(SpawnController.SpawnEventArgs args) => Log($"{args.Creature.displayname} level {args.Creature.level} appeared at position <b>{GetPositionString(args.Position)}</b>.");
 
-        private void OnDebuffTick(BaseUnit target, Debuff debuff) => Log($"{target.name} lost {debuff.damagePerTick} Health to {debuff.name}, {debuff.currentDuration} turns remaining.");
+        private void OnDebuffTick(DebuffResolutionArgs args) => Log($"{args.Actor.name} lost {args.Damage} </b> Health to <b><color=#{ColorUtility.ToHtmlStringRGBA(args.CombatlogEffectColor)}>{args.Debuff.name}</color>, {args.RemainingDuration} turns remaining.");
 
         private void OnHit(CombatskillResolutionArgs args)
         {
