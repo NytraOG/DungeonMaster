@@ -28,7 +28,7 @@ namespace Entities.Hero
             var controller = FindObjectOfType<BattleController>();
 
             if (controller.selectedAbility is SupportSkill { TargetableFaction: Factions.Friend })
-                controller.selectedTarget = this;
+                controller.selectedTargets.Add(this);
             else
                 ChangeSelectedHero(controller);
         }
@@ -71,6 +71,8 @@ namespace Entities.Hero
             controller.selectedHero             = this;
             controller.abilitiesOfSelectedHero  = skills;
             controller.abilityanzeigeIstAktuell = false;
+            controller.selectedTargets.ForEach(t => t.GetComponent<SpriteRenderer>().material = controller.defaultMaterial);
+            controller.selectedTargets.Clear();
 
             var inventoryDisplay = inventoryPanel.GetComponent<StaticInventoryDisplay>();
             inventoryDisplay.ChangeHero(this);

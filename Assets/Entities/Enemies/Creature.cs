@@ -42,10 +42,26 @@ namespace Entities.Enemies
 
         private void OnMouseDown()
         {
-            var controller = FindObjectOfType<BattleController>();
-            controller.selectedTarget = this;
-
             Debug.Log($"{name} clicked");
+
+            var controller = FindObjectOfType<BattleController>();
+
+            if (controller.selectedAbility is BaseTargetingSkill targetingSkill)
+            {
+                var maxTargets = targetingSkill.GetTargets(controller.selectedHero);
+
+                var maxTargetsReached = controller.selectedTargets.Count == maxTargets;
+
+                if (maxTargetsReached)
+                {
+                    controller.ShowToast($"Target maximum {maxTargets} reached for {targetingSkill.displayName}");
+                    return;
+                }
+            }
+
+            GetComponent<SpriteRenderer>().material = controller.creatureOutlineMaterial;
+
+            controller.selectedTargets.Add(this);
         }
 
         public override (int, int) GetApproximateDamage(BaseSkill ability) => ability switch

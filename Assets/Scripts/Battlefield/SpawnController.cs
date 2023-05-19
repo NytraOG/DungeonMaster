@@ -16,6 +16,7 @@ namespace Battlefield
     {
         public          List<Creature>                 enemies;
         public          List<GameObject>               heroes;
+        public          Material                       defaultMaterial;
         public          List<GameObject>               enemiesToSpawn = new();
         public          InventoryItemData              itemData1;
         public          InventoryItemData              itemData2;
@@ -180,6 +181,7 @@ namespace Battlefield
         {
             var enemyGameobject = Instantiate(creature, enemyTransform, Quaternion.identity);
             var enemy           = enemyGameobject.GetComponent<Creature>();
+            enemyGameobject.GetComponent<SpriteRenderer>().material = defaultMaterial;
 
             enemies.Add(enemy);
         }

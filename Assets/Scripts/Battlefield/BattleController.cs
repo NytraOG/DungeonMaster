@@ -30,8 +30,11 @@ namespace Battlefield
         public  GameObject                                         floatingCombatText;
         public  GameObject                                         battlefield;
         public  BaseHero                                           selectedHero;
-        public  BaseUnit                                           selectedTarget;
+        public  List<BaseUnit>                                     selectedTargets;
         public  BaseSkill                                          selectedAbility;
+        public  Material                                           defaultMaterial;
+        public  Material                                           creatureOutlineMaterial;
+        public  Material                                           heroOutlineMaterial;
         public  List<BaseSkill>                                    abilitiesOfSelectedHero = new();
         public  bool                                               abilityanzeigeIstAktuell;
         public  Text                                               toastMessageText;
@@ -53,12 +56,10 @@ namespace Battlefield
 
         private void Update()
         {
-
             if (Input.GetKeyDown(KeyCode.Escape))
             {
-                selectedHero    = null;
-                selectedTarget  = null;
-                selectedAbility = null;
+                selectedTargets.ForEach(t => t.GetComponent<SpriteRenderer>().material = defaultMaterial);
+                selectedTargets.Clear();
             }
 
             MachEnemiesCombatReady();
@@ -70,23 +71,28 @@ namespace Battlefield
         {
             if (AbilitySelection.Any(s => s.Actor == selectedHero))
                 ShowToast("Selected Hero is already acting");
-            else if (selectedAbility is not null && selectedTarget is null)
-                ShowToast("No Target selected");
+            else if (selectedAbility is not null && !selectedTargets.Any())
+                ShowToast("No Targets selected");
             else if (selectedAbility is null)
                 ShowToast("No Ability selected");
             else
             {
                 selectedHero.InitiativeBestimmen();
 
+                var targets = new List<BaseUnit>();
+                targets.AddRange(selectedTargets);
+
                 AbilitySelection.Add(new AbilitySelection
                 {
-                    Skill  = selectedAbility,
-                    Actor  = selectedHero,
-                    Target = selectedTarget
+                    Skill   = selectedAbility,
+                    Actor   = selectedHero,
+                    Targets = targets
                 });
             }
 
-            selectedTarget  = null;
+            selectedTargets.ForEach(t => t.GetComponent<SpriteRenderer>().material = defaultMaterial);
+            selectedTargets.Clear();
+
             selectedAbility = null;
         }
 
@@ -162,17 +168,34 @@ namespace Battlefield
 
                         yield return new WaitForSeconds(1f);
                     }
-                    else if (selection.Target.IsDead && selection.Actor is Creature creature)
+                    else if (selection.Skill is SummonSkill)
+                    {
+                        ProcessSkillactivation(selection, null, out var skillResult, out var hitResult);
+                        ProcessFloatingCombatText(skillResult, hitResult, selection.Actor);
+
+                        yield return new WaitForSeconds(1f);
+                    }
+                    else if (selection.Targets.All(t => t.IsDead) && selection.Actor is Creature creature)
                     {
                         creature.SelectedSkill = null;
                         continue;
                     }
-                    else if (selection.Target.IsDead) { }
+                    else if (selection.Targets.All(t => t.IsDead)) { }
+                    else if (selection.Skill is BaseTargetingSkill)
+                    {
+                        foreach (var target in selection.Targets)
+                        {
+                            ProcessSkillactivation(selection, target, out var skillResult, out var hitResult);
+                            ProcessDeath(target);
+                            ProcessFloatingCombatText(skillResult, hitResult, target);
+
+                            yield return new WaitForSeconds(1f);
+                        }
+                    }
                     else
                     {
-                        ProcessSkillactivation(selection, out var skillResult, out var hitResult);
-                        ProcessDeath(selection);
-                        ProcessFloatingCombatText(skillResult, hitResult, selection.Target);
+                        ProcessSkillactivation(selection, null, out var skillResult, out var hitResult);
+                        ProcessFloatingCombatText(skillResult, hitResult, selection.Actor);
 
                         yield return new WaitForSeconds(1f);
                     }
@@ -254,40 +277,40 @@ namespace Battlefield
             OnMisc?.Invoke("-------------------------------------------------------------------------------------------");
         }
 
-        private void ProcessSkillactivation(AbilitySelection selection, out string abilityResult, out HitResult hitResult)
+        private void ProcessSkillactivation(AbilitySelection selection, BaseUnit target, out string abilityResult, out HitResult hitResult)
         {
             switch (selection)
             {
-                case { Skill: BaseDamageSkill damageSkill, Target: Creature creature }:
+                case { Actor: Hero, Skill: BaseDamageSkill damageSkill }:
                 {
-                    var isHit = CalculateHit(selection, damageSkill, creature, out var hitroll, out var hitresult);
+                    var isHit = CalculateHit(selection, damageSkill, target, out var hitroll, out var hitresult);
 
                     hitResult = hitresult;
 
                     if (isHit)
-                        DealDamage(selection, hitroll, hitresult, out abilityResult);
+                        DealDamage(selection, hitroll, hitresult, target, out abilityResult);
                     else
-                        Miss(selection, hitroll, out abilityResult);
+                        Miss(selection, hitroll, target, out abilityResult);
                     break;
                 }
-                case { Skill: BaseDamageSkill foeDamageSkill, Target: BaseHero target, Actor: Creature creature }:
+                case { Actor: Creature creature, Skill: BaseDamageSkill foeDamageSkill }:
                 {
                     var isHit = CalculateHit(selection, foeDamageSkill, target, out var hitroll, out var hitresult);
 
                     hitResult = hitresult;
 
                     if (isHit)
-                        DealDamage(selection, hitroll, hitresult, out abilityResult);
+                        DealDamage(selection, hitroll, hitresult, target, out abilityResult);
                     else
                     {
-                        Miss(selection, hitroll, out abilityResult);
+                        Miss(selection, hitroll, target, out abilityResult);
 
                         creature.SelectedSkill = null;
                     }
 
                     break;
                 }
-                case { Skill: SummonSkill summonSkill, Actor: Creature creature }:
+                case { Actor: Creature creature, Skill: SummonSkill summonSkill }:
                 {
                     hitResult     = HitResult.None;
                     abilityResult = creature.UseAbility(summonSkill, HitResult.None);
@@ -299,20 +322,20 @@ namespace Battlefield
                     break;
                 }
                 default:
-                    UseSupportskill(selection, out abilityResult);
+                    UseSupportskill(selection, target, out abilityResult);
                     hitResult = HitResult.None;
                     break;
             }
         }
 
-        private void UseSupportskill(AbilitySelection selection, out string abilityResult)
+        private void UseSupportskill(AbilitySelection selection, BaseUnit target, out string abilityResult)
         {
-            abilityResult = selection.Actor.UseAbility(selection.Skill, HitResult.None, selection.Target);
+            abilityResult = selection.Actor.UseAbility(selection.Skill, HitResult.None, target);
 
-            OnBuffApplied?.Invoke(selection.Actor, selection.Skill, selection.Target, abilityResult);
+            OnBuffApplied?.Invoke(selection.Actor, selection.Skill, target, abilityResult);
         }
 
-        private void Miss(AbilitySelection selection, int hitroll, out string abilityResult)
+        private void Miss(AbilitySelection selection, int hitroll, BaseUnit target, out string abilityResult)
         {
             abilityResult = "MISS";
 
@@ -321,14 +344,14 @@ namespace Battlefield
                 Actor         = selection.Actor,
                 Skill         = selection.Skill,
                 Hitroll       = hitroll,
-                Target        = selection.Target,
+                Target        = target,
                 Abilityresult = abilityResult
             });
         }
 
-        private void DealDamage(AbilitySelection selection, int hitroll, HitResult hitResult, out string skillResult)
+        private void DealDamage(AbilitySelection selection, int hitroll, HitResult hitResult, BaseUnit target, out string skillResult)
         {
-            skillResult = selection.Actor.UseAbility(selection.Skill, hitResult, selection.Target);
+            skillResult = selection.Actor.UseAbility(selection.Skill, hitResult, target);
 
             OnHit?.Invoke(new CombatskillResolutionArgs
             {
@@ -336,7 +359,7 @@ namespace Battlefield
                 Skill         = selection.Skill,
                 Hitroll       = hitroll,
                 HitResult     = hitResult,
-                Target        = selection.Target,
+                Target        = target,
                 Abilityresult = skillResult
             });
         }
@@ -347,9 +370,9 @@ namespace Battlefield
 
             var relation = selection.Skill switch
             {
-                MeleeSkill => hitroll / selection.Target.ModifiedMeleeDefense,
-                RangedSkill => hitroll / selection.Target.ModifiedRangedDefense,
-                MagicSkill => hitroll / selection.Target.ModifiedMagicDefense,
+                MeleeSkill => hitroll / target.ModifiedMeleeDefense,
+                RangedSkill => hitroll / target.ModifiedRangedDefense,
+                MagicSkill => hitroll / target.ModifiedMagicDefense,
                 _ => 0f
             };
 
@@ -374,12 +397,14 @@ namespace Battlefield
                 InstantiateFloatingCombatText(target, abilityResult);
         }
 
-        private void ProcessDeath(AbilitySelection selection)
+        private void ProcessDeath(BaseUnit target)
         {
-            if (selection.Target.IsDead)
+            if (target.IsDead)
             {
-                selection.Target.transform.gameObject.GetComponent<SpriteRenderer>().sprite     = bloodPuddle;
-                selection.Target.transform.gameObject.GetComponent<CapsuleCollider2D>().enabled = false;
+                var spriteRenderer = target.transform.gameObject.GetComponent<SpriteRenderer>();
+                spriteRenderer.sprite                                                 = bloodPuddle;
+                spriteRenderer.material                                               = defaultMaterial;
+                target.transform.gameObject.GetComponent<CapsuleCollider2D>().enabled = false;
             }
         }
 
@@ -412,11 +437,31 @@ namespace Battlefield
 
                 AbilitySelection.Add(new AbilitySelection
                 {
-                    Skill  = enemy.SelectedSkill,
-                    Actor  = enemy,
-                    Target = heroes[rando.Next(0, heroes.Count)]
+                    Skill   = enemy.SelectedSkill,
+                    Actor   = enemy,
+                    Targets = FindTargets(enemy)
                 });
             }
+        }
+
+        private List<BaseUnit> FindTargets(Creature creature)
+        {
+            if (creature.SelectedSkill is not BaseTargetingSkill skill)
+                return new List<BaseUnit>();
+
+            var maxTargets = skill.GetTargets(creature);
+            var retVal     = new List<BaseUnit>();
+
+            var eligableTargets = heroes.Where(h => !h.IsDead)
+                                        .ToList();
+
+            for (var i = 0; i < maxTargets; i++)
+            {
+                if (i <= eligableTargets.Count)
+                    retVal.Add(eligableTargets[i]);
+            }
+
+            return retVal;
         }
 
         private void InstantiateFloatingCombatText(BaseUnit unitInstance, string combatText)
@@ -485,11 +530,11 @@ namespace Battlefield
 
         private void SetSelectedAbility(GameObject g)
         {
-            selectedTarget  = null;
+            selectedTargets.Clear();
             selectedAbility = g.GetComponent<AbilitybuttonScript>().skill;
         }
 
-        private void ShowToast(string text, int duration = 2) => StartCoroutine(ShowToastCore(text, duration));
+        public void ShowToast(string text, int duration = 2) => StartCoroutine(ShowToastCore(text, duration));
 
         private IEnumerator ShowToastCore(string text,
                                           int    duration)
@@ -554,9 +599,9 @@ namespace Battlefield
 
     public struct AbilitySelection
     {
-        public BaseSkill Skill  { get; set; }
-        public BaseUnit  Target { get; set; }
-        public BaseUnit  Actor  { get; set; }
+        public BaseSkill      Skill   { get; set; }
+        public List<BaseUnit> Targets { get; set; }
+        public BaseUnit       Actor   { get; set; }
     }
 
     public struct CombatskillResolutionArgs

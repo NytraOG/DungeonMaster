@@ -16146,8 +16146,11 @@ MonoBehaviour:
   floatingCombatText: {fileID: 9064207740128421596, guid: 7ab02fdfb12bb554680cfa911c0331e3, type: 3}
   battlefield: {fileID: 496665486}
   selectedHero: {fileID: 0}
-  selectedTarget: {fileID: 0}
+  selectedTargets: []
   selectedAbility: {fileID: 0}
+  defaultMaterial: {fileID: 10754, guid: 0000000000000000f000000000000000, type: 0}
+  creatureOutlineMaterial: {fileID: 2100000, guid: 9b2d3720529829c41984d21f2ddd471d, type: 2}
+  heroOutlineMaterial: {fileID: 2100000, guid: f431fa9ce62e85e4589ba60fded1e121, type: 2}
   abilitiesOfSelectedHero: []
   abilityanzeigeIstAktuell: 0
   toastMessageText: {fileID: 1619184208}
@@ -29192,6 +29195,10 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 11400000, guid: ab0915937bee23c4981aa5b81cfadf96, type: 2}
     - target: {fileID: 7188784997491589576, guid: 1b4092d81f9d93a429916b413e0a7542, type: 3}
+      propertyPath: level
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 7188784997491589576, guid: 1b4092d81f9d93a429916b413e0a7542, type: 3}
       propertyPath: logic
       value: 6
       objectReference: {fileID: 0}
@@ -30756,6 +30763,10 @@ PrefabInstance:
       propertyPath: inventoryPanel
       value: 
       objectReference: {fileID: 227990642}
+    - target: {fileID: 2943883214842200648, guid: 309b55b815389854b99e9fd182242fda, type: 3}
+      propertyPath: defaultMaterial
+      value: 
+      objectReference: {fileID: 10754, guid: 0000000000000000f000000000000000, type: 0}
     - target: {fileID: 2943883214842200648, guid: 309b55b815389854b99e9fd182242fda, type: 3}
       propertyPath: healthbarPrefab
       value: 
