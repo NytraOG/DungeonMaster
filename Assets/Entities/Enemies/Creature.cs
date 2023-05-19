@@ -50,14 +50,14 @@ namespace Entities.Enemies
 
         public override (int, int) GetApproximateDamage(BaseSkill ability) => ability switch
         {
-            BaseDamageSkill skill => skill.GetDamage(this),
+            BaseDamageSkill skill => skill.GetDamage(this, HitResult.None),
             SupportSkill _ => (0, 0),
             _ => throw new ArgumentOutOfRangeException(nameof(ability))
         };
 
-        public override string UseAbility(BaseSkill ability, BaseUnit target = null)
+        public override string UseAbility(BaseSkill ability, HitResult hitResult, BaseUnit target = null)
         {
-            var dmg = ability.Activate(this, target);
+            var dmg = ability.Activate(this, target, hitResult);
             SelectedSkill = null;
 
             return dmg;

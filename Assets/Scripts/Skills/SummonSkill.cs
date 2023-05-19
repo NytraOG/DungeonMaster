@@ -14,7 +14,7 @@ namespace Skills
     {
         public List<GameObject> spawnsPerCast = new();
 
-        public override string Activate(BaseUnit actor, BaseUnit target)
+        public override string Activate(BaseUnit actor, BaseUnit target, HitResult _)
         {
             foreach (var creature in spawnsPerCast)
             {

@@ -40,7 +40,7 @@ namespace Skills
                                                        hMultiplier *
                                                        GetModifier(this, actor)).InfuseRandomness();
 
-        public (int, int) GetDamage(BaseUnit actor)
+        public (int, int) GetDamage(BaseUnit actor, HitResult hitresult)
         {
             var maxhit = (int)(actor.Strength * dStrength +
                                actor.Constitution * dConstitution +
@@ -54,19 +54,19 @@ namespace Skills
                                addedFlatDamage +
                                actor.FlatDamageModifier);
 
+            maxhit += hitresult switch
+            {
+                HitResult.None => 0,
+                HitResult.Normal => bonusDamageNormal,
+                HitResult.Good => bonusDamageGood,
+                HitResult.Critical => bonusDamageCritical,
+                _ => throw new ArgumentOutOfRangeException(nameof(hitresult), hitresult, null)
+            };
+
             var minhit = (int)(maxhit * (1 - damageRange));
 
             return (minhit, maxhit);
         }
-
-        public int FetchBonusDamage(HitResult hitresult) => hitresult switch
-        {
-            HitResult.None => 0,
-            HitResult.Normal => bonusDamageNormal,
-            HitResult.Good => bonusDamageGood,
-            HitResult.Critical => bonusDamageCritical,
-            _ => throw new ArgumentOutOfRangeException(nameof(hitresult), hitresult, null)
-        };
 
         protected void ApplyDebuffs(BaseUnit actor, BaseUnit target)
         {

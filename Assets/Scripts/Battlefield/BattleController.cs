@@ -1,9 +1,11 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using Entities;
 using Entities.Buffs;
 using Entities.Enemies;
+using Entities.Enums;
 using Entities.Hero;
 using Skills;
 using TMPro;
@@ -77,9 +79,9 @@ namespace Battlefield
 
                 AbilitySelection.Add(new AbilitySelection
                 {
-                    Skill = selectedAbility,
-                    Actor   = selectedHero,
-                    Target  = selectedTarget
+                    Skill  = selectedAbility,
+                    Actor  = selectedHero,
+                    Target = selectedTarget
                 });
             }
 
@@ -167,9 +169,9 @@ namespace Battlefield
                     else if (selection.Target.IsDead) { }
                     else
                     {
-                        ProcessSkillactivation(selection, out var abilityResult);
+                        ProcessSkillactivation(selection, out var skillResult, out var hitResult);
                         ProcessDeath(selection);
-                        ProcessFloatingCombatText(abilityResult, selection.Target);
+                        ProcessFloatingCombatText(skillResult, hitResult, selection.Target);
 
                         yield return new WaitForSeconds(1f);
                     }
@@ -206,7 +208,7 @@ namespace Battlefield
                             CombatlogEffectColor = debuffs.First().combatlogEffectColor
                         });
 
-                        ProcessFloatingCombatText(cumulatedDamage.ToString(), selection.Actor);
+                        ProcessFloatingCombatText(cumulatedDamage.ToString(), HitResult.None, selection.Actor);
 
                         yield return new WaitForSeconds(1f);
                     }
@@ -228,7 +230,7 @@ namespace Battlefield
                             CombatlogEffectColor = debuff.combatlogEffectColor
                         });
 
-                        ProcessFloatingCombatText(debuff.damagePerTick.ToString(), selection.Actor);
+                        ProcessFloatingCombatText(debuff.damagePerTick.ToString(), HitResult.None, selection.Actor);
 
                         yield return new WaitForSeconds(1f);
                     }
@@ -251,26 +253,30 @@ namespace Battlefield
             OnMisc?.Invoke("-------------------------------------------------------------------------------------------");
         }
 
-        private void ProcessSkillactivation(AbilitySelection selection, out string abilityResult)
+        private void ProcessSkillactivation(AbilitySelection selection, out string abilityResult, out HitResult hitResult)
         {
             switch (selection)
             {
                 case { Skill: BaseDamageSkill damageSkill, Target: Creature creature }:
                 {
-                    var isHit = CalculateHit(selection, damageSkill, creature, out var hitroll);
+                    var isHit = CalculateHit(selection, damageSkill, creature, out var hitroll, out var hitresult);
+
+                    hitResult = hitresult;
 
                     if (isHit)
-                        DealDamage(selection, hitroll, out abilityResult);
+                        DealDamage(selection, hitroll, hitresult, out abilityResult);
                     else
                         Miss(selection, hitroll, out abilityResult);
                     break;
                 }
                 case { Skill: BaseDamageSkill foeDamageSkill, Target: BaseHero target, Actor: Creature creature }:
                 {
-                    var isHit = CalculateHit(selection, foeDamageSkill, target, out var hitroll);
+                    var isHit = CalculateHit(selection, foeDamageSkill, target, out var hitroll, out var hitresult);
+
+                    hitResult = hitresult;
 
                     if (isHit)
-                        DealDamage(selection, hitroll, out abilityResult);
+                        DealDamage(selection, hitroll, hitresult, out abilityResult);
                     else
                     {
                         Miss(selection, hitroll, out abilityResult);
@@ -282,7 +288,8 @@ namespace Battlefield
                 }
                 case { Skill: SummonSkill summonSkill, Actor: Creature creature }:
                 {
-                    abilityResult = summonSkill.Activate(selection.Actor, selection.Target);
+                    hitResult     = HitResult.None;
+                    abilityResult = creature.UseAbility(summonSkill, HitResult.None);
 
                     InstantiateFloatingCombatText(selection.Actor, $"<b>{summonSkill.displayName}</b>!");
 
@@ -292,13 +299,14 @@ namespace Battlefield
                 }
                 default:
                     UseSupportskill(selection, out abilityResult);
+                    hitResult = HitResult.None;
                     break;
             }
         }
 
         private void UseSupportskill(AbilitySelection selection, out string abilityResult)
         {
-            abilityResult = selection.Actor.UseAbility(selection.Skill, selection.Target);
+            abilityResult = selection.Actor.UseAbility(selection.Skill, HitResult.None, selection.Target);
 
             OnBuffApplied?.Invoke(selection.Actor, selection.Skill, selection.Target, abilityResult);
         }
@@ -317,38 +325,50 @@ namespace Battlefield
             });
         }
 
-        private void DealDamage(AbilitySelection selection, int hitroll, out string skillResult)
+        private void DealDamage(AbilitySelection selection, int hitroll, HitResult hitResult, out string skillResult)
         {
-            skillResult = selection.Actor.UseAbility(selection.Skill, selection.Target);
-
-            var quotient    = hitroll / selection.Target.MeleeDefense;
-
-
-            var finalDamage = int.Parse(skillResult) + ((BaseDamageSkill)selection.Skill).FetchBonusDamage();
+            skillResult = selection.Actor.UseAbility(selection.Skill, hitResult, selection.Target);
 
             OnHit?.Invoke(new CombatskillResolutionArgs
             {
                 Actor         = selection.Actor,
                 Skill         = selection.Skill,
                 Hitroll       = hitroll,
+                HitResult     = hitResult,
                 Target        = selection.Target,
                 Abilityresult = skillResult
             });
         }
 
-        private static bool CalculateHit(AbilitySelection selection, BaseDamageSkill damageSkill, BaseUnit target, out int hitroll)
+        private static bool CalculateHit(AbilitySelection selection, BaseDamageSkill damageSkill, BaseUnit target, out int hitroll, out HitResult hitResult)
         {
             hitroll = damageSkill.GetHitroll(selection.Actor);
 
-            return (int)(target.MeleeDefense * target.MeleeDefensmodifier) < hitroll;
+            var relation = selection.Skill switch
+            {
+                MeleeSkill => hitroll / selection.Target.ModifiedMeleeDefense,
+                RangedSkill => hitroll / selection.Target.ModifiedRangedDefense,
+                MagicSkill => hitroll / selection.Target.ModifiedMagicDefense,
+                _ => 0f
+            };
+
+            hitResult = relation switch
+            {
+                >= 2f => HitResult.Critical,
+                >= 1.5f => HitResult.Good,
+                >= 1f => HitResult.Normal,
+                _ => HitResult.None
+            };
+
+            return (int)target.ModifiedMeleeDefense < hitroll;
         }
 
-        private void ProcessFloatingCombatText(string abilityResult, BaseUnit target)
+        private void ProcessFloatingCombatText(string abilityResult, HitResult hitResult, BaseUnit target)
         {
             var wasDamage = int.TryParse(abilityResult, out var damage);
 
             if (wasDamage)
-                InstantiateFloatingCombatText(target, damage);
+                InstantiateFloatingCombatText(target, hitResult, damage);
             else
                 InstantiateFloatingCombatText(target, abilityResult);
         }
@@ -391,9 +411,9 @@ namespace Battlefield
 
                 AbilitySelection.Add(new AbilitySelection
                 {
-                    Skill = enemy.SelectedSkill,
-                    Actor   = enemy,
-                    Target  = heroes[rando.Next(0, heroes.Count)]
+                    Skill  = enemy.SelectedSkill,
+                    Actor  = enemy,
+                    Target = heroes[rando.Next(0, heroes.Count)]
                 });
             }
         }
@@ -415,7 +435,7 @@ namespace Battlefield
             return textcomponent;
         }
 
-        private void InstantiateFloatingCombatText(BaseUnit unitInstance, int damageDealt)
+        private void InstantiateFloatingCombatText(BaseUnit unitInstance, HitResult hitResult, int damageDealt)
         {
             var textcomponent = CreateTextComponent(unitInstance);
 
@@ -424,9 +444,28 @@ namespace Battlefield
                 textcomponent.color = new Color(255, 0, 0);
                 textcomponent.SetText($"({damageDealt}) Killing Blow!");
             }
-
             else
-                textcomponent.SetText(damageDealt.ToString());
+            {
+                textcomponent.color = ColorUtility.TryParseHtmlString(hitResult switch
+                {
+                    HitResult.None => Konstanten.NormalDamageColor,
+                    HitResult.Normal => Konstanten.NormalDamageColor,
+                    HitResult.Good => Konstanten.GoodDamageColor,
+                    HitResult.Critical => Konstanten.CriticalDamageColor,
+                    _ => throw new ArgumentOutOfRangeException(nameof(hitResult), hitResult, null)
+                }, out var unityColor) ?
+                        unityColor :
+                        Color.white;
+
+                var damageText = hitResult switch
+                {
+                    HitResult.Critical => $"{damageDealt}!!",
+                    HitResult.Good => $"{damageDealt}!",
+                    _ => damageDealt.ToString()
+                };
+
+                textcomponent.SetText(damageText);
+            }
         }
 
         private void ConfigureAbilityButtons()
@@ -514,9 +553,9 @@ namespace Battlefield
 
     public struct AbilitySelection
     {
-        public BaseSkill Skill { get; set; }
-        public BaseUnit  Target  { get; set; }
-        public BaseUnit  Actor   { get; set; }
+        public BaseSkill Skill  { get; set; }
+        public BaseUnit  Target { get; set; }
+        public BaseUnit  Actor  { get; set; }
     }
 
     public struct CombatskillResolutionArgs
@@ -524,6 +563,7 @@ namespace Battlefield
         public BaseUnit  Actor         { get; set; }
         public BaseSkill Skill         { get; set; }
         public int       Hitroll       { get; set; }
+        public HitResult HitResult     { get; set; }
         public BaseUnit  Target        { get; set; }
         public string    Abilityresult { get; set; }
     }

@@ -1,5 +1,6 @@
 using System;
 using Battlefield;
+using Entities.Enums;
 using Inventory;
 using Skills;
 using UI;
@@ -77,12 +78,12 @@ namespace Entities.Hero
 
         public override (int, int) GetApproximateDamage(BaseSkill ability) => ability switch
         {
-            BaseDamageSkill skill => skill.GetDamage(this),
+            BaseDamageSkill skill => skill.GetDamage(this, HitResult.None),
             SupportSkill _ => (0, 0),
             _ => throw new ArgumentOutOfRangeException(nameof(ability))
         };
 
-        public override string UseAbility(BaseSkill ability, BaseUnit target = null) => ability.Activate(this, target);
+        public override string UseAbility(BaseSkill ability, HitResult hitResult, BaseUnit target = null) => ability.Activate(this, target, hitResult);
 
         private void MachDirNeHealthbarFeddich()
         {

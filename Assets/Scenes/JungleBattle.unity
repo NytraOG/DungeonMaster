@@ -1295,7 +1295,7 @@ MonoBehaviour:
   m_HandleRect: {fileID: 0}
   m_Direction: 0
   m_Value: 0
-  m_Size: 0
+  m_Size: 0.43798512
   m_NumberOfSteps: 0
   m_OnValueChanged:
     m_PersistentCalls:
@@ -12212,6 +12212,9 @@ MonoBehaviour:
   logmessagePrefab: {fileID: 1075269467792426336, guid: 29be99777be92e545b0b5bbf9d1bfae4, type: 3}
   battleController: {fileID: 645586930}
   spawnController: {fileID: 496665486}
+  normalDamageColor: {r: 0.9333334, g: 0.40784317, b: 0.4039216, a: 0}
+  goodDamageColor: {r: 0, g: 0, b: 0, a: 0}
+  criticalDamageColor: {r: 0, g: 0, b: 0, a: 0}
   fontsize: 15
 --- !u!4 &299544766 stripped
 Transform:

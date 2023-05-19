@@ -1,4 +1,5 @@
 ﻿using Entities;
+using Entities.Enums;
 using UnityEngine;
 using Random = System.Random;
 
@@ -9,9 +10,9 @@ namespace Skills
     {
         public override Factions TargetableFaction => Factions.Foe;
 
-        public override string Activate(BaseUnit actor, BaseUnit target)
+        public override string Activate(BaseUnit actor, BaseUnit target, HitResult hitResult)
         {
-            var damage = GetDamage(actor);
+            var damage = GetDamage(actor, hitResult);
 
             var minhit = damage.Item1;
             var maxhit = damage.Item2;

@@ -1,5 +1,6 @@
 ﻿using System;
 using Entities;
+using Entities.Enums;
 using UnityEngine;
 
 namespace Skills
@@ -7,6 +8,6 @@ namespace Skills
     [CreateAssetMenu(fileName = "Consumable Usage", menuName = "Skills/Consumable Usage")]
     public class ConsumableUsageSkill : BaseSkill
     {
-        public override string Activate(BaseUnit actor, BaseUnit target) => throw new NotImplementedException();
+        public override string Activate(BaseUnit actor, BaseUnit target, HitResult hitResult) => throw new NotImplementedException();
     }
 }

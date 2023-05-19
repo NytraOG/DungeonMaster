@@ -34,15 +34,28 @@ namespace UI
             sController.OnCreateSpawned += OnCreateSpawned;
         }
 
-        private void OnCreateSpawned(SpawnController.SpawnEventArgs args) => Log($"{args.Creature.displayname} level {args.Creature.level} appeared at position <b>{GetPositionString(args.Position)}</b>.");
+        private void OnCreateSpawned(SpawnController.SpawnEventArgs args) => Log($"{FetchUnitnameWithMatchingColor(args.Creature)} level {args.Creature.level} appeared at position <b>{GetPositionString(args.Position)}</b>.");
 
-        private void OnDebuffTick(DebuffResolutionArgs args) => Log($"{args.Actor.name} lost {args.Damage} </b> Health to <b><color=#{ColorUtility.ToHtmlStringRGBA(args.CombatlogEffectColor)}>{args.Debuff.name}</color>, {args.RemainingDuration} turns remaining.");
+        private void OnDebuffTick(DebuffResolutionArgs args)
+        {
+            if (args.Debuff.damagePerTick != 0)
+            {
+                Log($"{FetchUnitnameWithMatchingColor(args.Actor)} lost {FetchDamageText(args.Damage)} Health " +
+                    $"to <b><color=#{ColorUtility.ToHtmlStringRGBA(args.CombatlogEffectColor)}>{args.Debuff.name}</color></b>, " +
+                    $"{args.RemainingDuration} turns remaining.");
+            }
+            else
+            {
+                Log($"<b><color=#{ColorUtility.ToHtmlStringRGBA(args.CombatlogEffectColor)}>{args.Debuff.name}</color></b> " +
+                    $"{args.RemainingDuration} turns remaining on {FetchUnitnameWithMatchingColor(args.Actor)}.");
+            }
+        }
 
         private void OnHit(CombatskillResolutionArgs args)
         {
-            var content = $"{args.Actor.name}'s[{(int)args.Actor.CurrentInitiative}] {args.Skill.name} " +
-                          $"hit[{args.Hitroll}] {args.Target.name}[{FetchDefenseattribute(args)}] " +
-                          $"for {args.Abilityresult} damage.";
+            var content = $"{FetchUnitnameWithMatchingColor(args.Actor)}'s[{(int)args.Actor.CurrentInitiative}] {args.Skill.name} " +
+                          $"hit[{args.Hitroll}] {FetchUnitnameWithMatchingColor(args.Target)}[{FetchDefenseattribute(args)}] " +
+                          $"for {FetchDamageText(args)} damage.";
 
             if (args.Target.IsStunned)
                 content += StunInfo;
@@ -55,15 +68,15 @@ namespace UI
 
         private void OnMiss(CombatskillResolutionArgs args)
         {
-            var content = $"{args.Actor.name}'s[{(int)args.Actor.CurrentInitiative}] {args.Skill.name} " +
-                          $"missed[{args.Hitroll}] {args.Target.name}[{FetchDefenseattribute(args)}].";
+            var content = $"{FetchUnitnameWithMatchingColor(args.Actor)}'s[{(int)args.Actor.CurrentInitiative}] {args.Skill.name} " +
+                          $"missed[{args.Hitroll}] {FetchUnitnameWithMatchingColor(args.Target)}[{FetchDefenseattribute(args)}].";
 
             Log(content);
         }
 
         private void OnBuffApplied(BaseUnit actor, BaseSkill skill, BaseUnit target, string abilityResult)
         {
-            var content = $"{actor.name}[{(int)actor.CurrentInitiative}] used {skill.name} on {target.name}.";
+            var content = $"{FetchUnitnameWithMatchingColor(actor)}[{(int)actor.CurrentInitiative}] used {skill.name} on {FetchUnitnameWithMatchingColor(target)}.";
 
             if (target.IsStunned)
                 content += StunInfo;
@@ -98,6 +111,19 @@ namespace UI
             logTracker.Add(logEntry);
         }
 
+        private string FetchUnitnameWithMatchingColor(BaseUnit unit) => $"<b><color={unit.CombatLogColor}>{unit.name}</color></b>";
+
+        private string FetchDamageText(int damage) => $"<b><color={Konstanten.NormalDamageColor}>{damage}</color></b>";
+
+        private string FetchDamageText(CombatskillResolutionArgs args) => args.HitResult switch
+        {
+            HitResult.None => $"<color={Konstanten.NormalDamageColor}>{args.Abilityresult}</color>",
+            HitResult.Normal => $"<b><color={Konstanten.NormalDamageColor}>{args.Abilityresult}</color></b>",
+            HitResult.Good => $"<b><color={Konstanten.GoodDamageColor}>{args.Abilityresult}</color></b>",
+            HitResult.Critical => $"<b><color={Konstanten.CriticalDamageColor}>*{args.Abilityresult}*</color></b>",
+            _ => $"<color={Konstanten.NormalDamageColor}>{args.Abilityresult}</color>"
+        };
+
         private string GetPositionString(Positions position) => position switch
         {
             Positions.None => "N/A",
@@ -122,9 +148,9 @@ namespace UI
 
         private int FetchDefenseattribute(CombatskillResolutionArgs info) => info.Skill switch
         {
-            MagicSkill => (int)info.Target.MagicDefense,
-            MeleeSkill => (int)info.Target.MeleeDefense,
-            RangedSkill => (int)info.Target.RangedDefense,
+            MagicSkill => (int)info.Target.ModifiedMagicDefense,
+            MeleeSkill => (int)info.Target.ModifiedMeleeDefense,
+            RangedSkill => (int)info.Target.ModifiedRangedDefense,
             WeaponSkill => throw new NotImplementedException(),
             _ => throw new ArgumentOutOfRangeException()
         };

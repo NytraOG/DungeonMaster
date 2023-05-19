@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using Entities;
 using Entities.Buffs;
+using Entities.Enums;
 using UnityEngine;
 
 namespace Skills
@@ -27,7 +28,7 @@ namespace Skills
                 @operator = "+";
         }
 
-        public override string Activate(BaseUnit actor, BaseUnit target)
+        public override string Activate(BaseUnit actor, BaseUnit target, HitResult _)
         {
             if (isBuffing)
                 ApplyBuffs(target);

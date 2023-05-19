@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Text;
 using Entities;
+using Entities.Enums;
 using UnityEngine;
 
 namespace Skills
@@ -75,7 +76,7 @@ namespace Skills
             }
         }
 
-        public abstract string Activate(BaseUnit actor, BaseUnit target);
+        public abstract string Activate(BaseUnit actor, BaseUnit target, HitResult hitResult);
 
         public string GetTooltip(string damage = "0-0") => $"<b>{displayName.ToUpper()}</b>{Environment.NewLine}" +
                                                            $"<i>{string.Join(", ", keywords)}</i>{Environment.NewLine}{Environment.NewLine}" +

@@ -67,7 +67,7 @@ MonoBehaviour:
   debuffs: []
   healthbarInstance: {fileID: 0}
   unitTooltip: {fileID: 0}
-  displayname: displayname
+  displayname: Wolf Pup
   levelModifier: 1.4
   monstertype: {fileID: 11400000, guid: 8d9fff1f8e3989b499c253a397080ea2, type: 2}
   keywords:

@@ -38,9 +38,13 @@ namespace Entities
         public          int             ActionsModifier            { get; set; }
         public          float           FlatDamageModifier         { get; set; }
         public          float           MeleeDefensmodifier        { get; set; }
+        public          float           ModifiedMeleeDefense       => MeleeDefense * MeleeDefensmodifier;
         public          float           RangedDefensemodifier      { get; set; }
+        public          float           ModifiedRangedDefense      => RangedDefense * RangedDefensemodifier;
         public          float           MagicDefensemodifier       { get; set; }
+        public          float           ModifiedMagicDefense       => MagicDefense * MagicDefensemodifier;
         public          float           SocialDefensemodifier      { get; set; }
+        public          float           ModifiedSocialDefense      => SocialDefense * SocialDefensemodifier;
         public          float           MagicDefense               { get; set; }
         public          float           SocialDefense              { get; set; }
         public          float           MeleeDefense               { get; set; }
@@ -58,6 +62,7 @@ namespace Entities
         public          float           BaseMagicDefense           => 2 * Willpower + Wisdom;
         public          float           BaseSocialDefense          => 2 * Logic + Charisma;
         public          float           BaseInitiative             => 2 * Intuition + Quickness;
+        public          string          CombatLogColor             => this is Hero.Hero ? Konstanten.HeroDamageColor : Konstanten.CreatureColor;
 
         protected virtual void Awake()
         {
@@ -115,7 +120,7 @@ namespace Entities
 
         public abstract (int, int) GetApproximateDamage(BaseSkill ability);
 
-        public abstract string UseAbility(BaseSkill ability, BaseUnit target = null);
+        public abstract string UseAbility(BaseSkill ability, HitResult hitResult, BaseUnit target = null);
 
         public virtual void InitiativeBestimmen(double modifier = 1)
         {
