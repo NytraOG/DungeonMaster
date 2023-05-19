@@ -23,6 +23,7 @@ MonoBehaviour:
 
     dealing
     massive damage to enemies caught in its blast radius.'
+  xpDeltaPlusRoot: 45
   dStrength: 0
   dConstitution: 0
   dDexterity: 0
@@ -33,7 +34,7 @@ MonoBehaviour:
   dWisdom: 0.3333333
   dCharisma: 0
   addedFlatDamage: 0
-  level: 0
+  level: 37
   manacost: 0
   damageRange: 0.2
   targets: 1
