@@ -53,6 +53,7 @@ namespace Battlefield
 
         private void Update()
         {
+
             if (Input.GetKeyDown(KeyCode.Escape))
             {
                 selectedHero    = null;
@@ -63,6 +64,8 @@ namespace Battlefield
             MachEnemiesCombatReady();
             SetupCombatants();
             AbilityspritesAuffrischen();
+
+            var kek = heroes[0].GetAttributeUpgradeCost(nameof(BaseUnit.Strength));
         }
 
         public void ConfirmAbilitySelection()

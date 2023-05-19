@@ -9,7 +9,10 @@ namespace Entities
     public abstract class BaseUnit : Base
     {
         public          GameObject      healthbarPrefab;
-        public          int             level;
+        public          int             xpAvailable;
+        public          int             xpSpent;
+        public          int             xpBaseAttribut = 50;
+        public          int             level = 1;
         public          int             strength;
         public          int             constitution;
         public          int             dexterity;
@@ -30,7 +33,6 @@ namespace Entities
         public          int             AktionenAktuell            { get; set; }
         public          float           ManaregenerationRate       { get; set; }
         public          int             Armour                     { get; set; }
-        public          int             CritDamage                 { get; set; }
         public          float           MeleeAttackratingModifier  { get; set; }
         public          float           RangedAttackratingModifier { get; set; }
         public          float           MagicAttackratingModifier  { get; set; }
@@ -62,6 +64,7 @@ namespace Entities
         public          float           BaseMagicDefense           => 2 * Willpower + Wisdom;
         public          float           BaseSocialDefense          => 2 * Logic + Charisma;
         public          float           BaseInitiative             => 2 * Intuition + Quickness;
+        public          int             XpToSpendForLevelUp        => this.GetXpToSpendForLevelUp();
         public          string          CombatLogColor             => this is Hero.Hero ? Konstanten.HeroDamageColor : Konstanten.CreatureColor;
 
         protected virtual void Awake()
@@ -91,13 +94,6 @@ namespace Entities
 
         private void ShowUnitTooltip()
         {
-            //Debug.Log($"Pointer entered {name}");
-            //
-            // yield return new WaitForSeconds(0.3f);
-            //
-            // if (unitTooltip is null)
-            //     yield break;
-
             unitTooltip.SetActive(true);
             unitTooltip.GetComponent<UnitTooltip>().unit = this;
         }
@@ -131,19 +127,12 @@ namespace Entities
 
         public virtual void Initialize() => CurrentHitpoints = MaximumHitpoints;
 
-        //BattleService kram hier her.
-        //Bild zu Splash
-        //Collider und Skript deaktivieren
-        //Etc
-        //GGF in die DealDamage Methode rein und Callen
-        //Muss für jede Unit ausimplementiert werden?
-        //Vermutlich beides ok -> Performance
 
         #region Stats
 
         public int Strength     { get; set; }
-        public int Dexterity    { get; set; }
         public int Constitution { get; set; }
+        public int Dexterity    { get; set; }
         public int Wisdom       { get; set; }
         public int Quickness    { get; set; }
         public int Intuition    { get; set; }

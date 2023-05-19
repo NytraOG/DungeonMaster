@@ -9,11 +9,13 @@ namespace Skills
     public abstract class BaseSkill : ScriptableObject
     {
         public                            Sprite   sprite;
+        public                            int      xpBaseBasic      = 16;
+        public                            int      xpBaseDemanding  = 45;
+        public                            int      xpBaseOutOfClass = 62;
         public                            string   displayName;
         public                            bool     appliesStun;
         public                            string[] keywords;
-        [TextArea(4, 4)] public           string   description;
-        public                            int      xpDeltaPlusRoot;
+        [TextArea(4, 4)]           public string   description;
         [Header("Effect Scaling")] public float    dStrength;
         public                            float    dConstitution;
         public                            float    dDexterity;
@@ -77,8 +79,7 @@ namespace Skills
             }
         }
 
-        public int UpgradeCostXp   => GetXpTotal(level + 1);
-        public int UpgradeCostGold => GetGoldTotal(level + 1);
+        public (int, int) UpgradeCosts   => this.GetUpgradeCosts(SkillDifficulty.Basic);
 
         public abstract string Activate(BaseUnit actor, BaseUnit target, HitResult hitResult);
 
@@ -86,38 +87,6 @@ namespace Skills
                                                            $"<i>{string.Join(", ", keywords)}</i>{Environment.NewLine}{Environment.NewLine}" +
                                                            GetDamageText(damage) +
                                                            Description;
-
-        private int GetXpDelta(int inputLevel)
-        {
-            if (inputLevel == 0)
-                return inputLevel;
-
-            var xpDelta = inputLevel * xpDeltaPlusRoot + GetXpDelta(inputLevel - 1);
-
-            return xpDelta;
-        }
-
-        private int GetXpTotal(int inputLevel)
-        {
-            if (inputLevel == 0)
-                return inputLevel;
-
-            var xpTotal = GetXpDelta(inputLevel) + GetXpTotal(inputLevel - 1);
-
-            return xpTotal;
-        }
-
-        private int GetGoldDelta(int inputLevel) => (int)(GetXpDelta(inputLevel) * 0.9);
-
-        private int GetGoldTotal(int inputLevel)
-        {
-            if (inputLevel == 0)
-                return inputLevel;
-
-            var goldTotal = GetGoldDelta(inputLevel) + GetGoldTotal(inputLevel - 1);
-
-            return goldTotal;
-        }
 
         private string GetDamageText(string damage) => damage == "0-0" ? string.Empty : $"Damage: <b>{damage}</b>{Environment.NewLine}{Environment.NewLine}";
     }
