@@ -9,6 +9,7 @@ namespace Skills
     public abstract class BaseSkill : ScriptableObject
     {
         public                            Sprite   sprite;
+        public                            int      level            = 1;
         public                            int      xpBaseBasic      = 16;
         public                            int      xpBaseDemanding  = 45;
         public                            int      xpBaseOutOfClass = 62;
@@ -25,8 +26,8 @@ namespace Skills
         public                            float    dWillpower;
         public                            float    dWisdom;
         public                            float    dCharisma;
+        public                            float    dLevel = 0.5f;
         public                            int      addedFlatDamage;
-        public                            int      level = 1;
         public                            int      manacost;
         [Header("0 bis 1")] public        float    damageRange;
 
@@ -79,7 +80,7 @@ namespace Skills
             }
         }
 
-        public (int, int) UpgradeCosts   => this.GetUpgradeCosts(SkillDifficulty.Basic);
+        public (int, int) UpgradeCosts => this.GetUpgradeCosts(SkillDifficulty.Basic);
 
         public abstract string Activate(BaseUnit actor, BaseUnit target, HitResult hitResult);
 

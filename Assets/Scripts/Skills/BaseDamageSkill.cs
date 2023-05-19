@@ -24,6 +24,7 @@ namespace Skills
         public                                int                 hWillpower;
         public                                int                 hWisdom;
         public                                int                 hCharisma;
+        public                                int                 hLevel = 2;
         public                                float               hMultiplier    = 1;
         public                                List<Debuff>        appliedDebuffs = new();
         public                                UnityAction<string> OnDamageDealt;
@@ -36,7 +37,8 @@ namespace Skills
                                                         actor.Logic * hLogic +
                                                         actor.Willpower * hWillpower +
                                                         actor.Wisdom * hWisdom +
-                                                        actor.Charisma * hCharisma) *
+                                                        actor.Charisma * hCharisma +
+                                                        level * hLevel) *
                                                        hMultiplier *
                                                        GetModifier(this, actor)).InfuseRandomness();
 
@@ -51,6 +53,7 @@ namespace Skills
                                actor.Willpower * dWillpower +
                                actor.Wisdom * dWisdom +
                                actor.Charisma * dCharisma +
+                               level * dLevel +
                                addedFlatDamage +
                                actor.FlatDamageModifier);
 

@@ -64,8 +64,6 @@ namespace Battlefield
             MachEnemiesCombatReady();
             SetupCombatants();
             AbilityspritesAuffrischen();
-
-            var kek = heroes[0].GetAttributeUpgradeCost(nameof(BaseUnit.Strength));
         }
 
         public void ConfirmAbilitySelection()

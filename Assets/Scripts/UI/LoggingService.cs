@@ -46,8 +46,16 @@ namespace UI
             }
             else
             {
-                Log($"<b><color=#{ColorUtility.ToHtmlStringRGBA(args.CombatlogEffectColor)}>{args.Debuff.name}</color></b> " +
-                    $"{args.RemainingDuration} turns remaining on {FetchUnitnameWithMatchingColor(args.Actor)}.");
+                if (args.RemainingDuration == 0)
+                {
+                    Log($"<b><color=#{ColorUtility.ToHtmlStringRGBA(args.CombatlogEffectColor)}>{args.Debuff.name}</color></b> " +
+                        $"expired on {FetchUnitnameWithMatchingColor(args.Actor)}.");
+                }
+                else
+                {
+                    Log($"<b><color=#{ColorUtility.ToHtmlStringRGBA(args.CombatlogEffectColor)}>{args.Debuff.name}</color></b> " +
+                        $"{args.RemainingDuration} turns remaining on {FetchUnitnameWithMatchingColor(args.Actor)}.");
+                }
             }
         }
 
