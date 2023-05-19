@@ -77,7 +77,8 @@ namespace Skills
             }
         }
 
-        public int UpgradeCostXp => GetXpTotal(level + 1);
+        public int UpgradeCostXp   => GetXpTotal(level + 1);
+        public int UpgradeCostGold => GetGoldTotal(level + 1);
 
         public abstract string Activate(BaseUnit actor, BaseUnit target, HitResult hitResult);
 
@@ -104,6 +105,18 @@ namespace Skills
             var xpTotal = GetXpDelta(inputLevel) + GetXpTotal(inputLevel - 1);
 
             return xpTotal;
+        }
+
+        private int GetGoldDelta(int inputLevel) => (int)(GetXpDelta(inputLevel) * 0.9);
+
+        private int GetGoldTotal(int inputLevel)
+        {
+            if (inputLevel == 0)
+                return inputLevel;
+
+            var goldTotal = GetGoldDelta(inputLevel) + GetGoldTotal(inputLevel - 1);
+
+            return goldTotal;
         }
 
         private string GetDamageText(string damage) => damage == "0-0" ? string.Empty : $"Damage: <b>{damage}</b>{Environment.NewLine}{Environment.NewLine}";
