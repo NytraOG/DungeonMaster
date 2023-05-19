@@ -1295,7 +1295,7 @@ MonoBehaviour:
   m_HandleRect: {fileID: 0}
   m_Direction: 0
   m_Value: 0
-  m_Size: 0
+  m_Size: 0.43798512
   m_NumberOfSteps: 0
   m_OnValueChanged:
     m_PersistentCalls:
@@ -16149,9 +16149,10 @@ MonoBehaviour:
   selectedTargets: []
   selectedAbility: {fileID: 0}
   defaultMaterial: {fileID: 10754, guid: 0000000000000000f000000000000000, type: 0}
+  skillDisabledColor: '#4D4D4D'
   creatureOutlineMaterial: {fileID: 2100000, guid: 9b2d3720529829c41984d21f2ddd471d, type: 2}
   heroOutlineMaterial: {fileID: 2100000, guid: f431fa9ce62e85e4589ba60fded1e121, type: 2}
-  abilitiesOfSelectedHero: []
+  skillsOfSelectedHero: []
   abilityanzeigeIstAktuell: 0
   toastMessageText: {fileID: 1619184208}
   originalButtonBackground: {fileID: 21300000, guid: 1d6a4040cb26d74479efd5499ddfcd32, type: 3}

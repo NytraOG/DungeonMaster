@@ -27,7 +27,7 @@ namespace Entities.Hero
 
             var controller = FindObjectOfType<BattleController>();
 
-            if (controller.selectedAbility is SupportSkill { TargetableFaction: Factions.Friend })
+            if (controller.selectedSkill is SupportSkill { TargetableFaction: Factions.Friend })
                 controller.selectedTargets.Add(this);
             else
                 ChangeSelectedHero(controller);
@@ -69,7 +69,7 @@ namespace Entities.Hero
         private void ChangeSelectedHero(BattleController controller)
         {
             controller.selectedHero             = this;
-            controller.abilitiesOfSelectedHero  = skills;
+            controller.skillsOfSelectedHero  = skills;
             controller.abilityanzeigeIstAktuell = false;
             controller.selectedTargets.ForEach(t => t.GetComponent<SpriteRenderer>().material = controller.defaultMaterial);
             controller.selectedTargets.Clear();
@@ -85,7 +85,12 @@ namespace Entities.Hero
             _ => throw new ArgumentOutOfRangeException(nameof(ability))
         };
 
-        public override string UseAbility(BaseSkill ability, HitResult hitResult, BaseUnit target = null) => ability.Activate(this, target, hitResult);
+        public override string UseAbility(BaseSkill skill, HitResult hitResult, BaseUnit target = null)
+        {
+            CurrentMana -= skill.Manacost;
+
+            return skill.Activate(this, target, hitResult);
+        }
 
         private void MachDirNeHealthbarFeddich()
         {

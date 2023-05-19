@@ -8,10 +8,13 @@ public class UnitTooltip : Tooltip
     public  BaseUnit unit;
     private float    currentHealth;
     private Image    currentHealthbar;
+    private float    currentMana;
+    private Image    currentManabar;
 
     protected override void Awake()
     {
         currentHealthbar = transform.Find("CurrentHealth").GetComponent<Image>();
+        currentManabar    = transform.Find("CurrentMana").GetComponent<Image>();
 
         base.Awake();
     }
@@ -37,10 +40,18 @@ public class UnitTooltip : Tooltip
 
         var healthUpdated = (int)unit.CurrentHitpoints != (int)currentHealth;
 
-        if (!healthUpdated)
-            return;
+        if (healthUpdated)
+        {
+            currentHealthbar.fillAmount = unit.CurrentHitpoints / unit.MaximumHitpoints;
+            currentHealth               = unit.CurrentHitpoints;
+        }
 
-        currentHealthbar.fillAmount = unit.CurrentHitpoints / unit.MaximumHitpoints;
-        currentHealth               = unit.CurrentHitpoints;
+        var manaUpdated = (int)unit.CurrentMana != (int)currentMana;
+
+        if (manaUpdated)
+        {
+            currentManabar.fillAmount = unit.CurrentMana / unit.MaximumMana;
+            currentMana               = unit.CurrentMana;
+        }
     }
 }

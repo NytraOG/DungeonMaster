@@ -12,12 +12,11 @@ namespace Entities.Enemies
 {
     public class Creature : BaseUnit
     {
-        public string          displayname;
-        public float           levelModifier;
-        public BaseMonstertype monstertype;
-        public List<Keyword>   keywords;
-        public List<Positions> favouritePositions = new () { Positions.None };
-
+        public          string          displayname;
+        public          float           levelModifier;
+        public          BaseMonstertype monstertype;
+        public          List<Keyword>   keywords;
+        public          List<Positions> favouritePositions = new() { Positions.None };
         public override Party           Party => Party.Foe;
 
         protected override void Awake()
@@ -46,16 +45,22 @@ namespace Entities.Enemies
 
             var controller = FindObjectOfType<BattleController>();
 
-            if (controller.selectedAbility is BaseTargetingSkill targetingSkill)
+            switch (controller.selectedSkill)
             {
-                var maxTargets = targetingSkill.GetTargets(controller.selectedHero);
-
-                var maxTargetsReached = controller.selectedTargets.Count == maxTargets;
-
-                if (maxTargetsReached)
+                case null: return;
+                case BaseTargetingSkill targetingSkill:
                 {
-                    controller.ShowToast($"Target maximum {maxTargets} reached for {targetingSkill.displayName}");
-                    return;
+                    var maxTargets = targetingSkill.GetTargets(controller.selectedHero);
+
+                    var maxTargetsReached = controller.selectedTargets.Count == maxTargets;
+
+                    if (maxTargetsReached)
+                    {
+                        controller.ShowToast($"Target maximum {maxTargets} reached for {targetingSkill.displayName}");
+                        return;
+                    }
+
+                    break;
                 }
             }
 
@@ -71,9 +76,12 @@ namespace Entities.Enemies
             _ => throw new ArgumentOutOfRangeException(nameof(ability))
         };
 
-        public override string UseAbility(BaseSkill ability, HitResult hitResult, BaseUnit target = null)
+        public override string UseAbility(BaseSkill skill, HitResult hitResult, BaseUnit target = null)
         {
-            var dmg = ability.Activate(this, target, hitResult);
+            CurrentMana -= skill.Manacost;
+
+            var dmg = skill.Activate(this, target, hitResult);
+
             SelectedSkill = null;
 
             return dmg;
@@ -95,14 +103,19 @@ namespace Entities.Enemies
             if (!skills.Any())
                 return;
 
-            var abilityIndex = new Random().Next(0, skills.Count);
+            foreach (var skill in skills.OrderByDescending(s => s.Manacost))
+            {
+                if (skill.Manacost > CurrentMana)
+                    continue;
 
-            SelectedSkill = skills[abilityIndex];
+                SelectedSkill = skill;
+                return;
+            }
         }
 
         private void SetAttributeByLevel()
         {
-            if(level == 1)
+            if (level == 1)
                 return;
 
             var modifier = levelModifier * level;

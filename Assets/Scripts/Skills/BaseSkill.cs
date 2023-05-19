@@ -9,7 +9,9 @@ namespace Skills
     public abstract class BaseSkill : ScriptableObject
     {
         public                            Sprite   sprite;
-        public                            int      level            = 1;
+        public                            int      level = 1;
+        public                            int      manacostFlat;
+        public                            float    manacostLevelScaling;
         public                            int      xpBaseBasic      = 16;
         public                            int      xpBaseDemanding  = 45;
         public                            int      xpBaseOutOfClass = 62;
@@ -28,8 +30,8 @@ namespace Skills
         public                            float    dCharisma;
         public                            float    dLevel = 0.5f;
         public                            int      addedFlatDamage;
-        public                            int      manacost;
         [Header("0 bis 1")] public        float    damageRange;
+        public                            int      Manacost => (int)(manacostFlat + level * manacostLevelScaling);
 
         private string Description
         {

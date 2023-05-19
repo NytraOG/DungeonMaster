@@ -11,6 +11,7 @@ using Skills;
 using TMPro;
 using UnityEngine;
 using UnityEngine.Events;
+using UnityEngine.Serialization;
 using UnityEngine.UI;
 using Random = System.Random;
 
@@ -27,15 +28,17 @@ namespace Battlefield
 
     public class BattleController : MonoBehaviour
     {
-        public  GameObject                                         floatingCombatText;
-        public  GameObject                                         battlefield;
-        public  BaseHero                                           selectedHero;
-        public  List<BaseUnit>                                     selectedTargets;
-        public  BaseSkill                                          selectedAbility;
-        public  Material                                           defaultMaterial;
-        public  Material                                           creatureOutlineMaterial;
-        public  Material                                           heroOutlineMaterial;
-        public  List<BaseSkill>                                    abilitiesOfSelectedHero = new();
+        public                                           GameObject     floatingCombatText;
+        public                                           GameObject     battlefield;
+        public                                           BaseHero       selectedHero;
+        public                                           List<BaseUnit> selectedTargets;
+        [FormerlySerializedAs("selectedAbility")] public BaseSkill      selectedSkill;
+        public                                           Material       defaultMaterial;
+        public                                           string         skillDisabledColor;
+        public                                           Material       creatureOutlineMaterial;
+        public                                           Material       heroOutlineMaterial;
+        [FormerlySerializedAs("abilitiesOfSelectedHero")]
+        public List<BaseSkill> skillsOfSelectedHero = new();
         public  bool                                               abilityanzeigeIstAktuell;
         public  Text                                               toastMessageText;
         public  Sprite                                             originalButtonBackground;
@@ -71,9 +74,9 @@ namespace Battlefield
         {
             if (AbilitySelection.Any(s => s.Actor == selectedHero))
                 ShowToast("Selected Hero is already acting");
-            else if (selectedAbility is not null && !selectedTargets.Any())
+            else if (selectedSkill is not null && !selectedTargets.Any())
                 ShowToast("No Targets selected");
-            else if (selectedAbility is null)
+            else if (selectedSkill is null)
                 ShowToast("No Ability selected");
             else
             {
@@ -84,7 +87,7 @@ namespace Battlefield
 
                 AbilitySelection.Add(new AbilitySelection
                 {
-                    Skill   = selectedAbility,
+                    Skill   = selectedSkill,
                     Actor   = selectedHero,
                     Targets = targets
                 });
@@ -93,7 +96,7 @@ namespace Battlefield
             selectedTargets.ForEach(t => t.GetComponent<SpriteRenderer>().material = defaultMaterial);
             selectedTargets.Clear();
 
-            selectedAbility = null;
+            selectedSkill = null;
         }
 
         public void StartRound() => StartCoroutine(KampfrundeAbhandeln());
@@ -110,16 +113,24 @@ namespace Battlefield
                 });
             }
 
-            if (abilityanzeigeIstAktuell || !skillbuttons.Any())
+            if (abilityanzeigeIstAktuell || !skillbuttons.Any() || selectedHero is null)
                 return;
 
             var counter = 0;
 
-            while (counter < abilitiesOfSelectedHero.Count)
+            while (counter < skillsOfSelectedHero.Count)
             {
-                skillbuttons[counter].GetComponent<Image>().sprite              = abilitiesOfSelectedHero[counter].sprite;
+                var skill = skillsOfSelectedHero[counter];
+
+                skillbuttons[counter].GetComponent<Image>().sprite = skill.sprite;
+
+                if (skill.Manacost > selectedHero.CurrentMana && ColorUtility.TryParseHtmlString(skillDisabledColor, out var color))
+                    skillbuttons[counter].GetComponent<Image>().color = color;
+                else
+                    skillbuttons[counter].GetComponent<Image>().color = Color.white;
+
                 skillbuttons[counter].GetComponent<Button>().enabled            = true;
-                skillbuttons[counter].GetComponent<AbilitybuttonScript>().skill = abilitiesOfSelectedHero[counter];
+                skillbuttons[counter].GetComponent<AbilitybuttonScript>().skill = skillsOfSelectedHero[counter];
 
                 counter++;
             }
@@ -530,8 +541,17 @@ namespace Battlefield
 
         private void SetSelectedAbility(GameObject g)
         {
-            selectedTargets.Clear();
-            selectedAbility = g.GetComponent<AbilitybuttonScript>().skill;
+            var skill = g.GetComponent<AbilitybuttonScript>().skill;
+
+            if (selectedHero is not null && skill.Manacost <= selectedHero.CurrentMana)
+            {
+                selectedTargets.Clear();
+                selectedSkill = skill;
+            }
+            else
+            {
+                ShowToast($"Not enough Mana");
+            }
         }
 
         public void ShowToast(string text, int duration = 2) => StartCoroutine(ShowToastCore(text, duration));
