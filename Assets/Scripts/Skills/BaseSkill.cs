@@ -2,6 +2,7 @@
 using System.Text;
 using Entities;
 using Entities.Enums;
+using Entities.Hero;
 using UnityEngine;
 
 namespace Skills
@@ -33,7 +34,7 @@ namespace Skills
         [Header("0 bis 1")] public        float    damageRange;
         public                            int      Manacost => (int)(manacostFlat + level * manacostLevelScaling);
 
-        private string Description
+        protected string Description
         {
             get
             {
@@ -82,15 +83,23 @@ namespace Skills
             }
         }
 
-        public (int, int) UpgradeCosts => this.GetUpgradeCosts(SkillDifficulty.Basic);
-
         public abstract string Activate(BaseUnit actor, BaseUnit target, HitResult hitResult);
 
-        public string GetTooltip(string damage = "0-0") => $"<b>{displayName.ToUpper()}</b>{Environment.NewLine}" +
-                                                           $"<i>{string.Join(", ", keywords)}</i>{Environment.NewLine}{Environment.NewLine}" +
-                                                           GetDamageText(damage) +
-                                                           Description;
+        public virtual string GetTooltip(BaseHero hero, string damage = "0-0") => $"<b>{displayName.ToUpper()}</b>{Environment.NewLine}" +
+                                                                                  $"<i>{string.Join(", ", keywords)}</i>{Environment.NewLine}{Environment.NewLine}" +
+                                                                                  GetManacostText(hero) +
+                                                                                  GetDamageText(damage);
 
-        private string GetDamageText(string damage) => damage == "0-0" ? string.Empty : $"Damage: <b>{damage}</b>{Environment.NewLine}{Environment.NewLine}";
+        private string GetManacostText(BaseHero hero)
+        {
+            if (Manacost == 0)
+                return string.Empty;
+
+            var hexColor = Manacost > hero.CurrentMana ? Konstanten.NotEnoughManaColor : Konstanten.EnoughManaColor;
+
+            return $"Manacost:\t<b><color={hexColor}>{Manacost}</color></b>{Environment.NewLine}";
+        }
+
+        private string GetDamageText(string damage) => damage == "0-0" ? string.Empty : $"Damage:\t<b>{damage}</b>{Environment.NewLine}";
     }
 }

@@ -4,6 +4,7 @@ using Battlefield;
 using Entities;
 using Entities.Enemies;
 using Entities.Enums;
+using Entities.Hero;
 using UnityEngine;
 
 namespace Skills
@@ -39,5 +40,9 @@ namespace Skills
 
             return string.Empty;
         }
+
+        public override string GetTooltip(BaseHero hero, string damage = "0-0") => base.GetTooltip(hero, damage) +
+                                                                                   Environment.NewLine + Environment.NewLine +
+                                                                                   Description;
     }
 }

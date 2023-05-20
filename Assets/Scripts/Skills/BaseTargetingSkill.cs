@@ -1,4 +1,6 @@
-﻿using Entities;
+﻿using System;
+using Entities;
+using Entities.Hero;
 
 namespace Skills
 {
@@ -9,5 +11,10 @@ namespace Skills
         public abstract Factions TargetableFaction { get; }
 
         public int GetTargets(BaseUnit unit) => targetsFlat + (int)(targetsHeroScaling * unit.level);
+
+        public override string GetTooltip(BaseHero selectedHero, string damage = "0-0") => base.GetTooltip(selectedHero, damage) +
+                                                                                           $"Targets:\t{GetTargets(selectedHero)}" +
+                                                                                           Environment.NewLine + Environment.NewLine +
+                                                                                           Description;
     }
 }

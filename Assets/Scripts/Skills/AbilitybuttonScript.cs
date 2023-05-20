@@ -20,7 +20,7 @@ namespace Skills
             tooltipInstance.displayedSkill = this;
             var controller = FindObjectOfType<BattleController>();
             var damage     = controller.selectedHero.GetApproximateDamage(skill);
-            var tooltip    = skill.GetTooltip($"{damage.Item1}-{damage.Item2}");
+            var tooltip    = skill.GetTooltip(controller.selectedHero,$"{damage.Item1}-{damage.Item2}");
 
             tooltipInstance.gameObject.SetActive(true);
             tooltipInstance.RenderTooltip(tooltip);

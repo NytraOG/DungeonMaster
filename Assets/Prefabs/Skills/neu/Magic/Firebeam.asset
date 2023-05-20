@@ -13,8 +13,8 @@ MonoBehaviour:
   m_Name: Firebeam
   m_EditorClassIdentifier: 
   sprite: {fileID: 21300000, guid: 86f33082bbc836048ae50e8c6f5129a1, type: 3}
-  level: 2
-  manacostFlat: 9999
+  level: 3
+  manacostFlat: 0
   manacostLevelScaling: 1.5
   xpBaseBasic: 16
   xpBaseDemanding: 45
