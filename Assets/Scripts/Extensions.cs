@@ -131,7 +131,8 @@ public static class Extensions
         newInstance.displayname = from.displayname;
         newInstance.name        = from.name;
 
-        newInstance.actionsModifier = from.actionsModifier;
+        newInstance.actionsModifier    = from.actionsModifier;
+        newInstance.flatDamageModifier = from.flatDamageModifier;
 
         newInstance.charismaMultiplier     = from.charismaMultiplier;
         newInstance.constitutionMultiplier = from.constitutionMultiplier;

@@ -13,7 +13,6 @@ using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.Serialization;
 using UnityEngine.UI;
-using Random = System.Random;
 
 namespace Battlefield
 {
@@ -28,15 +27,16 @@ namespace Battlefield
 
     public class BattleController : MonoBehaviour
     {
-        public                                           GameObject     floatingCombatText;
-        public                                           GameObject     battlefield;
-        public                                           BaseHero       selectedHero;
-        public                                           List<BaseUnit> selectedTargets;
-        [FormerlySerializedAs("selectedAbility")] public BaseSkill      selectedSkill;
-        public                                           Material       defaultMaterial;
-        public                                           string         skillDisabledColor;
-        public                                           Material       creatureOutlineMaterial;
-        public                                           Material       heroOutlineMaterial;
+        public GameObject     floatingCombatText;
+        public GameObject     battlefield;
+        public BaseHero       selectedHero;
+        public List<BaseUnit> selectedTargets;
+        [FormerlySerializedAs("selectedAbility")]
+        public BaseSkill selectedSkill;
+        public Material defaultMaterial;
+        public string   skillDisabledColor;
+        public Material creatureOutlineMaterial;
+        public Material heroOutlineMaterial;
         [FormerlySerializedAs("abilitiesOfSelectedHero")]
         public List<BaseSkill> skillsOfSelectedHero = new();
         public  bool                                               abilityanzeigeIstAktuell;
@@ -81,6 +81,7 @@ namespace Battlefield
             else
             {
                 selectedHero.InitiativeBestimmen();
+                selectedHero.GetComponent<SpriteRenderer>().material = defaultMaterial;
 
                 var targets = new List<BaseUnit>();
                 targets.AddRange(selectedTargets);
@@ -283,6 +284,8 @@ namespace Battlefield
                 AbilitySelection.Clear();
             }
 
+            heroes.ForEach(h => h.GetComponent<SpriteRenderer>().material = heroOutlineMaterial);
+
             combatActive = false;
 
             OnMisc?.Invoke("-------------------------------------------------------------------------------------------");
@@ -290,53 +293,63 @@ namespace Battlefield
 
         private void ProcessSkillactivation(AbilitySelection selection, BaseUnit target, out string abilityResult, out HitResult hitResult)
         {
-            switch (selection)
+            switch (selection.Actor)
             {
-                case { Actor: Hero, Skill: BaseDamageSkill damageSkill }:
-                {
-                    var isHit = CalculateHit(selection, damageSkill, target, out var hitroll, out var hitresult);
-
-                    hitResult = hitresult;
-
-                    if (isHit)
-                        DealDamage(selection, hitroll, hitresult, target, out abilityResult);
-                    else
-                        Miss(selection, hitroll, target, out abilityResult);
+                case Hero when selection.Skill is BaseDamageSkill damageSkill:
+                    ResolveDamageSkill(selection, target, out abilityResult, out hitResult, damageSkill);
                     break;
-                }
-                case { Actor: Creature creature, Skill: BaseDamageSkill foeDamageSkill }:
-                {
-                    var isHit = CalculateHit(selection, foeDamageSkill, target, out var hitroll, out var hitresult);
-
-                    hitResult = hitresult;
-
-                    if (isHit)
-                        DealDamage(selection, hitroll, hitresult, target, out abilityResult);
-                    else
-                    {
-                        Miss(selection, hitroll, target, out abilityResult);
-
-                        creature.SelectedSkill = null;
-                    }
-
+                case Hero hero when selection.Skill is SummonSkill summonSkill:
+                    ResolveSummonSkill(selection, out abilityResult, out hitResult, hero, summonSkill);
                     break;
-                }
-                case { Actor: Creature creature, Skill: SummonSkill summonSkill }:
-                {
-                    hitResult     = HitResult.None;
-                    abilityResult = creature.UseAbility(summonSkill, HitResult.None);
-
-                    InstantiateFloatingCombatText(selection.Actor, $"<b>{summonSkill.displayName}</b>!");
-
-                    creature.SelectedSkill = null;
-
+                case Hero hero when selection.Skill is SupportSkill supportSkill:
+                    ResolveSupportSkill(out abilityResult, out hitResult, supportSkill, hero, target);
                     break;
-                }
+
+                case Creature creature when selection.Skill is BaseDamageSkill foeDamageSkill:
+                    ResolveDamageSkill(selection, target, out abilityResult, out hitResult, foeDamageSkill);
+                    break;
+                case Creature creature when selection.Skill is SummonSkill foeSummonSkill:
+                    ResolveSummonSkill(selection, out abilityResult, out hitResult, creature, foeSummonSkill);
+                    break;
+                case Creature creature when selection.Skill is SupportSkill foeSupportSkill:
+                    ResolveSupportSkill(out abilityResult, out hitResult, foeSupportSkill, creature, target);
+                    break;
+
                 default:
                     UseSupportskill(selection, target, out abilityResult);
-                    hitResult = HitResult.None;
+                    abilityResult = string.Empty;
+                    hitResult     = HitResult.None;
                     break;
             }
+        }
+
+        private void ResolveDamageSkill(AbilitySelection selection, BaseUnit target, out string abilityResult, out HitResult hitResult, BaseDamageSkill damageSkill)
+        {
+            var isHit = CalculateHit(selection, damageSkill, target, out var hitroll, out var hitresult);
+
+            hitResult = hitresult;
+
+            if (isHit)
+                DealDamage(selection, hitroll, hitresult, target, out abilityResult);
+            else
+                Miss(selection, hitroll, target, out abilityResult);
+        }
+
+        private void ResolveSummonSkill(AbilitySelection selection, out string abilityResult, out HitResult hitResult, BaseUnit unit, SummonSkill summonSkill)
+        {
+            hitResult     = HitResult.None;
+            abilityResult = unit.UseAbility(summonSkill, hitResult);
+
+            InstantiateFloatingCombatText(selection.Actor, $"<b>{summonSkill.displayName}</b>!");
+        }
+
+        private void ResolveSupportSkill(out string abilityResult, out HitResult hitResult, SupportSkill supportSkill, BaseUnit target, BaseUnit actor)
+        {
+            hitResult     = HitResult.None;
+            abilityResult = actor.UseAbility(supportSkill, hitResult, target);
+
+            if(supportSkill.isBuffing)
+                OnBuffApplied?.Invoke(target, supportSkill, actor, null);
         }
 
         private void UseSupportskill(AbilitySelection selection, BaseUnit target, out string abilityResult)
@@ -349,6 +362,9 @@ namespace Battlefield
         private void Miss(AbilitySelection selection, int hitroll, BaseUnit target, out string abilityResult)
         {
             abilityResult = "MISS";
+
+            if (selection.Actor is Creature creature)
+                creature.SelectedSkill = null;
 
             OnMiss?.Invoke(new CombatskillResolutionArgs
             {
@@ -439,7 +455,6 @@ namespace Battlefield
 
             var notCombatReadyEnemies = enemies.Where(e => !e.IsDead &&
                                                            e.SelectedSkill is null);
-            var rando = new Random();
 
             foreach (var enemy in notCombatReadyEnemies)
             {
@@ -460,15 +475,24 @@ namespace Battlefield
             if (creature.SelectedSkill is not BaseTargetingSkill skill)
                 return new List<BaseUnit>();
 
-            var maxTargets = skill.GetTargets(creature);
+            var maxTargets = skill.GetTargets(creature) > enemies.Count ? enemies.Count : skill.GetTargets(creature);
             var retVal     = new List<BaseUnit>();
 
-            var eligableTargets = heroes.Where(h => !h.IsDead)
-                                        .ToList();
+            var eligableTargets = new List<BaseUnit>();
+
+            if (creature.SelectedSkill is SupportSkill supportSkill)
+            {
+                if (supportSkill.targetsWholeGroup)
+                    maxTargets = enemies.Count;
+
+                eligableTargets.AddRange(enemies.Where(e => !e.IsDead));
+            }
+            else
+                eligableTargets.AddRange(heroes.Where(h => !h.IsDead));
 
             for (var i = 0; i < maxTargets; i++)
             {
-                if (i <= eligableTargets.Count)
+                if (i < eligableTargets.Count)
                     retVal.Add(eligableTargets[i]);
             }
 
@@ -549,9 +573,7 @@ namespace Battlefield
                 selectedSkill = skill;
             }
             else
-            {
-                ShowToast($"Not enough Mana");
-            }
+                ShowToast("Not enough Mana");
         }
 
         public void ShowToast(string text, int duration = 2) => StartCoroutine(ShowToastCore(text, duration));

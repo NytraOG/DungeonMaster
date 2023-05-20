@@ -82,7 +82,7 @@ namespace UI
             Log(content);
         }
 
-        private void OnBuffApplied(BaseUnit actor, BaseSkill skill, BaseUnit target, string abilityResult)
+        private void OnBuffApplied(BaseUnit actor, BaseSkill skill, BaseUnit target, string _)
         {
             var content = $"{FetchUnitnameWithMatchingColor(actor)}[{(int)actor.CurrentInitiative}] used {skill.name} on {FetchUnitnameWithMatchingColor(target)}.";
 

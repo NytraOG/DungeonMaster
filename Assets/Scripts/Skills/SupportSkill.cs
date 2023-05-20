@@ -14,6 +14,7 @@ namespace Skills
         public                                    bool       selfcastOnly;
         public                                    bool       isHealing;
         public                                    bool       isBuffing;
+        public                                    bool       targetsWholeGroup;
         [Header("Attribute Modification")] public string     @operator = "+";
         public                                    float      modifierMeleeDefense;
         public                                    float      modifierRangedDefense;
@@ -31,7 +32,7 @@ namespace Skills
         public override string Activate(BaseUnit actor, BaseUnit target, HitResult _)
         {
             if (isBuffing)
-                ApplyBuffs(target);
+                ApplyBuffs(actor, target);
 
             var ultimateTarget = target;
 
@@ -42,10 +43,10 @@ namespace Skills
             ultimateTarget.MagicDefense  = ApplyOperation(ultimateTarget.MagicDefense, modifierMagicDefense);
             ultimateTarget.SocialDefense = ApplyOperation(ultimateTarget.SocialDefense, modifierSocialDefense);
 
-            return appliesStun ? "STUN" : $"{displayName} granted ";
+            return appliesStun ? "STUN" : "BUFFED";
         }
 
-        private void ApplyBuffs(BaseUnit target)
+        private void ApplyBuffs(BaseUnit actor, BaseUnit target)
         {
             foreach (var buff in appliedBuffs)
             {
@@ -53,9 +54,15 @@ namespace Skills
                     target.buffs.First(b => b.displayname == buff.displayname).remainingDuration += buff.duration;
                 else
                 {
-                    target.buffs.Add(buff);
-                    buff.ApplyDamageModifier(target);
-                    buff.ApplyRatingModifier(target);
+                    var newBuffInstance = buff.ToNewInstance();
+
+                    newBuffInstance.ApplyAttributeModifier(target);
+                    newBuffInstance.ApplyRatingModifier(target);
+                    newBuffInstance.ApplyDamageModifier(target);
+                    newBuffInstance.appliedBy   = this;
+                    newBuffInstance.appliedFrom = actor;
+
+                    target.buffs.Add(newBuffInstance);
                 }
             }
         }

@@ -9,19 +9,19 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a4275161a43940028c7a45d8c01d4ab9, type: 3}
-  m_Name: Alpha
+  m_Script: {fileID: 11500000, guid: a9a94f4b089b4d27ae356ff397c2dfd3, type: 3}
+  m_Name: Master of the Pack
   m_EditorClassIdentifier: 
-  displayname: Alpha
-  strengthMultiplier: 2
-  constitutionMultiplier: 5
-  dexterityMultiplier: 1.5
+  displayname: Master of the Pack
+  strengthMultiplier: 1
+  constitutionMultiplier: 1
+  dexterityMultiplier: 1
   quicknessMultiplier: 1
-  intuitionMultiplier: 1.5
-  logicMultiplier: 3
-  wisdomMultiplier: 3
-  willpowerMultiplier: 4
-  charismaMultiplier: 4
+  intuitionMultiplier: 1
+  logicMultiplier: 1
+  wisdomMultiplier: 1
+  willpowerMultiplier: 1
+  charismaMultiplier: 1
   actionsModifier: 0
   flatDamageModifier: 2
   meleeAttackratingModifier: 0
@@ -32,7 +32,9 @@ MonoBehaviour:
   rangedDefensemodifier: 0
   magicDefensemodifier: 0
   socialDefensemodifier: 0
-  skills:
-  - {fileID: 11400000, guid: 3c2ee681f6703b94d92abe1079dcb0b3, type: 2}
-  - {fileID: 11400000, guid: 623de55334e9eb04b9ae410a2c42ef3b, type: 2}
-  - {fileID: 11400000, guid: 336cfb83ac7c1094b87cce2d109ccc9c, type: 2}
+  duration: 2
+  remainingDuration: 2
+  appliedBy: {fileID: 0}
+  appliedFrom: {fileID: 0}
+  isStackable: 0
+  combatlogEffectColor: {r: 0.9058824, g: 0.8941177, b: 0.050980397, a: 1}
