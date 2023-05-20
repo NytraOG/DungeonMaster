@@ -10,11 +10,8 @@ namespace UI
     {
         public  Hero              inventoryHolder;
         public  InventorySlotUi[] slots;
-        public  bool              showInventory;
         private bool              heroChanged;
         private bool              slotAssigned;
-
-        private void Awake() => gameObject.SetActive(showInventory);
 
         protected void Update()
         {

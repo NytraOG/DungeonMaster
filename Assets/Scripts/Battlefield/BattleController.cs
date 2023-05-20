@@ -11,7 +11,6 @@ using Skills;
 using TMPro;
 using UnityEngine;
 using UnityEngine.Events;
-using UnityEngine.Serialization;
 using UnityEngine.UI;
 
 namespace Battlefield
@@ -27,18 +26,16 @@ namespace Battlefield
 
     public class BattleController : MonoBehaviour
     {
-        public GameObject     floatingCombatText;
-        public GameObject     battlefield;
-        public BaseHero       selectedHero;
-        public List<BaseUnit> selectedTargets;
-        [FormerlySerializedAs("selectedAbility")]
-        public BaseSkill selectedSkill;
-        public Material defaultMaterial;
-        public string   skillDisabledColor;
-        public Material creatureOutlineMaterial;
-        public Material heroOutlineMaterial;
-        [FormerlySerializedAs("abilitiesOfSelectedHero")]
-        public List<BaseSkill> skillsOfSelectedHero = new();
+        public  GameObject                                         floatingCombatText;
+        public  GameObject                                         battlefield;
+        public  BaseHero                                           selectedHero;
+        public  List<BaseUnit>                                     selectedTargets;
+        public  BaseSkill                                          selectedSkill;
+        public  Material                                           defaultMaterial;
+        public  string                                             skillDisabledColor;
+        public  Material                                           creatureOutlineMaterial;
+        public  Material                                           heroOutlineMaterial;
+        public  List<BaseSkill>                                    skillsOfSelectedHero = new();
         public  bool                                               abilityanzeigeIstAktuell;
         public  Text                                               toastMessageText;
         public  Sprite                                             originalButtonBackground;
@@ -348,7 +345,7 @@ namespace Battlefield
             hitResult     = HitResult.None;
             abilityResult = actor.UseAbility(supportSkill, hitResult, target);
 
-            if(supportSkill.isBuffing)
+            if (supportSkill.isBuffing)
                 OnBuffApplied?.Invoke(target, supportSkill, actor, null);
         }
 

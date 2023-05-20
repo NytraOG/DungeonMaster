@@ -105,6 +105,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   healthbarPrefab: {fileID: 5074898879768582473, guid: 73f1142b14a6827419db2c8aa3b23a63, type: 3}
+  xpAvailable: 0
+  xpSpent: 0
+  xpBaseAttribut: 50
   level: 1
   strength: 1
   constitution: 1
@@ -116,6 +119,10 @@ MonoBehaviour:
   wisdom: 1
   charisma: 1
   skills: []
+  buffs: []
+  debuffs: []
+  healthbarInstance: {fileID: 0}
+  unitTooltip: {fileID: 0}
   inherentSkill: {fileID: 11400000, guid: ad53a6868dc32be41a91e89cb5050118, type: 2}
   inventorySize: 5
   inventorySystem:

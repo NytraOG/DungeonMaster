@@ -10,9 +10,11 @@ namespace Entities.Hero
 {
     public class Hero : BaseHero
     {
-        public Race       race;
-        public HeroClass  heroClass;
-        public GameObject inventoryPanel;
+        public                  Race       race;
+        public                  HeroClass  heroClass;
+        public                  GameObject inventoryPanel;
+        public                  GameObject statusPanel;
+        private static readonly int        TriggerAttack = Animator.StringToHash("TriggerAttack");
 
         protected override void Awake()
         {
@@ -76,6 +78,8 @@ namespace Entities.Hero
 
             var inventoryDisplay = inventoryPanel.GetComponent<StaticInventoryDisplay>();
             inventoryDisplay.ChangeHero(this);
+
+            statusPanel.GetComponent<StatusPanel>().ChangeHero(this);
         }
 
         public override (int, int) GetApproximateDamage(BaseSkill ability) => ability switch

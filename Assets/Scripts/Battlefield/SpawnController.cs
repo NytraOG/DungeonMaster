@@ -22,12 +22,12 @@ namespace Battlefield
         public          InventoryItemData              itemData2;
         public          InventoryItemData              itemData3;
         public          InventoryItemData              itemData4;
-        public          GameObject                     inventoryPanel;
         public          GameObject                     openBagAudioSource;
+        public          GameObject                     characterPanel;
         public readonly Dictionary<Positions, bool>    fieldslots = new();
         private         List<BaseUnit>                 combatants = new();
         private         Dictionary<Positions, Vector3> creaturePositions;
-        private         bool                           inventoryShown;
+        public         bool                           inventoryShown;
         public          UnityAction<SpawnEventArgs>    OnCreateSpawned;
 
         public void Start() => InitScene();
@@ -47,7 +47,7 @@ namespace Battlefield
 
                 if (inventoryShown)
                 {
-                    var inventoryDisplay = inventoryPanel.GetComponent<StaticInventoryDisplay>();
+                    var inventoryDisplay = characterPanel.transform.Find("InventoryPanel").GetComponent<StaticInventoryDisplay>();
 
                     if (controller.selectedHero is not null)
                         inventoryDisplay.ChangeHero(controller.selectedHero.GetComponent<Hero>());
@@ -55,7 +55,8 @@ namespace Battlefield
                     PlayOpenBagSound();
                 }
 
-                inventoryPanel.SetActive(inventoryShown);
+                characterPanel.SetActive(inventoryShown);
+                characterPanel.transform.Find("InventoryPanel").gameObject.SetActive(inventoryShown);
             }
 
             if (Input.GetKeyDown(KeyCode.P))
@@ -142,7 +143,8 @@ namespace Battlefield
 
         private void InitScene()
         {
-            inventoryShown = inventoryPanel.GetComponent<StaticInventoryDisplay>().showInventory;
+            characterPanel.transform.Find("InventoryPanel").gameObject.SetActive(inventoryShown);
+            characterPanel.SetActive(inventoryShown);
 
             creaturePositions = new Dictionary<Positions, Vector3>
             {
