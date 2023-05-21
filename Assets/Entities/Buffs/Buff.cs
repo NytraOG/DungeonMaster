@@ -16,6 +16,19 @@ namespace Entities.Buffs
 
         private void Awake() => remainingDuration = duration;
 
+        public virtual string ResolveTick(BaseUnit applicant)
+        {
+            remainingDuration--;
+
+            return $"{name} ticked";
+        }
+
+        public virtual void Die(BaseUnit applicant)
+        {
+            applicant.buffs.Remove(this);
+            Destroy(this);
+        }
+
         public virtual void Reverse() { }
     }
 }

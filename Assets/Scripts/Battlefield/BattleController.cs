@@ -209,28 +209,16 @@ namespace Battlefield
                         yield return new WaitForSeconds(1f);
                     }
 
-                    var debuffsToKill = new List<Debuff>();
+                    #region Resolve Debuffs
 
+                    var debuffsToKill           = new List<Debuff>();
                     var stackableDebuffs        = selection.Actor.debuffs.Where(d => d.isStackable).ToList();
                     var groupedStackableDebuffs = stackableDebuffs.GroupBy(d => d.displayname);
-
-                    var unstackableDebuffs = selection.Actor.debuffs.Except(stackableDebuffs);
+                    var unstackableDebuffs      = selection.Actor.debuffs.Except(stackableDebuffs);
 
                     foreach (var debuffs in groupedStackableDebuffs)
                     {
-                        var cumulatedDamage   = debuffs.Sum(d => d.damagePerTick);
-                        var remainingDuration = debuffs.Max(d => d.remainingDuration) - 1;
-
-                        debuffs.ToList()
-                               .ForEach(d =>
-                                {
-                                    d.remainingDuration--;
-
-                                    if (d.DurationEnded)
-                                        debuffsToKill.Add(d);
-                                });
-
-                        selection.Actor.CurrentHitpoints -= cumulatedDamage;
+                        var cumulatedDamage = ResolveEffect(debuffs, debuffsToKill, selection, out var remainingDuration);
 
                         OnDebuffTick?.Invoke(new DebuffResolutionArgs
                         {
@@ -245,11 +233,9 @@ namespace Battlefield
 
                         yield return new WaitForSeconds(1f);
                     }
-
                     foreach (var debuff in unstackableDebuffs)
                     {
-                        debuff.DealDamage(selection.Actor);
-                        debuff.remainingDuration--;
+                        debuff.ResolveTick(selection.Actor);
 
                         if (debuff.DurationEnded)
                             debuffsToKill.Add(debuff);
@@ -267,15 +253,21 @@ namespace Battlefield
 
                         yield return new WaitForSeconds(1f);
                     }
-
                     foreach (var debuff in debuffsToKill)
-                    {
-                        debuff.Reverse();
+                        debuff.Die(selection.Actor);
 
-                        selection.Actor.debuffs.Remove(debuff);
+                    #endregion
 
-                        Destroy(debuff);
-                    }
+                    #region Resolve Buffs
+
+                    var buffsToKill           = new List<Buff>();
+                    var stackableBuffs        = selection.Actor.buffs.Where(b => b.isStackable).ToList();
+                    var groupedStackableBuffs = stackableDebuffs.GroupBy(b => b.displayname);
+                    var unstackableBuffs      = selection.Actor.buffs.Except(stackableBuffs);
+
+
+
+                    #endregion
                 }
 
                 AbilitySelection.Clear();
@@ -285,7 +277,26 @@ namespace Battlefield
 
             combatActive = false;
 
-            OnMisc?.Invoke("-------------------------------------------------------------------------------------------");
+            OnMisc?.Invoke("-------------------------------------------------------------------------------------------------------------------------");
+        }
+
+        private static int ResolveEffect(IGrouping<string, Debuff> debuffs, List<Debuff> debuffsToKill, AbilitySelection selection, out int remainingDuration)
+        {
+            var cumulatedDamage = debuffs.Sum(d => d.damagePerTick);
+            remainingDuration = debuffs.Max(d => d.remainingDuration) - 1;
+
+            debuffs.ToList()
+                   .ForEach(d =>
+                    {
+                        d.remainingDuration--;
+
+                        if (d.DurationEnded)
+                            debuffsToKill.Add(d);
+                    });
+
+            selection.Actor.CurrentHitpoints -= cumulatedDamage;
+
+            return cumulatedDamage;
         }
 
         private void ProcessSkillactivation(AbilitySelection selection, BaseUnit target, out string abilityResult, out HitResult hitResult)
