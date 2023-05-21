@@ -262,10 +262,42 @@ namespace Battlefield
 
                     var buffsToKill           = new List<Buff>();
                     var stackableBuffs        = selection.Actor.buffs.Where(b => b.isStackable).ToList();
-                    var groupedStackableBuffs = stackableDebuffs.GroupBy(b => b.displayname);
+                    var groupedStackableBuffs = stackableBuffs.GroupBy(b => b.displayname);
                     var unstackableBuffs      = selection.Actor.buffs.Except(stackableBuffs);
 
+                    foreach (var buffs in groupedStackableBuffs)
+                    {
+                        buffs.ToList()
+                             .ForEach(b => b.ResolveTick(selection.Actor));
 
+                        yield return new WaitForSeconds(1f);
+                    }
+
+                    foreach (var buff in unstackableBuffs)
+                    {
+                        buff.ResolveTick(selection.Actor);
+
+                        if (buff.DurationEnded)
+                            buffsToKill.Add(buff);
+
+                        OnDebuffTick?.Invoke(new DebuffResolutionArgs
+                        {
+                            Actor                = selection.Actor,
+                            //Debuff               = buff,
+                            Damage               = 0,
+                            RemainingDuration    = buff.remainingDuration,
+                            CombatlogEffectColor = buff.combatlogEffectColor
+                        });
+
+                       // ProcessFloatingCombatText(debuff.damagePerTick.ToString(), HitResult.None, selection.Actor);
+
+                        yield return new WaitForSeconds(1f);
+                    }
+
+                    foreach (var buff in buffsToKill)
+                    {
+
+                    }
 
                     #endregion
                 }

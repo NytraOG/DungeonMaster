@@ -12,8 +12,17 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1daa57d2a92c40b7a988734f73f3ded6, type: 3}
   m_Name: Shiv
   m_EditorClassIdentifier: 
+  acquisitionLevelBasic: 1
+  difficultyBasicClasses:
+  - {fileID: 11400000, guid: a6e7e2db528f868499e30eb8f98b6388, type: 2}
+  acquisitionLevelDemanding: 5
+  difficultyDemandingClasses:
+  - {fileID: 11400000, guid: ee8e11e2f82bc6a42a1ae911862d90be, type: 2}
+  acquisitionLevelOutOfClass: 99
   sprite: {fileID: 21300000, guid: 545dba896aa8b904c9eea7cf385d8789, type: 3}
   level: 1
+  manacostFlat: 0
+  manacostLevelScaling: 0
   xpBaseBasic: 16
   xpBaseDemanding: 45
   xpBaseOutOfClass: 62
@@ -36,9 +45,9 @@ MonoBehaviour:
   dCharisma: 0
   dLevel: 0.5
   addedFlatDamage: -1
-  manacost: 0
   damageRange: 0.6
-  targets: 1
+  targetsFlat: 1
+  targetsHeroScaling: 0
   bonusDamageNormal: 0
   bonusDamageGood: 0
   bonusDamageCritical: 1
