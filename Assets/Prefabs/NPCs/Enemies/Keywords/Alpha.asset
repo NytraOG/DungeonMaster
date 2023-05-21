@@ -33,6 +33,6 @@ MonoBehaviour:
   magicDefensemodifier: 0
   socialDefensemodifier: 0
   skills:
-  - {fileID: 11400000, guid: 3c2ee681f6703b94d92abe1079dcb0b3, type: 2}
+  - {fileID: 11400000, guid: 55a8193534602114ab10752ccfc9c2fc, type: 2}
   - {fileID: 11400000, guid: 623de55334e9eb04b9ae410a2c42ef3b, type: 2}
-  - {fileID: 11400000, guid: 336cfb83ac7c1094b87cce2d109ccc9c, type: 2}
+  - {fileID: 11400000, guid: bb27b72a6ce911b43922ef14ee91890f, type: 2}

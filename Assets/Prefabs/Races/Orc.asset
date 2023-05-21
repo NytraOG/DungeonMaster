@@ -25,4 +25,4 @@ MonoBehaviour:
   modifierCharisma: 0
   skills:
   - {fileID: 11400000, guid: 1844bcb1f4e589f439ebec8555a972e4, type: 2}
-  - {fileID: 11400000, guid: fefbd0d3b9531e846ab938f445ef781c, type: 2}
+  - {fileID: 11400000, guid: 7c4901978c93ea04d9cc933094cdf632, type: 2}

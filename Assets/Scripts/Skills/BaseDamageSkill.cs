@@ -24,7 +24,7 @@ namespace Skills
         public                                int                 hWillpower;
         public                                int                 hWisdom;
         public                                int                 hCharisma;
-        public                                int                 hLevel = 2;
+        public                                int                 hLevel         = 2;
         public                                float               hMultiplier    = 1;
         public                                List<Debuff>        appliedDebuffs = new();
         public                                UnityAction<string> OnDamageDealt;

@@ -9,11 +9,17 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 1824bf0e96894dce981af3c992cc336e, type: 3}
+  m_Script: {fileID: 11500000, guid: 5e00e7a6bc2542dc9eb7ca1cb875554a, type: 3}
   m_Name: Master of the Pack
   m_EditorClassIdentifier: 
+  acquisitionLevelBasic: 1
+  difficultyBasicClasses: []
+  acquisitionLevelDemanding: 1
+  difficultyDemandingClasses: []
+  acquisitionLevelOutOfClass: 1
   sprite: {fileID: 0}
   level: 1
+  cooldown: 0
   manacostFlat: 3
   manacostLevelScaling: 0
   xpBaseBasic: 16
@@ -32,15 +38,15 @@ MonoBehaviour:
   dWillpower: 0
   dWisdom: 0
   dCharisma: 0
-  dLevel: 0
+  dLevel: 0.5
   addedFlatDamage: 0
+  weapon: {fileID: 0}
   damageRange: 0
-  targetsFlat: 0
+  targetsFlat: 1
   targetsHeroScaling: 0
-  selfcastOnly: 0
   isHealing: 0
-  isBuffing: 1
-  targetsWholeGroup: 1
+  isBuffing: 0
+  targetsWholeGroup: 0
   operator: +
   modifierMeleeDefense: 0
   modifierRangedDefense: 0
@@ -48,3 +54,4 @@ MonoBehaviour:
   modifierSocialDefense: 0
   appliedBuffs:
   - {fileID: 11400000, guid: 4d639036660aa63419d57c5e04cada40, type: 2}
+  appliedDebuffs: []

@@ -6,7 +6,6 @@ using Entities.Enemies.Monstertypes;
 using Entities.Enums;
 using Skills;
 using UnityEngine;
-using Random = System.Random;
 
 namespace Entities.Enemies
 {
@@ -23,6 +22,16 @@ namespace Entities.Enemies
         {
             displayname = $"{monstertype.displayname} {keywords[0]?.displayname}";
             name        = displayname;
+
+            MeleeAttackratingModifier  = 1;
+            RangedAttackratingModifier = 1;
+            MagicAttackratingModifier  = 1;
+            SocialAttackratingModifier = 1;
+
+            MeleeDefensmodifier   = 1;
+            RangedDefensemodifier = 1;
+            MagicDefensemodifier  = 1;
+            SocialDefensemodifier = 1;
 
             monstertype.ApplyValues(this);
 

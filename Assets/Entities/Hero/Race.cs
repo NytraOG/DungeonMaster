@@ -35,10 +35,15 @@ namespace Entities.Hero
             unit.Charisma     += modifierCharisma;
         }
 
-        public void ApplyAbilities(BaseUnit unit) => skills.ForEach(s =>
+        public void ApplySkills(BaseUnit unit) => skills.ForEach(s =>
         {
-            if (unit.skills.All(a => a.name != s.name))
-                unit.skills.Add(s);
+            if (unit.skills.Any(a => a.name == s.name))
+                return;
+
+            if(s is SupportSkill supportSkill)
+                supportSkill.PopulateBuffs(unit);
+
+            unit.skills.Add(s);
         });
     }
 }

@@ -24,4 +24,4 @@ MonoBehaviour:
   mana: 0.4
   explosion: 0
   skills:
-  - {fileID: 11400000, guid: 2b712452ad4235a4bb00cda402076756, type: 2}
+  - {fileID: 11400000, guid: f4f487a02b03a764981c470562f9129b, type: 2}

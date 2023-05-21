@@ -32,5 +32,4 @@ MonoBehaviour:
   rangedDefensemodifier: 0
   magicDefensemodifier: 0
   socialDefensemodifier: 0
-  skills:
-  - {fileID: 11400000, guid: 3c2ee681f6703b94d92abe1079dcb0b3, type: 2}
+  skills: []

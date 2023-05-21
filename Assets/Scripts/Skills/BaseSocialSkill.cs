@@ -8,20 +8,19 @@ using UnityEngine;
 
 namespace Skills
 {
-    [CreateAssetMenu(fileName = "Support Skill", menuName = "Skills/Support")]
     public abstract class BaseSocialSkill : BaseTargetingSkill
     {
-        public                                    bool       selfcastOnly;
-        public                                    bool       isHealing;
-        public                                    bool       isBuffing;
-        public                                    bool       targetsWholeGroup;
-        [Header("Attribute Modification")] public string     @operator = "+";
-        public                                    float      modifierMeleeDefense;
-        public                                    float      modifierRangedDefense;
-        public                                    float      modifierMagicDefense;
-        public                                    float      modifierSocialDefense;
-        public                                    List<Buff> appliedBuffs = new();
-        public override                           Factions   TargetableFaction => Factions.Friend;
+        public                                    bool         isHealing;
+        public                                    bool         isBuffing;
+        public                                    bool         targetsWholeGroup;
+        [Header("Attribute Modification")] public string       @operator = "+";
+        public                                    float        modifierMeleeDefense;
+        public                                    float        modifierRangedDefense;
+        public                                    float        modifierMagicDefense;
+        public                                    float        modifierSocialDefense;
+        public                                    List<Buff>   appliedBuffs   = new();
+        public                                    List<Debuff> appliedDebuffs = new();
+        public override                           Factions     TargetableFaction => Factions.Friend;
 
         private void Awake()
         {

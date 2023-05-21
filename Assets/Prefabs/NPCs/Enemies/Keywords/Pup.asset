@@ -13,14 +13,24 @@ MonoBehaviour:
   m_Name: Pup
   m_EditorClassIdentifier: 
   displayname: Pup
-  strengthModifier: 1
-  constitutionModifier: 1
-  dexterityModifier: 1
-  quicknessModifier: 1
-  intuitionModifier: 1
-  logicModifier: 1
-  wisdomModifier: 1
-  willpowerModifier: 1
-  charismaModifier: 1
+  strengthMultiplier: 1
+  constitutionMultiplier: 1
+  dexterityMultiplier: 1
+  quicknessMultiplier: 1
+  intuitionMultiplier: 1
+  logicMultiplier: 1
+  wisdomMultiplier: 1
+  willpowerMultiplier: 1
+  charismaMultiplier: 1
+  actionsModifier: 0
+  flatDamageModifier: 0
+  meleeAttackratingModifier: 0
+  rangedAttackratingModifier: 0
+  magicAttackratingModifier: 0
+  socialAttackratingModifier: 0
+  meleeDefensmodifier: 0
+  rangedDefensemodifier: 0
+  magicDefensemodifier: 0
+  socialDefensemodifier: 0
   skills:
-  - {fileID: 11400000, guid: 3c2ee681f6703b94d92abe1079dcb0b3, type: 2}
+  - {fileID: 11400000, guid: 55a8193534602114ab10752ccfc9c2fc, type: 2}

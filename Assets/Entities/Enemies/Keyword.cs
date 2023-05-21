@@ -14,8 +14,13 @@ namespace Entities.Enemies
         {
             foreach (var skill in skills)
             {
-                if (creature.skills.All(s => s.displayName != skill.displayName))
-                    creature.skills.Add(skill);
+                if (creature.skills.Any(s => s.displayName == skill.displayName))
+                    continue;
+
+                if(skill is SupportSkill supportSkill)
+                    supportSkill.PopulateBuffs(creature);
+
+                creature.skills.Add(skill);
             }
         }
     }

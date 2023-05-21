@@ -1,0 +1,56 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5e00e7a6bc2542dc9eb7ca1cb875554a, type: 3}
+  m_Name: Roar
+  m_EditorClassIdentifier: 
+  acquisitionLevelBasic: 1
+  difficultyBasicClasses: []
+  acquisitionLevelDemanding: 1
+  difficultyDemandingClasses: []
+  acquisitionLevelOutOfClass: 1
+  sprite: {fileID: 21300000, guid: b22b8dc2797988e459737e7d55f389a7, type: 3}
+  level: 1
+  cooldown: 0
+  manacostFlat: 0
+  manacostLevelScaling: 0
+  xpBaseBasic: 16
+  xpBaseDemanding: 45
+  xpBaseOutOfClass: 62
+  displayName: Roar
+  appliesStun: 1
+  keywords: []
+  description: 
+  dStrength: 0
+  dConstitution: 0
+  dDexterity: 0
+  dQuickness: 0
+  dIntuition: 0
+  dLogic: 0
+  dWillpower: 0
+  dWisdom: 0
+  dCharisma: 0
+  dLevel: 0.5
+  addedFlatDamage: 0
+  weapon: {fileID: 0}
+  damageRange: 0
+  targetsFlat: 1
+  targetsHeroScaling: 0
+  isHealing: 0
+  isBuffing: 0
+  targetsWholeGroup: 0
+  operator: +
+  modifierMeleeDefense: 0
+  modifierRangedDefense: 0
+  modifierMagicDefense: 0
+  modifierSocialDefense: 0
+  appliedBuffs: []
+  appliedDebuffs: []

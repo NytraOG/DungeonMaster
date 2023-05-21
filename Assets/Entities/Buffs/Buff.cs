@@ -6,13 +6,13 @@ namespace Entities.Buffs
     [CreateAssetMenu(fileName = "Buff")]
     public class Buff : BaseUnitModifikator
     {
-        public int       duration = 1;
+        public int       duration;
         public int       remainingDuration;
         public BaseSkill appliedBy;
         public BaseUnit  appliedFrom;
         public bool      isStackable;
         public Color     combatlogEffectColor = Color.white;
-        public bool      DurationEnded => remainingDuration <= 0;
+        public bool      DurationEnded => remainingDuration == 0;
 
         private void Awake() => remainingDuration = duration;
 

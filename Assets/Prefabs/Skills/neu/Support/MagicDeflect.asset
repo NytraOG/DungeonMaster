@@ -1,0 +1,61 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8ac9bb9c62d340bda897f9f0d13ef7a4, type: 3}
+  m_Name: MagicDeflect
+  m_EditorClassIdentifier: 
+  acquisitionLevelBasic: 1
+  difficultyBasicClasses: []
+  acquisitionLevelDemanding: 1
+  difficultyDemandingClasses: []
+  acquisitionLevelOutOfClass: 1
+  sprite: {fileID: 21300000, guid: d0cd2d41d09e41c4dada1066a0280510, type: 3}
+  level: 1
+  cooldown: 0
+  manacostFlat: 0
+  manacostLevelScaling: 0
+  xpBaseBasic: 16
+  xpBaseDemanding: 45
+  xpBaseOutOfClass: 62
+  displayName: Magic Deflect
+  appliesStun: 0
+  description: Through hard mental training, the character is able to fend off enemy
+    magical attacks with his sheer willpower.
+  dStrength: 0
+  dConstitution: 0
+  dDexterity: 0
+  dQuickness: 0
+  dIntuition: 0
+  dLogic: 0
+  dWillpower: 2
+  dWisdom: 1
+  dCharisma: 0
+  dLevel: 2
+  addedFlatDamage: 0
+  weapon: {fileID: 0}
+  damageRange: 0
+  targetsFlat: 1
+  targetsHeroScaling: 0
+  appliedBuffs:
+  - {fileID: 11400000, guid: ad4152bfb1675144e97649681cff61c9, type: 2}
+  appliedDebuffs: []
+  selfcastOnly: 0
+  actionsModifier: 0
+  flatDamageModifier: 0
+  meleeAttackratingModifier: 0
+  rangedAttackratingModifier: 0
+  magicAttackratingModifier: 0
+  socialAttackratingModifier: 0
+  meleeDefensmodifier: 0
+  rangedDefensemodifier: 0
+  magicDefensemodifier: 0
+  socialDefensemodifier: 0
+  affectedCategories: 02000000

@@ -31,7 +31,22 @@ namespace UI
             bController.OnMisc          += OnMisc;
             bController.OnBuffApplied   += OnBuffApplied;
             bController.OnDebuffTick    += OnDebuffTick;
+            bController.OnBuffTick += OnBuffTick;
             sController.OnCreateSpawned += OnCreateSpawned;
+        }
+
+        private void OnBuffTick(BuffResolutionArgs args)
+        {
+            if (args.RemainingDuration == 0)
+            {
+                Log($"<b><color=#{ColorUtility.ToHtmlStringRGBA(args.CombatlogEffectColor)}>{args.Buff.name}</color></b> " +
+                    $"expired on {FetchUnitnameWithMatchingColor(args.Applicant)}.");
+            }
+            else
+            {
+                Log($"<b><color=#{ColorUtility.ToHtmlStringRGBA(args.CombatlogEffectColor)}>{args.Buff.name}</color></b> " +
+                    $"{args.RemainingDuration} turns remaining on {FetchUnitnameWithMatchingColor(args.Applicant)}.");
+            }
         }
 
         private void OnCreateSpawned(SpawnController.SpawnEventArgs args) => Log($"{FetchUnitnameWithMatchingColor(args.Creature)} level {args.Creature.level} appeared at position <b>{GetPositionString(args.Position)}</b>.");

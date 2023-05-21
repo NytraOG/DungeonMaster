@@ -1,4 +1,3 @@
-using System;
 using Battlefield;
 using Entities.Enums;
 using Inventory;
@@ -10,11 +9,11 @@ namespace Entities.Hero
 {
     public class Hero : BaseHero
     {
+        private static readonly int        TriggerAttack = Animator.StringToHash("TriggerAttack");
         public                  Race       race;
         public                  HeroClass  heroClass;
         public                  GameObject inventoryPanel;
         public                  GameObject statusPanel;
-        private static readonly int        TriggerAttack = Animator.StringToHash("TriggerAttack");
 
         protected override void Awake()
         {
@@ -29,7 +28,7 @@ namespace Entities.Hero
 
             var controller = FindObjectOfType<BattleController>();
 
-            if (controller.selectedSkill is BaseSocialSkill { TargetableFaction: Factions.Friend })
+            if(controller.PlayerIsTargeting)
                 controller.selectedTargets.Add(this);
             else
                 ChangeSelectedHero(controller);
@@ -52,7 +51,17 @@ namespace Entities.Hero
         {
             skills.Add(inherentSkill);
 
-            race.ApplyAbilities(this);
+            MeleeAttackratingModifier  = 1;
+            RangedAttackratingModifier = 1;
+            MagicAttackratingModifier  = 1;
+            SocialAttackratingModifier = 1;
+
+            MeleeDefensmodifier   = 1;
+            RangedDefensemodifier = 1;
+            MagicDefensemodifier  = 1;
+            SocialDefensemodifier = 1;
+
+            race.ApplySkills(this);
             heroClass.ApplySkills(this);
 
             SetInitialHitpointsAndMana();
@@ -71,7 +80,7 @@ namespace Entities.Hero
         private void ChangeSelectedHero(BattleController controller)
         {
             controller.selectedHero             = this;
-            controller.skillsOfSelectedHero  = skills;
+            controller.skillsOfSelectedHero     = skills;
             controller.abilityanzeigeIstAktuell = false;
             controller.selectedTargets.ForEach(t => t.GetComponent<SpriteRenderer>().material = controller.defaultMaterial);
             controller.selectedTargets.Clear();
@@ -85,8 +94,7 @@ namespace Entities.Hero
         public override (int, int) GetApproximateDamage(BaseSkill ability) => ability switch
         {
             BaseDamageSkill skill => skill.GetDamage(this, HitResult.None),
-            BaseSocialSkill _ => (0, 0),
-            _ => throw new ArgumentOutOfRangeException(nameof(ability))
+            _ => (0, 0)
         };
 
         public override string UseAbility(BaseSkill skill, HitResult hitResult, BaseUnit target = null)

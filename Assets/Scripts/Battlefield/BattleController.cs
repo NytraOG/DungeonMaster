@@ -15,6 +15,15 @@ using UnityEngine.UI;
 
 namespace Battlefield
 {
+    public struct BuffResolutionArgs
+    {
+        public BaseUnit Applicant            { get; set; }
+        public Buff     Buff                 { get; set; }
+        public string   Effect               { get; set; }
+        public int      RemainingDuration    { get; set; }
+        public Color    CombatlogEffectColor { get; set; }
+    }
+
     public struct DebuffResolutionArgs
     {
         public BaseUnit Actor                { get; set; }
@@ -46,11 +55,16 @@ namespace Battlefield
         private bool                                               combatActive;
         private List<BaseHero>                                     heroes = new();
         public  UnityAction<BaseUnit, BaseSkill, BaseUnit, string> OnBuffApplied;
+        public  UnityAction<BuffResolutionArgs>                    OnBuffTick;
         public  UnityAction<DebuffResolutionArgs>                  OnDebuffTick;
         public  UnityAction<CombatskillResolutionArgs>             OnHit;
         public  UnityAction<string>                                OnMisc;
         public  UnityAction<CombatskillResolutionArgs>             OnMiss;
         private List<GameObject>                                   skillbuttons;
+
+        public bool PlayerIsTargeting => selectedHero is not null &&
+                                         selectedSkill is BaseDamageSkill { TargetableFaction: Factions.Foe }
+                                                 or BaseTargetingSkill {TargetableFaction: Factions.All or Factions.Friend };
 
         private void Awake() => ConfigureAbilityButtons();
 
@@ -233,6 +247,7 @@ namespace Battlefield
 
                         yield return new WaitForSeconds(1f);
                     }
+
                     foreach (var debuff in unstackableDebuffs)
                     {
                         debuff.ResolveTick(selection.Actor);
@@ -253,6 +268,7 @@ namespace Battlefield
 
                         yield return new WaitForSeconds(1f);
                     }
+
                     foreach (var debuff in debuffsToKill)
                         debuff.Die(selection.Actor);
 
@@ -268,7 +284,24 @@ namespace Battlefield
                     foreach (var buffs in groupedStackableBuffs)
                     {
                         buffs.ToList()
-                             .ForEach(b => b.ResolveTick(selection.Actor));
+                             .ForEach(b =>
+                              {
+                                  b.ResolveTick(selection.Actor);
+
+                                  if (b.DurationEnded)
+                                      buffsToKill.Add(b);
+                              });
+
+                        OnBuffTick?.Invoke(new BuffResolutionArgs
+                        {
+                            Applicant            = selection.Actor,
+                            Buff                 = buffs.First(),
+                            Effect               = "EFFECT",
+                            RemainingDuration    = buffs.Max(b => b.remainingDuration),
+                            CombatlogEffectColor = buffs.First().combatlogEffectColor
+                        });
+
+                        ProcessFloatingCombatText($"{buffs.Key} TICK", HitResult.None, selection.Actor);
 
                         yield return new WaitForSeconds(1f);
                     }
@@ -280,26 +313,40 @@ namespace Battlefield
                         if (buff.DurationEnded)
                             buffsToKill.Add(buff);
 
-                        OnDebuffTick?.Invoke(new DebuffResolutionArgs
+                        OnBuffTick?.Invoke(new BuffResolutionArgs
                         {
-                            Actor                = selection.Actor,
-                            //Debuff               = buff,
-                            Damage               = 0,
+                            Applicant            = selection.Actor,
+                            Buff                 = buff,
+                            Effect               = "EFFECT",
                             RemainingDuration    = buff.remainingDuration,
                             CombatlogEffectColor = buff.combatlogEffectColor
                         });
 
-                       // ProcessFloatingCombatText(debuff.damagePerTick.ToString(), HitResult.None, selection.Actor);
+                        ProcessFloatingCombatText($"{buff.name} TICK", HitResult.None, selection.Actor);
 
                         yield return new WaitForSeconds(1f);
                     }
 
                     foreach (var buff in buffsToKill)
-                    {
-
-                    }
+                        buff.Die(selection.Actor);
 
                     #endregion
+
+                    var skillsToRemove = new List<SupportSkill>();
+
+                    foreach (var skill in selection.Actor.activeSkills)
+                    {
+                        if (skill.Value)
+                        {
+                            skill.Key.Reverse(selection.Actor);
+                            skillsToRemove.Add(skill.Key);
+                        }
+                        else
+                            selection.Actor.activeSkills[skill.Key] = true;
+                    }
+
+                    foreach (var skill in skillsToRemove)
+                        selection.Actor.activeSkills.Remove(skill);
                 }
 
                 AbilitySelection.Clear();

@@ -8,64 +8,65 @@ namespace Entities
 {
     public abstract class BaseUnit : Base
     {
-        public          GameObject      healthbarPrefab;
-        public          int             xpAvailable;
-        public          int             xpSpent;
-        public          int             xpBaseAttribut = 50;
-        public          int             level = 1;
-        public          int             strength;
-        public          int             constitution;
-        public          int             dexterity;
-        public          int             quickness;
-        public          int             intuition;
-        public          int             logic;
-        public          int             willpower;
-        public          int             wisdom;
-        public          int             charisma;
-        public          List<BaseSkill> skills  = new();
-        public          List<Buff>      buffs   = new();
-        public          List<Debuff>    debuffs = new();
-        public          HealthpointBar  healthbarInstance;
-        public          GameObject      unitTooltip;
-        public abstract Party           Party                      { get; }
-        public          BaseSkill       SelectedSkill              { get; set; }
-        public          int             AktionenGesamt             { get; set; }
-        public          int             AktionenAktuell            { get; set; }
-        public          float           ManaregenerationRate       { get; set; }
-        public          int             Armour                     { get; set; }
-        public          float           MeleeAttackratingModifier  { get; set; }
-        public          float           RangedAttackratingModifier { get; set; }
-        public          float           MagicAttackratingModifier  { get; set; }
-        public          float           SocialAttackratingModifier { get; set; }
-        public          int             ActionsModifier            { get; set; }
-        public          float           FlatDamageModifier         { get; set; }
-        public          float           MeleeDefensmodifier        { get; set; }
-        public          float           ModifiedMeleeDefense       => MeleeDefense * MeleeDefensmodifier;
-        public          float           RangedDefensemodifier      { get; set; }
-        public          float           ModifiedRangedDefense      => RangedDefense * RangedDefensemodifier;
-        public          float           MagicDefensemodifier       { get; set; }
-        public          float           ModifiedMagicDefense       => MagicDefense * MagicDefensemodifier;
-        public          float           SocialDefensemodifier      { get; set; }
-        public          float           ModifiedSocialDefense      => SocialDefense * SocialDefensemodifier;
-        public          float           MagicDefense               { get; set; }
-        public          float           SocialDefense              { get; set; }
-        public          float           MeleeDefense               { get; set; }
-        public          float           RangedDefense              { get; set; }
-        public          float           CurrentMana                { get; set; }
-        public          float           MaximumMana                { get; set; }
-        public          float           CurrentHitpoints           { get; set; }
-        public          float           MaximumHitpoints           { get; set; }
-        public          float           CurrentInitiative          { get; set; }
-        public          bool            IsStunned                  { get; set; }
-        public          bool            IsDead                     => CurrentHitpoints <= 0;
-        public          bool            IstKampfunfähig            => CurrentHitpoints <= 0;
-        public          float           BaseMeleeDefense           => 2 * Dexterity + Quickness;
-        public          float           BaseRangedDefense          => 2 * Quickness + Dexterity;
-        public          float           BaseMagicDefense           => 2 * Willpower + Wisdom;
-        public          float           BaseSocialDefense          => 2 * Logic + Charisma;
-        public          float           BaseInitiative             => 2 * Intuition + Quickness;
-        public          int             XpToSpendForLevelUp        => this.GetXpToSpendForLevelUp();
-        public          string          CombatLogColor             => this is Hero.Hero ? Konstanten.HeroDamageColor : Konstanten.CreatureColor;
+        public          GameObject                     healthbarPrefab;
+        public          int                            xpAvailable;
+        public          int                            xpSpent;
+        public          int                            xpBaseAttribut = 50;
+        public          int                            level          = 1;
+        public          int                            strength;
+        public          int                            constitution;
+        public          int                            dexterity;
+        public          int                            quickness;
+        public          int                            intuition;
+        public          int                            logic;
+        public          int                            willpower;
+        public          int                            wisdom;
+        public          int                            charisma;
+        public          List<BaseSkill>                skills  = new();
+        public          List<Buff>                     buffs   = new();
+        public          List<Debuff>                   debuffs = new();
+        public          HealthpointBar                 healthbarInstance;
+        public          GameObject                     unitTooltip;
+        public          Dictionary<SupportSkill, bool> activeSkills = new();
+        public abstract Party                          Party                      { get; }
+        public          BaseSkill                      SelectedSkill              { get; set; }
+        public          int                            AktionenGesamt             { get; set; }
+        public          int                            AktionenAktuell            { get; set; }
+        public          float                          ManaregenerationRate       { get; set; }
+        public          int                            Armour                     { get; set; }
+        public          float                          MeleeAttackratingModifier  { get; set; }
+        public          float                          RangedAttackratingModifier { get; set; }
+        public          float                          MagicAttackratingModifier  { get; set; }
+        public          float                          SocialAttackratingModifier { get; set; }
+        public          int                            ActionsModifier            { get; set; }
+        public          float                          FlatDamageModifier         { get; set; }
+        public          float                          MeleeDefensmodifier        { get; set; }
+        public          float                          ModifiedMeleeDefense       => MeleeDefense * MeleeDefensmodifier;
+        public          float                          RangedDefensemodifier      { get; set; }
+        public          float                          ModifiedRangedDefense      => RangedDefense * RangedDefensemodifier;
+        public          float                          MagicDefensemodifier       { get; set; }
+        public          float                          ModifiedMagicDefense       => MagicDefense * MagicDefensemodifier;
+        public          float                          SocialDefensemodifier      { get; set; }
+        public          float                          ModifiedSocialDefense      => SocialDefense * SocialDefensemodifier;
+        public          float                          MagicDefense               { get; set; }
+        public          float                          SocialDefense              { get; set; }
+        public          float                          MeleeDefense               { get; set; }
+        public          float                          RangedDefense              { get; set; }
+        public          float                          CurrentMana                { get; set; }
+        public          float                          MaximumMana                { get; set; }
+        public          float                          CurrentHitpoints           { get; set; }
+        public          float                          MaximumHitpoints           { get; set; }
+        public          float                          CurrentInitiative          { get; set; }
+        public          bool                           IsStunned                  { get; set; }
+        public          bool                           IsDead                     => CurrentHitpoints <= 0;
+        public          bool                           IstKampfunfähig            => CurrentHitpoints <= 0;
+        public          float                          BaseMeleeDefense           => 2 * Dexterity + Quickness;
+        public          float                          BaseRangedDefense          => 2 * Quickness + Dexterity;
+        public          float                          BaseMagicDefense           => 2 * Willpower + Wisdom;
+        public          float                          BaseSocialDefense          => 2 * Logic + Charisma;
+        public          float                          BaseInitiative             => 2 * Intuition + Quickness;
+        public          int                            XpToSpendForLevelUp        => this.GetXpToSpendForLevelUp();
+        public          string                         CombatLogColor             => this is Hero.Hero ? Konstanten.HeroDamageColor : Konstanten.CreatureColor;
 
         protected virtual void Awake()
         {
@@ -73,16 +74,6 @@ namespace Entities
             SocialDefense = BaseSocialDefense;
             MeleeDefense  = BaseMeleeDefense;
             RangedDefense = BaseRangedDefense;
-
-            MeleeAttackratingModifier  = 1;
-            RangedAttackratingModifier = 1;
-            MagicAttackratingModifier  = 1;
-            SocialAttackratingModifier = 1;
-
-            MeleeDefensmodifier   = 1;
-            RangedDefensemodifier = 1;
-            MagicDefensemodifier  = 1;
-            SocialDefensemodifier = 1;
 
             AktionenGesamt  = 1;
             AktionenAktuell = AktionenGesamt;
@@ -120,13 +111,12 @@ namespace Entities
 
         public virtual void InitiativeBestimmen(double modifier = 1)
         {
-            var initiative = (float)modifier * BaseInitiative;
+            var initiative = (float)modifier * BaseInitiative.InfuseRandomness();
 
-            CurrentInitiative = initiative.InfuseRandomness();
+            CurrentInitiative = initiative;
         }
 
         public virtual void Initialize() => CurrentHitpoints = MaximumHitpoints;
-
 
         #region Stats
 

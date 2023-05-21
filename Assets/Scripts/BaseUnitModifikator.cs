@@ -37,17 +37,17 @@ public abstract class BaseUnitModifikator : ScriptableObject
         creature.Charisma     *= (int)charismaMultiplier;
     }
 
-    public virtual void ApplyRatingModifier(BaseUnit creature)
+    public virtual void ApplyRatingModifier(BaseUnit unit)
     {
-        creature.MeleeAttackratingModifier  += meleeAttackratingModifier;
-        creature.RangedAttackratingModifier += rangedAttackratingModifier;
-        creature.MagicAttackratingModifier  += magicAttackratingModifier;
-        creature.SocialAttackratingModifier += socialAttackratingModifier;
+        unit.MeleeAttackratingModifier  += meleeAttackratingModifier;
+        unit.RangedAttackratingModifier += rangedAttackratingModifier;
+        unit.MagicAttackratingModifier  += magicAttackratingModifier;
+        unit.SocialAttackratingModifier += socialAttackratingModifier;
 
-        creature.MeleeDefensmodifier   += meleeDefensmodifier;
-        creature.RangedDefense         += rangedDefensemodifier;
-        creature.MagicDefensemodifier  += magicDefensemodifier;
-        creature.SocialDefensemodifier += socialDefensemodifier;
+        unit.MeleeDefensmodifier   += meleeDefensmodifier;
+        unit.RangedDefense         += rangedDefensemodifier;
+        unit.MagicDefensemodifier  += magicDefensemodifier;
+        unit.SocialDefensemodifier += socialDefensemodifier;
     }
 
     public virtual void ApplyDamageModifier(BaseUnit creature)

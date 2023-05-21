@@ -9,15 +9,23 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 2ff5835f049f4d24b0c0a2dcdd58e4b7, type: 3}
-  m_Name: Fan of Ice
+  m_Script: {fileID: 11500000, guid: 76721004d8464e88a9006e41b53391b2, type: 3}
+  m_Name: Bite
   m_EditorClassIdentifier: 
+  acquisitionLevelBasic: 1
+  difficultyBasicClasses: []
+  acquisitionLevelDemanding: 1
+  difficultyDemandingClasses: []
+  acquisitionLevelOutOfClass: 1
   sprite: {fileID: 0}
   level: 1
+  cooldown: 0
+  manacostFlat: 0
+  manacostLevelScaling: 0
   xpBaseBasic: 16
   xpBaseDemanding: 45
   xpBaseOutOfClass: 62
-  displayName: 
+  displayName: Bite
   appliesStun: 0
   keywords: []
   description: 
@@ -26,29 +34,29 @@ MonoBehaviour:
   dDexterity: 0
   dQuickness: 0
   dIntuition: 0
-  dLogic: 0.5
+  dLogic: 0
   dWillpower: 0
-  dWisdom: 0.33333334
+  dWisdom: 0
   dCharisma: 0
   dLevel: 0.5
   addedFlatDamage: 0
-  manacost: 0
+  weapon: {fileID: 0}
   damageRange: 0
-  targetsFlat: 3
-  targetsHeroScaling: 0.34
-  bonusDamageNormal: 0
-  bonusDamageGood: 0
-  bonusDamageCritical: 0
-  appliesDebuff: 1
+  targetsFlat: 0
+  targetsHeroScaling: 1
+  bonusDamageNormal: 1
+  bonusDamageGood: 2
+  bonusDamageCritical: 3
+  appliesDebuff: 0
   hStrength: 0
   hConstitution: 0
-  hDexterity: 0
-  hQuickness: 1
+  hDexterity: 1
+  hQuickness: 2
   hIntuition: 0
   hLogic: 0
-  hWillpower: 2
+  hWillpower: 0
   hWisdom: 0
   hCharisma: 0
   hLevel: 2
-  hMultiplier: 1.05
+  hMultiplier: 1
   appliedDebuffs: []
