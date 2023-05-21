@@ -14,6 +14,7 @@ public abstract class BaseUnitModifikator : ScriptableObject
     public                        float  willpowerMultiplier    = 1;
     public                        float  charismaMultiplier     = 1;
     [Header("Ratings")] public    int    actionsModifier;
+    public                        float  flatInititiveModifier;
     public                        float  flatDamageModifier;
     public                        float  meleeAttackratingModifier;
     public                        float  rangedAttackratingModifier;
@@ -52,8 +53,9 @@ public abstract class BaseUnitModifikator : ScriptableObject
 
     public virtual void ApplyDamageModifier(BaseUnit creature)
     {
-        creature.AktionenGesamt     += actionsModifier;
-        creature.AktionenAktuell    =  creature.AktionenGesamt;
-        creature.FlatDamageModifier += flatDamageModifier;
+        creature.InitiativeFlatAdded += flatInititiveModifier;
+        creature.AktionenGesamt      += actionsModifier;
+        creature.AktionenAktuell     =  creature.AktionenGesamt;
+        creature.FlatDamageModifier  += flatDamageModifier;
     }
 }

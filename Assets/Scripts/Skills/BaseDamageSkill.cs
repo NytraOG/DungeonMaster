@@ -44,18 +44,18 @@ namespace Skills
 
         public (int, int) GetDamage(BaseUnit actor, HitResult hitresult)
         {
-            var maxhit = (int)(actor.Strength * dStrength +
-                               actor.Constitution * dConstitution +
-                               actor.Dexterity * dDexterity +
-                               actor.Quickness * dQuickness +
-                               actor.Intuition * dIntuition +
-                               actor.Logic * dLogic +
-                               actor.Willpower * dWillpower +
-                               actor.Wisdom * dWisdom +
-                               actor.Charisma * dCharisma +
-                               level * dLevel +
-                               addedFlatDamage +
-                               actor.FlatDamageModifier);
+            var maxhit = (int)((actor.Strength * dStrength +
+                                actor.Constitution * dConstitution +
+                                actor.Dexterity * dDexterity +
+                                actor.Quickness * dQuickness +
+                                actor.Intuition * dIntuition +
+                                actor.Logic * dLogic +
+                                actor.Willpower * dWillpower +
+                                actor.Wisdom * dWisdom +
+                                actor.Charisma * dCharisma +
+                                level * dLevel +
+                                addedFlatDamage +
+                                actor.FlatDamageModifier) * dMultiplier);
 
             maxhit += hitresult switch
             {

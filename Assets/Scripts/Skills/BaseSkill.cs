@@ -37,7 +37,8 @@ namespace Skills
         public                     float            dWillpower;
         public                     float            dWisdom;
         public                     float            dCharisma;
-        public                     float            dLevel = 0.5f;
+        public                     float            dLevel      = 0.5f;
+        public                     float            dMultiplier = 1;
         public                     int              addedFlatDamage;
         public                     GameObject       weapon;
         [Header("0 bis 1")] public float            damageRange;

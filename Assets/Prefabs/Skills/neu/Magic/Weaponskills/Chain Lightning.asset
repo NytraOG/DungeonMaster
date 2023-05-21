@@ -10,53 +10,57 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 6410e1dff8174d6fb3d970d97b2c6432, type: 3}
-  m_Name: Firebeam
+  m_Name: Chain Lightning
   m_EditorClassIdentifier: 
   acquisitionLevelBasic: 1
   difficultyBasicClasses: []
   acquisitionLevelDemanding: 1
   difficultyDemandingClasses: []
   acquisitionLevelOutOfClass: 1
-  sprite: {fileID: 21300000, guid: 86f33082bbc836048ae50e8c6f5129a1, type: 3}
-  level: 9
+  sprite: {fileID: 21300000, guid: c8e18757f0b2aee4ea11f2310e771a1b, type: 3}
+  level: 1
   cooldown: 0
-  manacostFlat: 0
-  manacostLevelScaling: 1.25
+  manacostFlat: 1
+  manacostLevelScaling: 1.5
   xpBaseBasic: 16
   xpBaseDemanding: 45
   xpBaseOutOfClass: 62
-  displayName: Firebeam
+  displayName: Chain Lightning
   appliesStun: 0
-  description: The mage concentrates the power of fire into a focused beam and mows
-    down his opponents in heaps.
+  description: The mage paralyzes several of his opponents by jumping a chain lightning
+    from foe to foe.
   dStrength: 0
   dConstitution: 0
   dDexterity: 0
   dQuickness: 0
   dIntuition: 0
-  dLogic: 0
-  dWillpower: 0.5
-  dWisdom: 0.3333333
+  dLogic: 0.3333333
+  dWillpower: 0
+  dWisdom: 0.5
   dCharisma: 0
   dLevel: 0.5
+  dMultiplier: 0.25
   addedFlatDamage: 0
   weapon: {fileID: 0}
-  damageRange: 0.5
-  targetsFlat: 1
-  targetsHeroScaling: 0.13
-  bonusDamageNormal: 1
-  bonusDamageGood: 1
-  bonusDamageCritical: 4
-  appliesDebuff: 0
+  damageRange: 0
+  targetsFlat: 4
+  targetsHeroScaling: 0.25
+  autoTargeting: 1
+  bonusDamageNormal: 0
+  bonusDamageGood: 0
+  bonusDamageCritical: 0
+  appliesDebuff: 1
   hStrength: 0
   hConstitution: 0
   hDexterity: 0
   hQuickness: 0
   hIntuition: 0
   hLogic: 2
-  hWillpower: 1
-  hWisdom: 0
+  hWillpower: 0
+  hWisdom: 1
   hCharisma: 0
   hLevel: 2
   hMultiplier: 1
-  appliedDebuffs: []
+  appliedDebuffs:
+  - {fileID: 11400000, guid: 57e9b0dde487ecf449dda909b015eb6c, type: 2}
+  - {fileID: 11400000, guid: 9e5afb59b2f7ac24a8bd1ccc4aafad76, type: 2}

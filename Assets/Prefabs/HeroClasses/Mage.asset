@@ -25,3 +25,4 @@ MonoBehaviour:
   explosion: 0
   skills:
   - {fileID: 11400000, guid: f4f487a02b03a764981c470562f9129b, type: 2}
+  - {fileID: 11400000, guid: b15bace4a871c3b4b8f33d409c0e9919, type: 2}

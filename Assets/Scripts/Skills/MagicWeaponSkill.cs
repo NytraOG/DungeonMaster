@@ -1,6 +1,7 @@
 ﻿using Entities;
 using Entities.Enums;
 using UnityEngine;
+using Random = System.Random;
 
 namespace Skills
 {
@@ -18,12 +19,12 @@ namespace Skills
             var minhit = damage.Item1;
             var maxhit = damage.Item2;
 
-            var rando         = new System.Random();
+            var rando         = new Random();
             var damageInRange = rando.NextDouble() * (maxhit - minhit) + minhit;
 
             target.CurrentHitpoints -= (float)damageInRange;
 
-            var finalDamage = damageInRange.ToString();
+            var finalDamage = ((int)damageInRange).ToString();
 
             OnDamageDealt?.Invoke(finalDamage);
 

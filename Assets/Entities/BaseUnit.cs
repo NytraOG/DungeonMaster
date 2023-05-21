@@ -48,15 +48,18 @@ namespace Entities
         public          float                          ModifiedMagicDefense       => MagicDefense * MagicDefensemodifier;
         public          float                          SocialDefensemodifier      { get; set; }
         public          float                          ModifiedSocialDefense      => SocialDefense * SocialDefensemodifier;
+        public          float                          InitiativeFlatAdded        { get; set; }
+        public          float                          InitiativeModifier         { get; set; }
+        public          float                          ModifiedInitiative         => Initiative * InitiativeModifier;
         public          float                          MagicDefense               { get; set; }
         public          float                          SocialDefense              { get; set; }
         public          float                          MeleeDefense               { get; set; }
         public          float                          RangedDefense              { get; set; }
+        public          float                          Initiative                 { get; set; }
         public          float                          CurrentMana                { get; set; }
         public          float                          MaximumMana                { get; set; }
         public          float                          CurrentHitpoints           { get; set; }
         public          float                          MaximumHitpoints           { get; set; }
-        public          float                          CurrentInitiative          { get; set; }
         public          bool                           IsStunned                  { get; set; }
         public          bool                           IsDead                     => CurrentHitpoints <= 0;
         public          bool                           IstKampfunfähig            => CurrentHitpoints <= 0;
@@ -109,12 +112,7 @@ namespace Entities
 
         public abstract string UseAbility(BaseSkill ability, HitResult hitResult, BaseUnit target = null);
 
-        public virtual void InitiativeBestimmen(double modifier = 1)
-        {
-            var initiative = (float)modifier * BaseInitiative.InfuseRandomness();
-
-            CurrentInitiative = initiative;
-        }
+        public virtual void InitiativeBestimmen(double modifier = 1) => Initiative = (float)modifier * InitiativeModifier * (InitiativeFlatAdded + BaseInitiative).InfuseRandomness();
 
         public virtual void Initialize() => CurrentHitpoints = MaximumHitpoints;
 

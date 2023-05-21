@@ -25,7 +25,6 @@ namespace UI
         public  TextMeshProUGUI textManaOrbPercentage;
         public  Image           currentHealth;
         public  Image           currenMana;
-        private bool            assignmentChanged;
         private float           healthSnapshot;
         private float           manaSnapshot;
         private Hero            selectedHero;
@@ -40,26 +39,47 @@ namespace UI
         {
             UpdateOrbs();
 
-            if (!assignmentChanged)
-                return;
+            if (textName.text != selectedHero.name)
+                textName.text = selectedHero.name;
 
-            textName.text         = selectedHero.name;
-            textStrength.text     = selectedHero.Strength.ToString();
-            textConstitution.text = selectedHero.Constitution.ToString();
-            textDexterity.text    = selectedHero.Dexterity.ToString();
-            textQuickness.text    = selectedHero.Quickness.ToString();
-            textIntuition.text    = selectedHero.Intuition.ToString();
-            textLogic.text        = selectedHero.Logic.ToString();
-            textWillpower.text    = selectedHero.Willpower.ToString();
-            textWisdom.text       = selectedHero.Wisdom.ToString();
+            if (textStrength.text != selectedHero.Strength.ToString())
+                textStrength.text = selectedHero.Strength.ToString();
 
-            textMeleeDefense.text   = selectedHero.ModifiedMeleeDefense.ToString("####");
-            textRangedDefense.text  = selectedHero.ModifiedRangedDefense.ToString("####");
-            textMagicDefense.text   = selectedHero.ModifiedMagicDefense.ToString("####");
-            textSocialDefense.text  = selectedHero.ModifiedSocialDefense.ToString("####");
-            textInitiativeBase.text = selectedHero.BaseInitiative.ToString("####");
+            if (textConstitution.text != selectedHero.Constitution.ToString())
+                textConstitution.text = selectedHero.Constitution.ToString();
 
-            assignmentChanged = false;
+            if (textDexterity.text != selectedHero.Dexterity.ToString())
+                textDexterity.text = selectedHero.Dexterity.ToString();
+
+            if (textQuickness.text != selectedHero.Quickness.ToString())
+                textQuickness.text = selectedHero.Quickness.ToString();
+
+            if (textIntuition.text != selectedHero.Intuition.ToString())
+                textIntuition.text = selectedHero.Intuition.ToString();
+
+            if (textLogic.text != selectedHero.Logic.ToString())
+                textLogic.text = selectedHero.Logic.ToString();
+
+            if (textWillpower.text != selectedHero.Willpower.ToString())
+                textWillpower.text = selectedHero.Willpower.ToString();
+
+            if (textWisdom.text != selectedHero.Wisdom.ToString())
+                textWisdom.text = selectedHero.Wisdom.ToString();
+
+            if (textMeleeDefense.text != selectedHero.ModifiedMeleeDefense.ToString("####"))
+                textMeleeDefense.text = selectedHero.ModifiedMeleeDefense.ToString("####");
+
+            if (textRangedDefense.text != selectedHero.ModifiedRangedDefense.ToString("####"))
+                textRangedDefense.text = selectedHero.ModifiedRangedDefense.ToString("####");
+
+            if (textMagicDefense.text != selectedHero.ModifiedMagicDefense.ToString("####"))
+                textMagicDefense.text = selectedHero.ModifiedMagicDefense.ToString("####");
+
+            if (textSocialDefense.text != selectedHero.ModifiedSocialDefense.ToString("####"))
+                textSocialDefense.text = selectedHero.ModifiedSocialDefense.ToString("####");
+
+            if (textInitiativeBase.text != selectedHero.BaseInitiative.ToString("####"))
+                textInitiativeBase.text = selectedHero.BaseInitiative.ToString("####");
         }
 
         public void ShowPercentagesHealth() => textHealthOrbPercentage.gameObject.SetActive(true);
@@ -91,10 +111,6 @@ namespace UI
             }
         }
 
-        public void ChangeHero(Hero hero)
-        {
-            selectedHero      = hero;
-            assignmentChanged = true;
-        }
+        public void ChangeHero(Hero hero) => selectedHero = hero;
     }
 }

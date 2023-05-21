@@ -207,7 +207,7 @@ namespace Battlefield
                 c.InitiativeBestimmen();
             });
 
-            combatants = combatants.OrderByDescending(u => u.CurrentInitiative)
+            combatants = combatants.OrderByDescending(u => u.ModifiedInitiative)
                                    .ToList();
         }
 

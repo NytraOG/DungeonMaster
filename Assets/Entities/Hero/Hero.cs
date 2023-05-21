@@ -61,6 +61,8 @@ namespace Entities.Hero
             MagicDefensemodifier  = 1;
             SocialDefensemodifier = 1;
 
+            InitiativeModifier = 1;
+
             race.ApplySkills(this);
             heroClass.ApplySkills(this);
 

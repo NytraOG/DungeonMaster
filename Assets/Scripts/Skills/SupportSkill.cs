@@ -68,7 +68,9 @@ namespace Skills
                 }
             }
 
-            return $"{name} activated";
+            target.activeSkills.Add(this, false);
+
+            return $"Activated {name}";
         }
 
         private float GetDefenseBonus(BaseUnit unit) => unit.Strength * dStrength +
@@ -118,8 +120,6 @@ namespace Skills
                     case SkillCategory.Initiative: break;
                     default:                       throw new ArgumentOutOfRangeException();
                 }
-
-                target.activeSkills.Add(this, true);
             }
         }
 

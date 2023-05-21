@@ -33,6 +33,8 @@ namespace Entities.Enemies
             MagicDefensemodifier  = 1;
             SocialDefensemodifier = 1;
 
+            InitiativeModifier    = 1;
+
             monstertype.ApplyValues(this);
 
             SetAttributeByLevel();

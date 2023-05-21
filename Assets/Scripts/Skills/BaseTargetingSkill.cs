@@ -8,6 +8,7 @@ namespace Skills
     {
         public          int      targetsFlat = 1;
         public          float    targetsHeroScaling;
+        public          bool     autoTargeting;
         public abstract Factions TargetableFaction { get; }
 
         public int GetTargets(BaseUnit unit) => targetsFlat + (int)(targetsHeroScaling * unit.level);

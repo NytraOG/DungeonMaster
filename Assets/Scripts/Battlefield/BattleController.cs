@@ -64,7 +64,7 @@ namespace Battlefield
 
         public bool PlayerIsTargeting => selectedHero is not null &&
                                          selectedSkill is BaseDamageSkill { TargetableFaction: Factions.Foe }
-                                                 or BaseTargetingSkill {TargetableFaction: Factions.All or Factions.Friend };
+                                                 or BaseTargetingSkill { TargetableFaction: Factions.All or Factions.Friend };
 
         private void Awake() => ConfigureAbilityButtons();
 
@@ -95,14 +95,33 @@ namespace Battlefield
                 selectedHero.GetComponent<SpriteRenderer>().material = defaultMaterial;
 
                 var targets = new List<BaseUnit>();
-                targets.AddRange(selectedTargets);
 
-                AbilitySelection.Add(new AbilitySelection
+                var selection = new AbilitySelection
                 {
                     Skill   = selectedSkill,
                     Actor   = selectedHero,
                     Targets = targets
-                });
+                };
+
+                if (selection.Skill is BaseTargetingSkill { autoTargeting: true, TargetableFaction: Factions.Foe } skill)
+                {
+                    var remainingTargetsAmount = skill.GetTargets(selection.Actor) - 1;
+
+                    var remainingTargets = enemies.Except(selectedTargets)
+                                                  .ToList();
+
+                    for (var i = 0; i < remainingTargetsAmount; i++)
+                    {
+                        if (i >= remainingTargets.Count)
+                            continue;
+
+                        selectedTargets.Add(remainingTargets[i]);
+                    }
+                }
+
+                targets.AddRange(selectedTargets);
+
+                AbilitySelection.Add(selection);
             }
 
             selectedTargets.ForEach(t => t.GetComponent<SpriteRenderer>().material = defaultMaterial);
@@ -167,7 +186,7 @@ namespace Battlefield
                 ShowToast("No Abilities have been selected", 1);
             else
             {
-                AbilitySelection = AbilitySelection.OrderByDescending(a => a.Actor.CurrentInitiative)
+                AbilitySelection = AbilitySelection.OrderByDescending(a => a.Actor.ModifiedInitiative)
                                                    .ToList();
 
                 foreach (var selection in AbilitySelection)
@@ -322,7 +341,8 @@ namespace Battlefield
                             CombatlogEffectColor = buff.combatlogEffectColor
                         });
 
-                        ProcessFloatingCombatText($"{buff.name} TICK", HitResult.None, selection.Actor);
+                        if (buff.remainingDuration >= 0)
+                            ProcessFloatingCombatText($"{buff.name} TICK", HitResult.None, selection.Actor);
 
                         yield return new WaitForSeconds(1f);
                     }
@@ -333,6 +353,7 @@ namespace Battlefield
                     #endregion
 
                     var skillsToRemove = new List<SupportSkill>();
+                    var skillsToCheck  = new List<SupportSkill>();
 
                     foreach (var skill in selection.Actor.activeSkills)
                     {
@@ -342,8 +363,11 @@ namespace Battlefield
                             skillsToRemove.Add(skill.Key);
                         }
                         else
-                            selection.Actor.activeSkills[skill.Key] = true;
+                            skillsToCheck.Add(skill.Key);
                     }
+
+                    foreach (var skill in skillsToCheck)
+                        selection.Actor.activeSkills[skill] = true;
 
                     foreach (var skill in skillsToRemove)
                         selection.Actor.activeSkills.Remove(skill);
@@ -356,7 +380,7 @@ namespace Battlefield
 
             combatActive = false;
 
-            OnMisc?.Invoke("-------------------------------------------------------------------------------------------------------------------------");
+            OnMisc?.Invoke("-----------------------------------------------------------------------------------------------");
         }
 
         private static int ResolveEffect(IGrouping<string, Debuff> debuffs, List<Debuff> debuffsToKill, AbilitySelection selection, out int remainingDuration)
@@ -389,7 +413,7 @@ namespace Battlefield
                     ResolveSummonSkill(selection, out abilityResult, out hitResult, hero, summonSkill);
                     break;
                 case Hero hero when selection.Skill is BaseSocialSkill supportSkill:
-                    ResolveSupportSkill(out abilityResult, out hitResult, supportSkill, hero, target);
+                    ResolveSocialSkill(out abilityResult, out hitResult, supportSkill, hero, target);
                     break;
 
                 case Creature creature when selection.Skill is BaseDamageSkill foeDamageSkill:
@@ -399,13 +423,12 @@ namespace Battlefield
                     ResolveSummonSkill(selection, out abilityResult, out hitResult, creature, foeSummonSkill);
                     break;
                 case Creature creature when selection.Skill is BaseSocialSkill foeSupportSkill:
-                    ResolveSupportSkill(out abilityResult, out hitResult, foeSupportSkill, creature, target);
+                    ResolveSocialSkill(out abilityResult, out hitResult, foeSupportSkill, creature, target);
                     break;
 
                 default:
                     UseSupportskill(selection, target, out abilityResult);
-                    abilityResult = string.Empty;
-                    hitResult     = HitResult.None;
+                    hitResult = HitResult.None;
                     break;
             }
         }
@@ -430,7 +453,7 @@ namespace Battlefield
             InstantiateFloatingCombatText(selection.Actor, $"<b>{summonSkill.displayName}</b>!");
         }
 
-        private void ResolveSupportSkill(out string abilityResult, out HitResult hitResult, BaseSocialSkill baseSocialSkill, BaseUnit target, BaseUnit actor)
+        private void ResolveSocialSkill(out string abilityResult, out HitResult hitResult, BaseSocialSkill baseSocialSkill, BaseUnit target, BaseUnit actor)
         {
             hitResult     = HitResult.None;
             abilityResult = actor.UseAbility(baseSocialSkill, hitResult, target);

@@ -30281,7 +30281,7 @@ PrefabInstance:
       objectReference: {fileID: 11400000, guid: 247e1ca0adfab6e4286bf5af605bed3e, type: 2}
     - target: {fileID: 7188784997491589576, guid: 1b4092d81f9d93a429916b413e0a7542, type: 3}
       propertyPath: level
-      value: 16
+      value: 8
       objectReference: {fileID: 0}
     - target: {fileID: 7188784997491589576, guid: 1b4092d81f9d93a429916b413e0a7542, type: 3}
       propertyPath: logic
@@ -35210,7 +35210,7 @@ PrefabInstance:
       objectReference: {fileID: 11400000, guid: ab0915937bee23c4981aa5b81cfadf96, type: 2}
     - target: {fileID: 7188784997491589576, guid: 1b4092d81f9d93a429916b413e0a7542, type: 3}
       propertyPath: level
-      value: 2
+      value: 6
       objectReference: {fileID: 0}
     - target: {fileID: 7188784997491589576, guid: 1b4092d81f9d93a429916b413e0a7542, type: 3}
       propertyPath: logic
@@ -35250,7 +35250,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7188784997491589576, guid: 1b4092d81f9d93a429916b413e0a7542, type: 3}
       propertyPath: willpower
-      value: 10
+      value: 5
       objectReference: {fileID: 0}
     - target: {fileID: 7188784997491589576, guid: 1b4092d81f9d93a429916b413e0a7542, type: 3}
       propertyPath: statusPanel

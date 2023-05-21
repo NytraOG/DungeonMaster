@@ -37,6 +37,9 @@ namespace UI
 
         private void OnBuffTick(BuffResolutionArgs args)
         {
+            if(args.RemainingDuration < 0)
+                return;
+
             if (args.RemainingDuration == 0)
             {
                 Log($"<b><color=#{ColorUtility.ToHtmlStringRGBA(args.CombatlogEffectColor)}>{args.Buff.name}</color></b> " +
@@ -53,6 +56,9 @@ namespace UI
 
         private void OnDebuffTick(DebuffResolutionArgs args)
         {
+            if (args.RemainingDuration < 0)
+                return;
+
             if (args.Debuff.damagePerTick != 0)
             {
                 Log($"{FetchUnitnameWithMatchingColor(args.Actor)} lost {FetchDamageText(args.Damage)} Health " +
@@ -76,7 +82,7 @@ namespace UI
 
         private void OnHit(CombatskillResolutionArgs args)
         {
-            var content = $"{FetchUnitnameWithMatchingColor(args.Actor)}'s[{(int)args.Actor.CurrentInitiative}] {args.Skill.name} " +
+            var content = $"{FetchUnitnameWithMatchingColor(args.Actor)}'s[{(int)args.Actor.ModifiedInitiative}] {args.Skill.name} " +
                           $"hit[{args.Hitroll}] {FetchUnitnameWithMatchingColor(args.Target)}[{FetchDefenseattribute(args)}] " +
                           $"for {FetchDamageText(args)} damage.";
 
@@ -91,7 +97,7 @@ namespace UI
 
         private void OnMiss(CombatskillResolutionArgs args)
         {
-            var content = $"{FetchUnitnameWithMatchingColor(args.Actor)}'s[{(int)args.Actor.CurrentInitiative}] {args.Skill.name} " +
+            var content = $"{FetchUnitnameWithMatchingColor(args.Actor)}'s[{(int)args.Actor.ModifiedInitiative}] {args.Skill.name} " +
                           $"missed[{args.Hitroll}] {FetchUnitnameWithMatchingColor(args.Target)}[{FetchDefenseattribute(args)}].";
 
             Log(content);
@@ -99,7 +105,7 @@ namespace UI
 
         private void OnBuffApplied(BaseUnit actor, BaseSkill skill, BaseUnit target, string _)
         {
-            var content = $"{FetchUnitnameWithMatchingColor(actor)}[{(int)actor.CurrentInitiative}] used {skill.name} on {FetchUnitnameWithMatchingColor(target)}.";
+            var content = $"{FetchUnitnameWithMatchingColor(actor)}[{(int)actor.ModifiedInitiative}] used {skill.name} on {FetchUnitnameWithMatchingColor(target)}.";
 
             if (target.IsStunned)
                 content += StunInfo;
