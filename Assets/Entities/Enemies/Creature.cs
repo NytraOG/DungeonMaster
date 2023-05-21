@@ -72,7 +72,7 @@ namespace Entities.Enemies
         public override (int, int) GetApproximateDamage(BaseSkill ability) => ability switch
         {
             BaseDamageSkill skill => skill.GetDamage(this, HitResult.None),
-            SupportSkill _ => (0, 0),
+            BaseSocialSkill _ => (0, 0),
             _ => throw new ArgumentOutOfRangeException(nameof(ability))
         };
 

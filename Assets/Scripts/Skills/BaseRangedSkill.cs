@@ -5,8 +5,8 @@ using Random = System.Random;
 
 namespace Skills
 {
-    [CreateAssetMenu(fileName = "Melee Skill", menuName = "Skills/Melee")]
-    public class MeleeSkill : BaseDamageSkill
+    [CreateAssetMenu(fileName = "Ranged Skill", menuName = "Skills/Ranged")]
+    public abstract class BaseRangedSkill : BaseDamageSkill
     {
         public override Factions TargetableFaction => Factions.Foe;
 

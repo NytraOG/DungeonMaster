@@ -9,7 +9,7 @@ using UnityEngine;
 namespace Skills
 {
     [CreateAssetMenu(fileName = "Support Skill", menuName = "Skills/Support")]
-    public class SupportSkill : BaseTargetingSkill
+    public abstract class BaseSocialSkill : BaseTargetingSkill
     {
         public                                    bool       selfcastOnly;
         public                                    bool       isHealing;

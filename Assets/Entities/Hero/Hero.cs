@@ -29,7 +29,7 @@ namespace Entities.Hero
 
             var controller = FindObjectOfType<BattleController>();
 
-            if (controller.selectedSkill is SupportSkill { TargetableFaction: Factions.Friend })
+            if (controller.selectedSkill is BaseSocialSkill { TargetableFaction: Factions.Friend })
                 controller.selectedTargets.Add(this);
             else
                 ChangeSelectedHero(controller);
@@ -85,7 +85,7 @@ namespace Entities.Hero
         public override (int, int) GetApproximateDamage(BaseSkill ability) => ability switch
         {
             BaseDamageSkill skill => skill.GetDamage(this, HitResult.None),
-            SupportSkill _ => (0, 0),
+            BaseSocialSkill _ => (0, 0),
             _ => throw new ArgumentOutOfRangeException(nameof(ability))
         };
 

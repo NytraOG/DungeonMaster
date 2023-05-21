@@ -156,10 +156,9 @@ namespace UI
 
         private int FetchDefenseattribute(CombatskillResolutionArgs info) => info.Skill switch
         {
-            MagicSkill => (int)info.Target.ModifiedMagicDefense,
-            MeleeSkill => (int)info.Target.ModifiedMeleeDefense,
-            RangedSkill => (int)info.Target.ModifiedRangedDefense,
-            WeaponSkill => throw new NotImplementedException(),
+            BaseMagicSkill => (int)info.Target.ModifiedMagicDefense,
+            BaseMeleeSkill => (int)info.Target.ModifiedMeleeDefense,
+            BaseRangedSkill => (int)info.Target.ModifiedRangedDefense,
             _ => throw new ArgumentOutOfRangeException()
         };
     }

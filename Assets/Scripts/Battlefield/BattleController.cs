@@ -341,7 +341,7 @@ namespace Battlefield
                 case Hero hero when selection.Skill is SummonSkill summonSkill:
                     ResolveSummonSkill(selection, out abilityResult, out hitResult, hero, summonSkill);
                     break;
-                case Hero hero when selection.Skill is SupportSkill supportSkill:
+                case Hero hero when selection.Skill is BaseSocialSkill supportSkill:
                     ResolveSupportSkill(out abilityResult, out hitResult, supportSkill, hero, target);
                     break;
 
@@ -351,7 +351,7 @@ namespace Battlefield
                 case Creature creature when selection.Skill is SummonSkill foeSummonSkill:
                     ResolveSummonSkill(selection, out abilityResult, out hitResult, creature, foeSummonSkill);
                     break;
-                case Creature creature when selection.Skill is SupportSkill foeSupportSkill:
+                case Creature creature when selection.Skill is BaseSocialSkill foeSupportSkill:
                     ResolveSupportSkill(out abilityResult, out hitResult, foeSupportSkill, creature, target);
                     break;
 
@@ -383,13 +383,13 @@ namespace Battlefield
             InstantiateFloatingCombatText(selection.Actor, $"<b>{summonSkill.displayName}</b>!");
         }
 
-        private void ResolveSupportSkill(out string abilityResult, out HitResult hitResult, SupportSkill supportSkill, BaseUnit target, BaseUnit actor)
+        private void ResolveSupportSkill(out string abilityResult, out HitResult hitResult, BaseSocialSkill baseSocialSkill, BaseUnit target, BaseUnit actor)
         {
             hitResult     = HitResult.None;
-            abilityResult = actor.UseAbility(supportSkill, hitResult, target);
+            abilityResult = actor.UseAbility(baseSocialSkill, hitResult, target);
 
-            if (supportSkill.isBuffing)
-                OnBuffApplied?.Invoke(target, supportSkill, actor, null);
+            if (baseSocialSkill.isBuffing)
+                OnBuffApplied?.Invoke(target, baseSocialSkill, actor, null);
         }
 
         private void UseSupportskill(AbilitySelection selection, BaseUnit target, out string abilityResult)
@@ -437,9 +437,9 @@ namespace Battlefield
 
             var relation = selection.Skill switch
             {
-                MeleeSkill => hitroll / target.ModifiedMeleeDefense,
-                RangedSkill => hitroll / target.ModifiedRangedDefense,
-                MagicSkill => hitroll / target.ModifiedMagicDefense,
+                BaseMeleeSkill => hitroll / target.ModifiedMeleeDefense,
+                BaseRangedSkill => hitroll / target.ModifiedRangedDefense,
+                BaseMagicSkill => hitroll / target.ModifiedMagicDefense,
                 _ => 0f
             };
 
@@ -520,7 +520,7 @@ namespace Battlefield
 
             var eligableTargets = new List<BaseUnit>();
 
-            if (creature.SelectedSkill is SupportSkill supportSkill)
+            if (creature.SelectedSkill is BaseSocialSkill supportSkill)
             {
                 if (supportSkill.targetsWholeGroup)
                     maxTargets = enemies.Count;

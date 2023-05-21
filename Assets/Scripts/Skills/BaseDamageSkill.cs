@@ -98,9 +98,9 @@ namespace Skills
 
         private float GetModifier(BaseDamageSkill baseDamageSkill, BaseUnit actor) => baseDamageSkill switch
         {
-            MeleeSkill => actor.MeleeAttackratingModifier,
-            RangedSkill => actor.RangedAttackratingModifier,
-            MagicSkill => actor.MagicAttackratingModifier,
+            BaseMeleeSkill => actor.MeleeAttackratingModifier,
+            BaseRangedSkill => actor.RangedAttackratingModifier,
+            BaseMagicSkill => actor.MagicAttackratingModifier,
             _ => throw new ArgumentOutOfRangeException(nameof(baseDamageSkill))
         };
     }
