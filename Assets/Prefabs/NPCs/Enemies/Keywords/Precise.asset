@@ -23,9 +23,10 @@ MonoBehaviour:
   willpowerMultiplier: 1
   charismaMultiplier: 1
   actionsModifier: 0
+  flatInititiveModifier: 0
   flatDamageModifier: 0
-  meleeAttackratingModifier: 0
-  rangedAttackratingModifier: 3
+  meleeAttackratingModifier: 0.75
+  rangedAttackratingModifier: 0.75
   magicAttackratingModifier: 0
   socialAttackratingModifier: 0
   meleeDefensmodifier: 0

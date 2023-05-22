@@ -89,8 +89,6 @@ namespace Entities.Enemies
 
         public override string UseAbility(BaseSkill skill, HitResult hitResult, BaseUnit target = null)
         {
-            CurrentMana -= skill.Manacost;
-
             var dmg = skill.Activate(this, target, hitResult);
 
             SelectedSkill = null;

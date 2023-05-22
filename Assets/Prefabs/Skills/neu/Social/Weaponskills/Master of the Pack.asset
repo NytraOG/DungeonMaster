@@ -27,7 +27,6 @@ MonoBehaviour:
   xpBaseOutOfClass: 62
   displayName: Master of the Pack
   appliesStun: 0
-  keywords: []
   description: 
   dStrength: 0
   dConstitution: 0
@@ -39,14 +38,16 @@ MonoBehaviour:
   dWisdom: 0
   dCharisma: 0
   dLevel: 0.5
+  dMultiplier: 1
   addedFlatDamage: 0
   weapon: {fileID: 0}
   damageRange: 0
   targetsFlat: 1
   targetsHeroScaling: 0
+  autoTargeting: 0
   isHealing: 0
-  isBuffing: 0
-  targetsWholeGroup: 0
+  isBuffing: 1
+  targetsWholeGroup: 1
   operator: +
   modifierMeleeDefense: 0
   modifierRangedDefense: 0

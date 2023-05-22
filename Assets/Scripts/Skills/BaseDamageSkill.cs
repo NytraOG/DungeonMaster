@@ -44,7 +44,7 @@ namespace Skills
 
         public (int, int) GetDamage(BaseUnit actor, HitResult hitresult)
         {
-            var maxhit = (int)((actor.Strength * dStrength +
+            var maxhit = ((actor.Strength * dStrength +
                                 actor.Constitution * dConstitution +
                                 actor.Dexterity * dDexterity +
                                 actor.Quickness * dQuickness +
@@ -68,7 +68,7 @@ namespace Skills
 
             var minhit = (int)(maxhit * (1 - damageRange));
 
-            return (minhit, maxhit);
+            return (minhit, (int)maxhit);
         }
 
         protected void ApplyDebuffs(BaseUnit actor, BaseUnit target)

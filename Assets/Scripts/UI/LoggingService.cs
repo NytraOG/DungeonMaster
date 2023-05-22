@@ -31,13 +31,13 @@ namespace UI
             bController.OnMisc          += OnMisc;
             bController.OnBuffApplied   += OnBuffApplied;
             bController.OnDebuffTick    += OnDebuffTick;
-            bController.OnBuffTick += OnBuffTick;
+            bController.OnBuffTick      += OnBuffTick;
             sController.OnCreateSpawned += OnCreateSpawned;
         }
 
         private void OnBuffTick(BuffResolutionArgs args)
         {
-            if(args.RemainingDuration < 0)
+            if (args.RemainingDuration < 0)
                 return;
 
             if (args.RemainingDuration == 0)
@@ -103,11 +103,12 @@ namespace UI
             Log(content);
         }
 
-        private void OnBuffApplied(BaseUnit actor, BaseSkill skill, BaseUnit target, string _)
+        private void OnBuffApplied(BaseUnit actor, BaseSkill skill, List<BaseUnit> targets, string _)
         {
-            var content = $"{FetchUnitnameWithMatchingColor(actor)}[{(int)actor.ModifiedInitiative}] used {skill.name} on {FetchUnitnameWithMatchingColor(target)}.";
+            var content = $"{FetchUnitnameWithMatchingColor(actor)}[{(int)actor.ModifiedInitiative}] used {skill.name} " +
+                          $"on {string.Join(", ", targets.Select(FetchUnitnameWithMatchingColor))}.";
 
-            if (target.IsStunned)
+            if (targets.Any(t => t.IsStunned))
                 content += StunInfo;
 
             Log(content);

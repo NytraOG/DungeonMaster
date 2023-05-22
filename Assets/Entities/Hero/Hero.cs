@@ -101,7 +101,6 @@ namespace Entities.Hero
 
         public override string UseAbility(BaseSkill skill, HitResult hitResult, BaseUnit target = null)
         {
-            CurrentMana -= skill.Manacost;
 
             return skill.Activate(this, target, hitResult);
         }
