@@ -112,7 +112,7 @@ namespace Entities
 
         public abstract string UseAbility(BaseSkill ability, HitResult hitResult, BaseUnit target = null);
 
-        public virtual void InitiativeBestimmen(double modifier = 1) => Initiative = (float)modifier * InitiativeModifier * (InitiativeFlatAdded + BaseInitiative).InfuseRandomness();
+        public virtual void InitiativeBestimmen(double modifier = 1) => Initiative = (float)modifier * InitiativeModifier * (InitiativeFlatAdded + BaseInitiative.InfuseRandomness());
 
         public virtual void Initialize() => CurrentHitpoints = MaximumHitpoints;
 

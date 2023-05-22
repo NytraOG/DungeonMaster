@@ -8,8 +8,11 @@ namespace Skills
     [CreateAssetMenu(fileName = "Consumable Usage", menuName = "Skills/Consumable Usage")]
     public class ConsumableUsageSkill : BaseSkill
     {
-        public override SkillSubCategory SubCategory => SkillSubCategory.Special;
-        public override SkillCategory    Category    => SkillCategory.Initiative;
+        private void Awake()
+        {
+            category    = SkillCategory.Support;
+            subCategory = SkillSubCategory.Special;
+        }
 
         public override string Activate(BaseUnit actor, BaseUnit target, HitResult hitResult) => throw new NotImplementedException();
     }

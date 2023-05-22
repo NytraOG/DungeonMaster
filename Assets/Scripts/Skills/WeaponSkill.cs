@@ -5,12 +5,10 @@ using Random = System.Random;
 
 namespace Skills
 {
-    [CreateAssetMenu(fileName = "Ranged Weaponskill", menuName = "Skills/Ranged/Weapon")]
-    public class RangedWeaponSkill : BaseRangedSkill
+    [CreateAssetMenu(fileName = "Weaponskill", menuName = "Skills/Weapon")]
+    public class WeaponSkill : BaseDamageSkill
     {
-        public override SkillCategory    Category          => SkillCategory.Ranged;
-        public override SkillSubCategory SubCategory       => SkillSubCategory.WeaponSkill;
-        public override Factions         TargetableFaction => Factions.Foe;
+        public override Factions TargetableFaction => Factions.Foe;
 
         public override string Activate(BaseUnit actor, BaseUnit target, HitResult hitResult)
         {
@@ -22,7 +20,7 @@ namespace Skills
             var rando         = new Random();
             var damageInRange = rando.NextDouble() * (maxhit - minhit) + minhit;
 
-            target.CurrentHitpoints -= (int)damageInRange;
+            target.CurrentHitpoints -= (float)damageInRange;
 
             var finalDamage = ((int)damageInRange).ToString();
 

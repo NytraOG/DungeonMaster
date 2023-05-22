@@ -13,9 +13,13 @@ namespace Skills
     [CreateAssetMenu(fileName = "Summon Skill", menuName = "Skills/Summon")]
     public class SummonSkill : BaseSkill
     {
-        public override SkillCategory    Category => SkillCategory.Summon;
-        public          List<GameObject> spawnsPerCast = new();
-        public override SkillSubCategory SubCategory => SkillSubCategory.Special;
+        public List<GameObject> spawnsPerCast = new();
+
+        private void Awake()
+        {
+            category    = SkillCategory.Summon;
+            subCategory = SkillSubCategory.Special;
+        }
 
         public override string Activate(BaseUnit actor, BaseUnit target, HitResult _)
         {

@@ -44,18 +44,18 @@ namespace Skills
 
         public (int, int) GetDamage(BaseUnit actor, HitResult hitresult)
         {
-            var maxhit = ((actor.Strength * dStrength +
-                                actor.Constitution * dConstitution +
-                                actor.Dexterity * dDexterity +
-                                actor.Quickness * dQuickness +
-                                actor.Intuition * dIntuition +
-                                actor.Logic * dLogic +
-                                actor.Willpower * dWillpower +
-                                actor.Wisdom * dWisdom +
-                                actor.Charisma * dCharisma +
-                                level * dLevel +
-                                addedFlatDamage +
-                                actor.FlatDamageModifier) * dMultiplier);
+            var maxhit = (actor.Strength * dStrength +
+                          actor.Constitution * dConstitution +
+                          actor.Dexterity * dDexterity +
+                          actor.Quickness * dQuickness +
+                          actor.Intuition * dIntuition +
+                          actor.Logic * dLogic +
+                          actor.Willpower * dWillpower +
+                          actor.Wisdom * dWisdom +
+                          actor.Charisma * dCharisma +
+                          level * dLevel +
+                          addedFlatDamage +
+                          actor.FlatDamageModifier) * dMultiplier;
 
             maxhit += hitresult switch
             {
@@ -96,11 +96,12 @@ namespace Skills
             newInstance.ApplyRatingModifier(target);
         }
 
-        private float GetModifier(BaseDamageSkill baseDamageSkill, BaseUnit actor) => baseDamageSkill switch
+        private float GetModifier(BaseDamageSkill baseDamageSkill, BaseUnit actor) => baseDamageSkill.category switch
         {
-            BaseMeleeSkill => actor.MeleeAttackratingModifier,
-            BaseRangedSkill => actor.RangedAttackratingModifier,
-            BaseMagicSkill => actor.MagicAttackratingModifier,
+            SkillCategory.Melee => actor.MeleeAttackratingModifier,
+            SkillCategory.Ranged => actor.RangedAttackratingModifier,
+            SkillCategory.Magic => actor.MagicAttackratingModifier,
+            SkillCategory.Social => actor.SocialAttackratingModifier,
             _ => throw new ArgumentOutOfRangeException(nameof(baseDamageSkill))
         };
     }

@@ -25,9 +25,13 @@ namespace Skills
         public                                       float               magicDefensemodifier;
         public                                       float               socialDefensemodifier;
         public                                       List<SkillCategory> affectedCategories = new();
-        public override                              SkillCategory       Category          => SkillCategory.Passiv;
-        public override                              SkillSubCategory    SubCategory       => SkillSubCategory.Special;
         public override                              Factions            TargetableFaction => Factions.All;
+
+        private void Awake()
+        {
+            category    = SkillCategory.Support;
+            subCategory = SkillSubCategory.Special;
+        }
 
         public override string Activate(BaseUnit _, BaseUnit target, HitResult hitResult)
         {
@@ -61,8 +65,6 @@ namespace Skills
                         break;
                     case SkillCategory.Passiv:     break;
                     case SkillCategory.Summon:     break;
-                    case SkillCategory.Buff:       break;
-                    case SkillCategory.Debuff:     break;
                     case SkillCategory.Initiative: break;
                     default:                       throw new ArgumentOutOfRangeException();
                 }
@@ -115,8 +117,6 @@ namespace Skills
                         break;
                     case SkillCategory.Passiv:     break;
                     case SkillCategory.Summon:     break;
-                    case SkillCategory.Buff:       break;
-                    case SkillCategory.Debuff:     break;
                     case SkillCategory.Initiative: break;
                     default:                       throw new ArgumentOutOfRangeException();
                 }

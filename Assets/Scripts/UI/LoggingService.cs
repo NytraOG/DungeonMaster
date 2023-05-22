@@ -176,11 +176,12 @@ namespace UI
             _ => throw new ArgumentOutOfRangeException(nameof(position), position, null)
         };
 
-        private int FetchDefenseattribute(CombatskillResolutionArgs info) => info.Skill switch
+        private int FetchDefenseattribute(CombatskillResolutionArgs info) => info.Skill.category switch
         {
-            BaseMagicSkill => (int)info.Target.ModifiedMagicDefense,
-            BaseMeleeSkill => (int)info.Target.ModifiedMeleeDefense,
-            BaseRangedSkill => (int)info.Target.ModifiedRangedDefense,
+            SkillCategory.Melee => (int)info.Target.ModifiedMeleeDefense,
+            SkillCategory.Ranged => (int)info.Target.ModifiedRangedDefense,
+            SkillCategory.Magic => (int)info.Target.ModifiedMagicDefense,
+            SkillCategory.Social => (int)info.Target.ModifiedSocialDefense,
             _ => throw new ArgumentOutOfRangeException()
         };
     }

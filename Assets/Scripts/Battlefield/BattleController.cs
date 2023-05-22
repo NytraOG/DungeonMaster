@@ -335,7 +335,7 @@ namespace Battlefield
 
                     #endregion
 
-                    if(selection.Actor.buffs.Any() || buffsToKill.Any())
+                    if (selection.Actor.buffs.Any() || buffsToKill.Any())
                         yield return new WaitForSeconds(1f);
 
                     var skillsToRemove = new List<SupportSkill>();
@@ -505,11 +505,12 @@ namespace Battlefield
         {
             hitroll = damageSkill.GetHitroll(selection.Actor);
 
-            var relation = selection.Skill switch
+            var relation = selection.Skill.category switch
             {
-                BaseMeleeSkill => hitroll / target.ModifiedMeleeDefense,
-                BaseRangedSkill => hitroll / target.ModifiedRangedDefense,
-                BaseMagicSkill => hitroll / target.ModifiedMagicDefense,
+                SkillCategory.Melee => hitroll / target.ModifiedMeleeDefense,
+                SkillCategory.Ranged => hitroll / target.ModifiedRangedDefense,
+                SkillCategory.Magic => hitroll / target.ModifiedMagicDefense,
+                SkillCategory.Social => hitroll / target.ModifiedSocialDefense,
                 _ => 0f
             };
 
@@ -521,7 +522,7 @@ namespace Battlefield
                 _ => HitResult.None
             };
 
-            return damageSkill.Category switch
+            return damageSkill.category switch
             {
                 SkillCategory.Melee => (int)target.ModifiedMeleeDefense < hitroll,
                 SkillCategory.Ranged => (int)target.ModifiedRangedDefense < hitroll,

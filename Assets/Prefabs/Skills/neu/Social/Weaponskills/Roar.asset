@@ -9,16 +9,19 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5e00e7a6bc2542dc9eb7ca1cb875554a, type: 3}
+  m_Script: {fileID: 11500000, guid: 1da8fa86b0214ad99d83bacace503848, type: 3}
   m_Name: Roar
   m_EditorClassIdentifier: 
   acquisitionLevelBasic: 1
-  difficultyBasicClasses: []
   acquisitionLevelDemanding: 1
-  difficultyDemandingClasses: []
   acquisitionLevelOutOfClass: 1
+  difficultyBasicClasses: []
+  difficultyDemandingClasses: []
   sprite: {fileID: 21300000, guid: b22b8dc2797988e459737e7d55f389a7, type: 3}
   level: 1
+  subCategory: 1
+  category: 3
+  type: 0
   cooldown: 0
   manacostFlat: 0
   manacostLevelScaling: 0
@@ -27,7 +30,6 @@ MonoBehaviour:
   xpBaseOutOfClass: 62
   displayName: Roar
   appliesStun: 1
-  keywords: []
   description: 
   dStrength: 0
   dConstitution: 0
@@ -38,19 +40,27 @@ MonoBehaviour:
   dWillpower: 0
   dWisdom: 0
   dCharisma: 0
-  dLevel: 0.5
+  dLevel: 0
+  dMultiplier: 1
   addedFlatDamage: 0
   weapon: {fileID: 0}
   damageRange: 0
   targetsFlat: 1
   targetsHeroScaling: 0
-  isHealing: 0
-  isBuffing: 0
-  targetsWholeGroup: 0
-  operator: +
-  modifierMeleeDefense: 0
-  modifierRangedDefense: 0
-  modifierMagicDefense: 0
-  modifierSocialDefense: 0
-  appliedBuffs: []
+  autoTargeting: 0
+  bonusDamageNormal: 0
+  bonusDamageGood: 0
+  bonusDamageCritical: 0
+  appliesDebuff: 0
+  hStrength: 2
+  hConstitution: 0
+  hDexterity: 0
+  hQuickness: 0
+  hIntuition: 0
+  hLogic: 0
+  hWillpower: 0
+  hWisdom: 0
+  hCharisma: 1
+  hLevel: 2
+  hMultiplier: 1
   appliedDebuffs: []

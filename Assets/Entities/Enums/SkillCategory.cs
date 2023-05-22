@@ -8,8 +8,7 @@
         Social,
         Passiv,
         Summon,
-        Buff,
-        Debuff,
+        Support,
         Initiative
     }
 }

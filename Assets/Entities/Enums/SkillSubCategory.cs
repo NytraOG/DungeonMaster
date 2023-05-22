@@ -2,8 +2,8 @@
 {
     public enum SkillSubCategory
     {
-        DefenseSkill,
-        WeaponSkill,
+        Defense,
+        Weapon,
         Special
     }
 }
