@@ -6,47 +6,51 @@ using Entities;
 using Entities.Enums;
 using Entities.Hero;
 using UnityEngine;
+using Attribute = Entities.Enums.Attribute;
 
 namespace Skills
 {
     public abstract class BaseSkill : ScriptableObject
     {
-        public                  int              acquisitionLevelBasic      = 1;
-        public                  int              acquisitionLevelDemanding  = 1;
-        public                  int              acquisitionLevelOutOfClass = 1;
-        public                  List<HeroClass>  difficultyBasicClasses;
-        public                  List<HeroClass>  difficultyDemandingClasses;
-        public                  Sprite           sprite;
-        public                  int              level = 1;
-        public                  SkillSubCategory subCategory;
-        public                  SkillCategory    category;
-        public                  SkillType        type;
-        public                  int              cooldown;
-        public                  int              manacostFlat;
-        public                  float            manacostLevelScaling;
-        public                  int              xpBaseBasic      = 16;
-        public                  int              xpBaseDemanding  = 45;
-        public                  int              xpBaseOutOfClass = 62;
-        public                  string           displayName;
-        public                  bool             appliesStun;
-        [TextArea(4, 4)] public string           description;
+        public                           SkillCategory    category;
+        public                           SkillSubCategory subCategory;
+        public                           SkillType        type;
+        [Header("")]
+        public                           string           displayName;
+        public                           Sprite           sprite;
+        public                           GameObject       weapon;
+        [TextArea(4, 4)]     public      string           description;
+        [Header("Leveling")] public      int              level                          = 1;
+        public                           int              acquisitionLevelHeroBasic      = 1;
+        public                           int              acquisitionLevelHeroDemanding  = 1;
+        public                           int              acquisitionLevelOutOfHeroClass = 1;
+        public                           List<HeroClass>  difficultyBasicClasses;
+        public                           List<HeroClass>  difficultyDemandingClasses;
+        public                           int              xpBaseBasic      = 16;
+        public                           int              xpBaseDemanding  = 45;
+        public                           int              xpBaseOutOfClass = 62;
+        [Header("Tactical Roll")] public Attribute        primaryAttribute;
+        public                           Attribute        secondaryAttribute;
+        public                           float            skillLevel = 2f;
         [Header("Effect Scaling, multiplicative")]
         public float dStrength;
-        public                     float            dConstitution;
-        public                     float            dDexterity;
-        public                     float            dQuickness;
-        public                     float            dIntuition;
-        public                     float            dLogic;
-        public                     float            dWillpower;
-        public                     float            dWisdom;
-        public                     float            dCharisma;
-        public                     float            dLevel      = 0.5f;
-        public                     float            dMultiplier = 1;
-        public                     int              addedFlatDamage;
-        public                     GameObject       weapon;
-        [Header("0 bis 1")] public float            damageRange;
-        public                     int              Manacost     => (int)(manacostFlat + level * manacostLevelScaling);
-        public                     bool             CanParryWith => weapon is not null;
+        public                     float dConstitution;
+        public                     float dDexterity;
+        public                     float dQuickness;
+        public                     float dIntuition;
+        public                     float dLogic;
+        public                     float dWillpower;
+        public                     float dWisdom;
+        public                     float dCharisma;
+        public                     float dLevel      = 0.5f;
+        public                     float dMultiplier = 1;
+        public                     int   addedFlatDamage;
+        [Header("0 bis 1")] public float damageRange;
+        public                     int   cooldown;
+        public                     int   manacostFlat;
+        public                     float manacostLevelScaling;
+        public                     bool  appliesStun;
+        public                     int   Manacost => (int)(manacostFlat + level * manacostLevelScaling);
 
         protected string Description
         {
@@ -103,9 +107,9 @@ namespace Skills
 
             return difficulty switch
             {
-                SkillDifficulty.Basic => acquisitionLevelBasic,
-                SkillDifficulty.Demanding => acquisitionLevelDemanding,
-                SkillDifficulty.OutOfClass => acquisitionLevelOutOfClass,
+                SkillDifficulty.Basic => acquisitionLevelHeroBasic,
+                SkillDifficulty.Demanding => acquisitionLevelHeroDemanding,
+                SkillDifficulty.OutOfClass => acquisitionLevelOutOfHeroClass,
                 _ => throw new ArgumentOutOfRangeException()
             };
         }
