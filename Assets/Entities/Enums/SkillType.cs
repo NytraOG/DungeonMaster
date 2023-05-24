@@ -4,6 +4,6 @@
     {
         Aktive,
         Passive,
-        Both
+        PassiveWithActive
     }
 }

@@ -20,11 +20,11 @@ namespace Skills
             var rando         = new Random();
             var damageInRange = rando.NextDouble() * (maxhit - minhit) + minhit;
 
+            target.IsStunned = appliesStun;
+
             target.CurrentHitpoints -= (float)damageInRange;
 
             var finalDamage = ((int)damageInRange).ToString();
-
-            OnDamageDealt?.Invoke(finalDamage);
 
             ApplyDebuffs(actor, target);
 

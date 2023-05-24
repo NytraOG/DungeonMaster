@@ -1,8 +1,10 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using Entities.Buffs;
 using Entities.Enums;
 using Skills;
 using UnityEngine;
+using Attribute = Entities.Enums.Attribute;
 
 namespace Entities
 {
@@ -117,6 +119,20 @@ namespace Entities
         public virtual void Initialize() => CurrentHitpoints = MaximumHitpoints;
 
         #region Stats
+
+        public int Get(Attribute attribute) => attribute switch
+        {
+            Attribute.Strength => Strength,
+            Attribute.Constitution => Constitution,
+            Attribute.Dexterity => Dexterity,
+            Attribute.Quickness => Quickness,
+            Attribute.Intuition => Intuition,
+            Attribute.Logic => Logic,
+            Attribute.Willpower => Willpower,
+            Attribute.Wisdom => Wisdom,
+            Attribute.Charisma => Charisma,
+            _ => throw new ArgumentOutOfRangeException()
+        };
 
         public int Strength     { get; set; }
         public int Constitution { get; set; }

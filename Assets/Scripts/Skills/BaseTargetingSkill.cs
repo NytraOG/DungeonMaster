@@ -1,21 +1,35 @@
 ﻿using System;
 using Entities;
 using Entities.Hero;
+using UnityEngine;
 
 namespace Skills
 {
     public abstract class BaseTargetingSkill : BaseSkill
     {
-        public          int      targetsFlat = 1;
-        public          float    targetsHeroScaling;
-        public          bool     autoTargeting;
-        public abstract Factions TargetableFaction { get; }
+        public                       int      cooldown;
+        public                       bool     appliesStun;
+        [Header("Targeting")] public bool     targetsWholeGroup;
+        public                       int      targetsFlat = 1;
+        public                       float    targetsHeroScaling;
+        public                       bool     autoTargeting;
+
+        public abstract              Factions TargetableFaction { get; }
 
         public int GetTargets(BaseUnit unit) => targetsFlat + (int)(targetsHeroScaling * unit.level);
 
         public override string GetTooltip(BaseHero selectedHero, string damage = "0-0") => base.GetTooltip(selectedHero, damage) +
-                                                                                           $"Targets:\t{GetTargets(selectedHero)}" +
-                                                                                           Environment.NewLine + Environment.NewLine +
-                                                                                           Description;
+                                                                                           GetManacostText(selectedHero) +
+                                                                                           $"Targets:\t{GetTargets(selectedHero)}" + Environment.NewLine;
+
+        private string GetManacostText(BaseHero hero)
+        {
+            if (Manacost == 0)
+                return string.Empty;
+
+            var hexColor = Manacost > hero.CurrentMana ? Konstanten.NotEnoughManaColor : Konstanten.EnoughManaColor;
+
+            return $"Manacost:\t<b><color={hexColor}>{Manacost}</color></b>{Environment.NewLine}";
+        }
     }
 }

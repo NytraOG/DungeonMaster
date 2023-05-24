@@ -15,8 +15,7 @@ namespace Skills
         public                           SkillCategory    category;
         public                           SkillSubCategory subCategory;
         public                           SkillType        type;
-        [Header("")]
-        public                           string           displayName;
+        [Header("")] public              string           displayName;
         public                           Sprite           sprite;
         public                           GameObject       weapon;
         [TextArea(4, 4)]     public      string           description;
@@ -29,29 +28,16 @@ namespace Skills
         public                           int              xpBaseBasic      = 16;
         public                           int              xpBaseDemanding  = 45;
         public                           int              xpBaseOutOfClass = 62;
-        [Header("Tactical Roll")] public Attribute        primaryAttribute;
-        public                           Attribute        secondaryAttribute;
-        public                           float            skillLevel = 2f;
-        [Header("Effect Scaling, multiplicative")]
-        public float dStrength;
-        public                     float dConstitution;
-        public                     float dDexterity;
-        public                     float dQuickness;
-        public                     float dIntuition;
-        public                     float dLogic;
-        public                     float dWillpower;
-        public                     float dWisdom;
-        public                     float dCharisma;
-        public                     float dLevel      = 0.5f;
-        public                     float dMultiplier = 1;
-        public                     int   addedFlatDamage;
-        [Header("0 bis 1")] public float damageRange;
-        public                     int   cooldown;
-        public                     int   manacostFlat;
-        public                     float manacostLevelScaling;
-        public                     bool  appliesStun;
-        public                     int   Manacost => (int)(manacostFlat + level * manacostLevelScaling);
+        public                           int              manacostFlat;
+        public                           float            manacostLevelScaling;
+        [Header("Tactical Roll")] public Attribute        primaryAttributeT;
+        public                           float            primaryScalingT = 2f;
+        public                           Attribute        secondaryAttributeT;
+        public                           float            secondaryScalingT  = 1f;
+        public                           float            skillLevelScalingT = 2f;
+        public                           float            multiplierT        = 1;
 
+        public int Manacost => (int)(manacostFlat + level * manacostLevelScaling);
         protected string Description
         {
             get
@@ -101,6 +87,18 @@ namespace Skills
             }
         }
 
+        public int GetTacticalRoll(BaseUnit unit)
+        {
+            var primaryValue   = primaryScalingT * unit.Get(primaryAttributeT);
+            var secondaryValue = secondaryScalingT * unit.Get(secondaryAttributeT);
+            var levelValue     = level * skillLevelScalingT;
+
+            var tacticalRoll = (primaryValue + secondaryValue + levelValue).InfuseRandomness();
+            var finalHitroll = tacticalRoll * multiplierT * GetAttackmodifier(this, unit);
+
+            return (int)finalHitroll;
+        }
+
         public int GetAcquisitionLevel(Hero hero)
         {
             var difficulty = GetDifficultyByHero(hero);
@@ -124,23 +122,21 @@ namespace Skills
             return difficultyDemandingClasses.Any(dd => dd.name == heroclass.name) ? SkillDifficulty.Demanding : SkillDifficulty.OutOfClass;
         }
 
+        protected float GetAttackmodifier(BaseSkill skill, BaseUnit actor) => skill.category switch
+        {
+            SkillCategory.Melee => actor.MeleeAttackratingModifier,
+            SkillCategory.Ranged => actor.RangedAttackratingModifier,
+            SkillCategory.Magic => actor.MagicAttackratingModifier,
+            SkillCategory.Social => actor.SocialAttackratingModifier,
+            SkillCategory.Summon => 0,
+            SkillCategory.Support => 0,
+            SkillCategory.Initiative => 0,
+            _ => throw new ArgumentOutOfRangeException()
+        };
+
         public abstract string Activate(BaseUnit actor, BaseUnit target, HitResult hitResult);
 
         public virtual string GetTooltip(BaseHero hero, string damage = "0-0") => $"<b>{displayName.ToUpper()}</b>{Environment.NewLine}" +
-                                                                                  $"<i>{category}, {subCategory}</i>{Environment.NewLine}{Environment.NewLine}" +
-                                                                                  GetManacostText(hero) +
-                                                                                  GetDamageText(damage);
-
-        private string GetManacostText(BaseHero hero)
-        {
-            if (Manacost == 0)
-                return string.Empty;
-
-            var hexColor = Manacost > hero.CurrentMana ? Konstanten.NotEnoughManaColor : Konstanten.EnoughManaColor;
-
-            return $"Manacost:\t<b><color={hexColor}>{Manacost}</color></b>{Environment.NewLine}";
-        }
-
-        private string GetDamageText(string damage) => damage == "0-0" ? string.Empty : $"Damage:\t<b>{damage}</b>{Environment.NewLine}";
+                                                                                  $"<i>{category}, {subCategory}, {type}</i>{Environment.NewLine}{Environment.NewLine}";
     }
 }

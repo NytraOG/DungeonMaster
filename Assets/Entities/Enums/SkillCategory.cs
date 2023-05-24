@@ -6,7 +6,6 @@
         Ranged,
         Magic,
         Social,
-        Passiv,
         Summon,
         Support,
         Initiative

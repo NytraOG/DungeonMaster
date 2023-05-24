@@ -155,7 +155,7 @@ namespace Battlefield
 
                 skillbuttons[counter].GetComponent<Image>().sprite = skill.sprite;
 
-                if (skill.Manacost > selectedHero.CurrentMana && ColorUtility.TryParseHtmlString(skillDisabledColor, out var color))
+                if (skill is BaseTargetingSkill tSkill && tSkill.Manacost > selectedHero.CurrentMana && ColorUtility.TryParseHtmlString(skillDisabledColor, out var color))
                     skillbuttons[counter].GetComponent<Image>().color = color;
                 else
                     skillbuttons[counter].GetComponent<Image>().color = Color.white;
@@ -398,9 +398,6 @@ namespace Battlefield
                 case Hero hero when selection.Skill is SummonSkill summonSkill:
                     ResolveSummonSkill(selection, hero, summonSkill);
                     break;
-                case Hero hero when selection.Skill is BaseSocialSkill supportSkill:
-                    ResolveSocialSkill(selection, supportSkill, hero);
-                    break;
 
                 case Creature when selection.Skill is BaseDamageSkill foeDamageSkill:
                     ResolveDamageSkill(selection, foeDamageSkill);
@@ -408,16 +405,14 @@ namespace Battlefield
                 case Creature creature when selection.Skill is SummonSkill foeSummonSkill:
                     ResolveSummonSkill(selection, creature, foeSummonSkill);
                     break;
-                case Creature creature when selection.Skill is BaseSocialSkill foeSupportSkill:
-                    ResolveSocialSkill(selection, foeSupportSkill, creature);
-                    break;
 
                 default:
                     UseSupportskill(selection);
                     break;
             }
 
-            selection.Actor.CurrentMana -= selection.Skill.Manacost;
+            if (selection.Skill is BaseTargetingSkill skill)
+                selection.Actor.CurrentMana -= skill.Manacost;
         }
 
         private void ResolveDamageSkill(AbilitySelection selection, BaseDamageSkill damageSkill)
@@ -438,19 +433,6 @@ namespace Battlefield
             _ = unit.UseAbility(summonSkill, HitResult.None);
 
             InstantiateFloatingCombatText(selection.Actor, $"<b>{summonSkill.displayName}</b>!");
-        }
-
-        private void ResolveSocialSkill(AbilitySelection selection, BaseSocialSkill baseSocialSkill, BaseUnit actor)
-        {
-            foreach (var target in selection.Targets)
-            {
-                var skillResult = actor.UseAbility(baseSocialSkill, HitResult.None, target);
-
-                ProcessFloatingCombatText(skillResult, HitResult.None, target);
-            }
-
-            if (baseSocialSkill.isBuffing)
-                OnBuffApplied?.Invoke(actor, baseSocialSkill, selection.Targets, null);
         }
 
         private void UseSupportskill(AbilitySelection selection)
@@ -598,7 +580,7 @@ namespace Battlefield
 
             var eligableTargets = new List<BaseUnit>();
 
-            if (creature.SelectedSkill is BaseSocialSkill supportSkill)
+            if (creature.SelectedSkill is SupportSkill supportSkill)
             {
                 if (supportSkill.targetsWholeGroup)
                     maxTargets = enemies.Count;
@@ -685,7 +667,7 @@ namespace Battlefield
         {
             var skill = g.GetComponent<AbilitybuttonScript>().skill;
 
-            if (selectedHero is not null && skill.Manacost <= selectedHero.CurrentMana)
+            if (selectedHero is not null && skill is BaseTargetingSkill tSkill && tSkill.Manacost <= selectedHero.CurrentMana)
             {
                 selectedTargets.Clear();
                 selectedSkill = skill;

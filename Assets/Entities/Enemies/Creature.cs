@@ -33,7 +33,7 @@ namespace Entities.Enemies
             MagicDefensemodifier  = 1;
             SocialDefensemodifier = 1;
 
-            InitiativeModifier    = 1;
+            InitiativeModifier = 1;
 
             monstertype.ApplyValues(this);
 
@@ -83,7 +83,6 @@ namespace Entities.Enemies
         public override (int, int) GetApproximateDamage(BaseSkill ability) => ability switch
         {
             BaseDamageSkill skill => skill.GetDamage(this, HitResult.None),
-            BaseSocialSkill _ => (0, 0),
             _ => throw new ArgumentOutOfRangeException(nameof(ability))
         };
 

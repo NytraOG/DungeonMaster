@@ -43,48 +43,39 @@ namespace Skills
                         target.MeleeAttackratingModifier += meleeAttackratingModifier;
                         target.FlatDamageModifier        += flatDamageModifier;
                         target.MeleeDefensmodifier       += meleeDefensmodifier;
-                        target.MeleeDefense              += GetDefenseBonus(target);
+                        target.MeleeDefense              += GetTacticalRoll(target);
 
                         break;
                     case SkillCategory.Ranged:
                         target.RangedAttackratingModifier += rangedAttackratingModifier;
                         target.FlatDamageModifier         += flatDamageModifier;
                         target.RangedDefensemodifier      += rangedDefensemodifier;
-                        target.RangedDefense              += GetDefenseBonus(target);
+                        target.RangedDefense              += GetTacticalRoll(target);
                         break;
                     case SkillCategory.Magic:
                         target.MagicAttackratingModifier += magicAttackratingModifier;
                         target.FlatDamageModifier        += flatDamageModifier;
                         target.MagicDefensemodifier      += magicDefensemodifier;
-                        target.MagicDefense              += GetDefenseBonus(target);
+                        target.MagicDefense              += GetTacticalRoll(target);
                         break;
                     case SkillCategory.Social:
                         target.SocialAttackratingModifier += socialAttackratingModifier;
                         target.SocialDefensemodifier      += socialDefensemodifier;
-                        target.SocialDefense              += GetDefenseBonus(target);
+                        target.SocialDefense              += GetTacticalRoll(target);
                         break;
-                    case SkillCategory.Passiv:     break;
                     case SkillCategory.Summon:     break;
                     case SkillCategory.Initiative: break;
                     default:                       throw new ArgumentOutOfRangeException();
                 }
             }
 
-            target.activeSkills.Add(this, false);
+            PopulateBuffs(target);
+
+            if(!target.activeSkills.ContainsKey(this))
+                target.activeSkills.Add(this, false);
 
             return $"Activated {name}";
         }
-
-        private float GetDefenseBonus(BaseUnit unit) => unit.Strength * dStrength +
-                                                        unit.Constitution * dConstitution +
-                                                        unit.Dexterity * dDexterity +
-                                                        unit.Quickness * dQuickness +
-                                                        unit.Intuition * dIntuition +
-                                                        unit.Logic * dLogic +
-                                                        unit.Willpower * dWillpower +
-                                                        unit.Wisdom * dWisdom +
-                                                        unit.Charisma * dCharisma +
-                                                        level * dLevel;
 
         public void Reverse(BaseUnit target)
         {
@@ -96,26 +87,25 @@ namespace Skills
                         target.MeleeAttackratingModifier -= meleeAttackratingModifier;
                         target.FlatDamageModifier        -= flatDamageModifier;
                         target.MeleeDefensmodifier       -= meleeDefensmodifier;
-                        target.MeleeDefense              -= GetDefenseBonus(target);
+                        target.MeleeDefense              -= GetTacticalRoll(target);
                         break;
                     case SkillCategory.Ranged:
                         target.RangedAttackratingModifier -= rangedAttackratingModifier;
                         target.FlatDamageModifier         -= flatDamageModifier;
                         target.RangedDefensemodifier      -= rangedDefensemodifier;
-                        target.RangedDefense              -= GetDefenseBonus(target);
+                        target.RangedDefense              -= GetTacticalRoll(target);
                         break;
                     case SkillCategory.Magic:
                         target.MagicAttackratingModifier -= magicAttackratingModifier;
                         target.FlatDamageModifier        -= flatDamageModifier;
                         target.MagicDefensemodifier      -= magicDefensemodifier;
-                        target.MagicDefense              -= GetDefenseBonus(target);
+                        target.MagicDefense              -= GetTacticalRoll(target);
                         break;
                     case SkillCategory.Social:
                         target.SocialAttackratingModifier -= socialAttackratingModifier;
                         target.SocialDefensemodifier      -= socialDefensemodifier;
-                        target.SocialDefense              -= GetDefenseBonus(target);
+                        target.SocialDefense              -= GetTacticalRoll(target);
                         break;
-                    case SkillCategory.Passiv:     break;
                     case SkillCategory.Summon:     break;
                     case SkillCategory.Initiative: break;
                     default:                       throw new ArgumentOutOfRangeException();

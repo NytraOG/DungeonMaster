@@ -9,14 +9,14 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 1da8fa86b0214ad99d83bacace503848, type: 3}
-  m_Name: Firebeam
+  m_Script: {fileID: 11500000, guid: 8ac9bb9c62d340bda897f9f0d13ef7a4, type: 3}
+  m_Name: Master of the Pack
   m_EditorClassIdentifier: 
-  category: 2
-  subCategory: 1
+  category: 5
+  subCategory: 2
   type: 0
-  displayName: Firebeam
-  sprite: {fileID: 21300000, guid: 86f33082bbc836048ae50e8c6f5129a1, type: 3}
+  displayName: Master of the Pack
+  sprite: {fileID: 0}
   weapon: {fileID: 0}
   description: 
   level: 1
@@ -28,35 +28,32 @@ MonoBehaviour:
   xpBaseBasic: 16
   xpBaseDemanding: 45
   xpBaseOutOfClass: 62
-  manacostFlat: 0
-  manacostLevelScaling: 1.25
   primaryAttributeT: 0
   primaryScalingT: 2
   secondaryAttributeT: 0
   secondaryScalingT: 1
   skillLevelScalingT: 2
   multiplierT: 1
+  manacostFlat: 3
+  manacostLevelScaling: 0
   cooldown: 0
   appliesStun: 0
-  targetsWholeGroup: 0
-  targetsFlat: 1
+  targetsWholeGroup: 1
+  targetsFlat: 20
   targetsHeroScaling: 0
-  autoTargeting: 0
+  autoTargeting: 1
+  appliedBuffs:
+  - {fileID: 11400000, guid: 4d639036660aa63419d57c5e04cada40, type: 2}
   appliedDebuffs: []
-  primaryAttributeH: 5
-  primaryScalingH: 2
-  secondaryAttributeH: 6
-  secondaryScalingH: 1
-  skillLevelScalingH: 2
-  multiplierH: 0.9
-  primaryAttributeD: 6
-  primaryScalingD: 0.5
-  secondaryAttributeD: 7
-  secondaryScalingD: 0.34
-  skillLevelScalingD: 0.5
-  multiplierD: 1
-  normal: 0
-  good: 1
-  critical: 4
-  damageRange: 0.204
-  addedFlatDamage: 0
+  selfcastOnly: 0
+  actionsModifier: 0
+  flatDamageModifier: 0
+  meleeAttackratingModifier: 0
+  rangedAttackratingModifier: 0
+  magicAttackratingModifier: 0
+  socialAttackratingModifier: 0
+  meleeDefensmodifier: 0
+  rangedDefensemodifier: 0
+  magicDefensemodifier: 0
+  socialDefensemodifier: 0
+  affectedCategories: 
