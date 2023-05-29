@@ -20,24 +20,27 @@ namespace Inventory
         public InventoryItemData ItemData         => itemData;
         public int               CurrentStackSize => currentStackSize;
 
-        // Start is called before the first frame update
-        private void Start() { }
-
-        // Update is called once per frame
-        private void Update() { }
-
         public void AddToStack(int amount) => currentStackSize += amount;
 
         public void RemoveFromStack(int amount) => currentStackSize -= amount;
 
         public bool RoomLeftInStack(int amount, out int remainingStackSize)
         {
-            remainingStackSize = itemData.maxStackSize - currentStackSize;
+            remainingStackSize = 0;
+
+            if (itemData is Consumable consumable)
+                remainingStackSize = consumable.maxStackSize - currentStackSize;
 
             return RoomLeftInStack(amount);
         }
 
-        public bool RoomLeftInStack(int amount) => currentStackSize + amount <= itemData.maxStackSize;
+        public bool RoomLeftInStack(int amount)
+        {
+            if (itemData is Consumable consumable)
+                return currentStackSize + amount <= consumable.maxStackSize;
+
+            return true;
+        }
 
         public void ClearSlot()
         {

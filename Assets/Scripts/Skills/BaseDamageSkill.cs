@@ -19,7 +19,7 @@ namespace Skills
         public                                     float        secondaryScalingH  = 1f;
         public                                     float        skillLevelScalingH = 2f;
         public                                     float        multiplierH        = 1;
-        [Header("Damage Roll")] public             Attribute    primaryAttributeD;
+        [Header("Effect Roll")] public             Attribute    primaryAttributeD;
         public                                     float        primaryScalingD = 0.5f;
         public                                     Attribute    secondaryAttributeD;
         public                                     float        secondaryScalingD  = 0.34f;
@@ -97,6 +97,4 @@ namespace Skills
                                                                                            Environment.NewLine + Environment.NewLine +
                                                                                            Description;
     }
-
-
 }

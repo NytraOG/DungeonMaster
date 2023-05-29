@@ -1,51 +1,49 @@
 using System.Collections.Generic;
-using Battlefield;
-using Entities.Hero;
 using Inventory;
-using UnityEngine;
 
 namespace UI
 {
     public class StaticInventoryDisplay : InventoryDisplay
     {
-        public  Hero              inventoryHolder;
-        public  InventorySlotUi[] slots;
-        private bool              heroChanged;
-        private bool              slotAssigned;
+        private InventorySystem                            inventorySystem;
+        private Dictionary<InventorySlotUi, InventorySlot> slotLerry = new();
+        public  InventorySlotUi[]                          slots;
 
         protected void Update()
         {
-            switch (slotAssigned)
+            switch (SlotAssigned)
             {
-                case true when inventoryHolder is not null && heroChanged:
+                case true when holder is not null && HeroChanged:
                     SubscribeUpdateSlot();
-                    slotAssigned = false;
+                    SlotAssigned = false;
                     break;
-                case false when inventoryHolder is not null && heroChanged:
+                case false when holder is not null && HeroChanged:
                     SubscribeUpdateSlot();
                     break;
             }
 
-            if (!slotAssigned)
+            if (!SlotAssigned)
                 AssignSlot();
         }
 
         private void SubscribeUpdateSlot()
         {
-            inventorySystem                        =  inventoryHolder.InventorySystem;
+            inventorySystem                        =  holder.InventorySystem;
             inventorySystem.OnInventorySlotChanged += UpdateSlot;
         }
 
-        public void ChangeHero(Hero hero)
+        private void UpdateSlot(InventorySlot updatedSlot)
         {
-            inventoryHolder = hero;
-
-            heroChanged = true;
+            foreach (var slot in slotLerry)
+            {
+                if (slot.Value == updatedSlot)
+                    slot.Key.UpdateUiSlot(updatedSlot);
+            }
         }
 
         public override void AssignSlot()
         {
-            if (slotAssigned || inventorySystem is null)
+            if (SlotAssigned || inventorySystem is null)
                 return;
 
             slotLerry = new Dictionary<InventorySlotUi, InventorySlot>();
@@ -56,7 +54,7 @@ namespace UI
                 slots[i].Initialize(inventorySystem.inventorySlots[i]);
             }
 
-            slotAssigned = true;
+            SlotAssigned = true;
         }
     }
 }

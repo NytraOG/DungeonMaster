@@ -7,11 +7,11 @@ namespace UI
 {
     public class InventorySlotUi : MonoBehaviour
     {
-        public  Image            itemSprite;
-        public  TextMeshProUGUI  itemCount;
-        public  InventorySlot    assignedSlot;
-        private Button           button;
-        public  InventoryDisplay ParentDisplay { get; private set; }
+        public  Image                  itemSprite;
+        public  TextMeshProUGUI        itemCount;
+        public  InventorySlot          assignedSlot;
+        private Button                 button;
+        public  StaticInventoryDisplay ParentDisplay { get; private set; }
 
         private void Awake()
         {
@@ -20,7 +20,7 @@ namespace UI
             button = GetComponent<Button>();
             button.onClick.AddListener(OnUiSlotClick);
 
-            ParentDisplay = transform.parent.GetComponent<InventoryDisplay>();
+            ParentDisplay = transform.parent.GetComponent<StaticInventoryDisplay>();
         }
 
         public void Initialize(InventorySlot slot)
@@ -58,6 +58,6 @@ namespace UI
             itemCount.text    = string.Empty;
         }
 
-        private void OnUiSlotClick() => ParentDisplay.SlotClicked(this);
+        private void OnUiSlotClick() => ParentDisplay.SlotClicked();
     }
 }

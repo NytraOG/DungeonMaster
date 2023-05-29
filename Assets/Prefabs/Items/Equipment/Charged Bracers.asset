@@ -1,0 +1,43 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 393d1dcbe2634b0a95a797787c6d5f24, type: 3}
+  m_Name: Charged Bracers
+  m_EditorClassIdentifier: 
+  id: 10
+  icon: {fileID: 0}
+  keywords: 07000000
+  appliedBuffsOnUsageOntoTarget: []
+  appliedDebuffsOnUsageOntoTarget: []
+  effect: TODO
+  boni: TODO
+  levelRequirement: 0
+  requiredAttribute: 0
+  requiredLevelOfAttribute: 0
+  fluff: 
+  slashNormal: 0
+  slashGood: 0
+  slashCritical: 0
+  pierceNormal: 0
+  pierceGood: 0
+  pierceCritical: 0
+  crushNormal: 0
+  crushGood: 0
+  crushCritical: 0
+  fireNormal: 0
+  fireGood: 0
+  fireCritical: 0
+  iceNormal: 0
+  iceGood: 0
+  iceCritical: 0
+  lightningNormal: 0
+  lightningGood: 0
+  lightningCritical: 0

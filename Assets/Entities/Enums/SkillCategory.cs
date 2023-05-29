@@ -6,6 +6,10 @@
         Ranged,
         Magic,
         Social,
+        Explosion,
+        Ambush,
+        Sickness,
+        ForceOfNature,
         Summon,
         Support,
         Initiative

@@ -1,9 +1,9 @@
 ﻿namespace Items
 {
-    public enum EquipSlots
+    public enum Slot
     {
-        OneHand,
-        TwoHand,
+        Mainhand,
+        Offhand,
         Helmet,
         Shoulder,
         Chest,
@@ -11,7 +11,7 @@
         Pants,
         Boots,
         Gloves,
-        Shield,
+        Wrist,
         Amulet,
         RingLeft,
         RingRight,

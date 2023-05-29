@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using Entities.Hero;
 using UI;
 using UnityEngine;
 
@@ -6,23 +7,21 @@ namespace Inventory
 {
     public abstract class InventoryDisplay : MonoBehaviour
     {
+        public    Hero                                       holder;
         public    MouseItemData                              mouseInventoryItem;
-        protected InventorySystem                            inventorySystem;
-        protected Dictionary<InventorySlotUi, InventorySlot> slotLerry;
-        public    InventorySystem                            InventorySystem => inventorySystem;
-        public    Dictionary<InventorySlotUi, InventorySlot> SlotLerry       => slotLerry;
+        protected bool                                       HeroChanged;
+        protected bool                                       SlotAssigned;
 
         public abstract void AssignSlot();
 
-        protected virtual void UpdateSlot(InventorySlot updatedSlot)
+        public void ChangeHero(Hero hero)
         {
-            foreach (var slot in slotLerry)
-            {
-                if (slot.Value == updatedSlot)
-                    slot.Key.UpdateUiSlot(updatedSlot);
-            }
+            holder = hero;
+
+            HeroChanged = true;
         }
 
-        public void SlotClicked(InventorySlotUi clickedSlot) => Debug.Log("Slot clicked");
+
+        public void SlotClicked() => Debug.Log("Slot clicked");
     }
 }

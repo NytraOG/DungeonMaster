@@ -1,4 +1,13 @@
-﻿namespace Items
+﻿using UnityEngine;
+
+namespace Items
 {
-    public class Consumable : InventoryItemData { }
+    [CreateAssetMenu(fileName = nameof(Consumable), menuName = "Item/Consumable")]
+    public class Consumable : BaseItem
+    {
+        public                     float apCostMultiplier = 1f;
+        public                     int   maxCharges       = 1;
+        public                     int   maxStackSize;
+        [Header("Potions")] public int   addedHealing;
+    }
 }

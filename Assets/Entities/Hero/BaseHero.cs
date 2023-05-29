@@ -1,4 +1,5 @@
 ﻿using Entities.Enums;
+using Equipment;
 using Inventory;
 using Skills;
 using UnityEngine.Events;
@@ -13,5 +14,6 @@ namespace Entities.Hero
         public          InventorySystem              inventorySystem;
         public override Party                        Party           => Party.Ally;
         public          InventorySystem              InventorySystem => inventorySystem;
+        public          EquipmentSystem              equipmentSystem;
     }
 }

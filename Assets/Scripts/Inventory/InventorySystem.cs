@@ -21,19 +21,22 @@ namespace Inventory
 
         public bool AddToInventory(InventoryItemData itemToAdd, int amount)
         {
-            var fillableSlots = inventorySlots.Where(s => s.itemData is not null &&
-                                                          s.itemData.id == itemToAdd.id &&
-                                                          s.CurrentStackSize + amount <= itemToAdd.maxStackSize)
-                                              .ToList();
-
-            if (fillableSlots.Any())
+            if (itemToAdd is Consumable consumable)
             {
-                var slot = fillableSlots[0];
-                slot.AddToStack(amount);
+                var fillableSlots = inventorySlots.Where(s => s.itemData is not null &&
+                                                              s.itemData.id == itemToAdd.id &&
+                                                              s.CurrentStackSize + amount <= consumable.maxStackSize)
+                                                  .ToList();
 
-                OnInventorySlotChanged?.Invoke(slot);
+                if (fillableSlots.Any())
+                {
+                    var slot = fillableSlots[0];
+                    slot.AddToStack(amount);
 
-                return true;
+                    OnInventorySlotChanged?.Invoke(slot);
+
+                    return true;
+                }
             }
 
             var emptySlots = inventorySlots.Where(s => s.ItemData is null)
