@@ -14,6 +14,6 @@ namespace Skills
             subCategory = SkillSubCategory.Special;
         }
 
-        public override string Activate(BaseUnit actor, BaseUnit target, HitResult hitResult) => throw new NotImplementedException();
+        public override string Activate(BaseUnit actor) => throw new NotImplementedException();
     }
 }

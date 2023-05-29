@@ -88,11 +88,11 @@ namespace Entities.Enemies
 
         public override string UseAbility(BaseSkill skill, HitResult hitResult, BaseUnit target = null)
         {
-            var dmg = skill.Activate(this, target, hitResult);
+            var result = GibSkillresult(skill, target);
 
             SelectedSkill = null;
 
-            return dmg;
+            return result;
         }
 
         private void ApplyKeywords()

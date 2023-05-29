@@ -1,10 +1,14 @@
-﻿using UnityEngine;
+﻿using Entities;
+using Entities.Enums;
+using UnityEngine;
 
 namespace Skills
 {
     [CreateAssetMenu(fileName = "Defenseskill", menuName = "Skills/Defense")]
-    public class DefenseSkill : SupportSkill
+    public class DefenseSkill : BaseSkill
     {
-        public override Factions TargetableFaction => Factions.None;
+        protected void Awake() => subCategory = SkillSubCategory.Defense;
+
+        public override string Activate(BaseUnit actor) => GetTacticalRoll(actor).ToString();
     }
 }

@@ -22,6 +22,7 @@ namespace Skills
                                                                                            GetManacostText(selectedHero) +
                                                                                            $"Targets:\t{GetTargets(selectedHero)}" + Environment.NewLine;
 
+        public abstract string Activate(BaseUnit actor, BaseUnit target);
         private string GetManacostText(BaseHero hero)
         {
             if (Manacost == 0)

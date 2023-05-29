@@ -134,7 +134,7 @@ namespace Skills
             _ => throw new ArgumentOutOfRangeException()
         };
 
-        public abstract string Activate(BaseUnit actor, BaseUnit target, HitResult hitResult);
+        public abstract string Activate(BaseUnit actor);
 
         public virtual string GetTooltip(BaseHero hero, string damage = "0-0") => $"<b>{displayName.ToUpper()}</b>{Environment.NewLine}" +
                                                                                   $"<i>{category}, {subCategory}, {type}</i>{Environment.NewLine}{Environment.NewLine}";

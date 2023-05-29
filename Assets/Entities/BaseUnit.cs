@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using Entities.Buffs;
 using Entities.Enums;
 using Skills;
@@ -43,16 +44,16 @@ namespace Entities
         public          int                            ActionsModifier            { get; set; }
         public          float                          FlatDamageModifier         { get; set; }
         public          float                          MeleeDefensmodifier        { get; set; }
-        public          float                          ModifiedMeleeDefense       => MeleeDefense * MeleeDefensmodifier;
+        public          float                          ModifiedMeleeDefense       => FetchRollFor(SkillCategory.Melee, () => MeleeDefense * MeleeDefensmodifier);
         public          float                          RangedDefensemodifier      { get; set; }
-        public          float                          ModifiedRangedDefense      => RangedDefense * RangedDefensemodifier;
+        public          float                          ModifiedRangedDefense      => FetchRollFor(SkillCategory.Ranged, () => RangedDefense * RangedDefensemodifier);
         public          float                          MagicDefensemodifier       { get; set; }
-        public          float                          ModifiedMagicDefense       => MagicDefense * MagicDefensemodifier;
+        public          float                          ModifiedMagicDefense       => FetchRollFor(SkillCategory.Magic, () => MagicDefense * MagicDefensemodifier);
         public          float                          SocialDefensemodifier      { get; set; }
-        public          float                          ModifiedSocialDefense      => SocialDefense * SocialDefensemodifier;
+        public          float                          ModifiedSocialDefense      => FetchRollFor(SkillCategory.Social, () => SocialDefense * SocialDefensemodifier);
         public          float                          InitiativeFlatAdded        { get; set; }
         public          float                          InitiativeModifier         { get; set; }
-        public          float                          ModifiedInitiative         => Initiative * InitiativeModifier;
+        public          float                          ModifiedInitiative         => FetchRollFor(SkillCategory.Initiative, () => Initiative * InitiativeModifier);
         public          float                          MagicDefense               { get; set; }
         public          float                          SocialDefense              { get; set; }
         public          float                          MeleeDefense               { get; set; }
@@ -88,6 +89,15 @@ namespace Entities
 
         private void OnMouseExit() => HideHealthbar();
 
+        private float FetchRollFor(SkillCategory category, Func<float> returnDefaultModifiedDefense)
+        {
+            var matchingDefenseSkills = skills.Where(s => s.subCategory == SkillSubCategory.Defense &&
+                                                          s.category == category)
+                                              .ToList();
+
+            return !matchingDefenseSkills.Any() ? returnDefaultModifiedDefense() : float.Parse(matchingDefenseSkills.First().Activate(this));
+        }
+
         private void ShowUnitTooltip()
         {
             unitTooltip.SetActive(true);
@@ -109,6 +119,11 @@ namespace Entities
 
             Debug.Log($"Pointer entered {name}");
         }
+        protected string GibSkillresult(BaseSkill skill, BaseUnit target) =>skill switch
+        {
+            WeaponSkill weaponSkill => weaponSkill.Activate(this, target),
+            _ => skill.Activate(this)
+        };
 
         public abstract (int, int) GetApproximateDamage(BaseSkill ability);
 

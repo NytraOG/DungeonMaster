@@ -147,11 +147,11 @@ namespace UI
 
         private string FetchDamageText(CombatskillResolutionArgs args) => args.HitResult switch
         {
-            HitResult.None => $"<color={Konstanten.NormalDamageColor}>{args.Abilityresult}</color>",
-            HitResult.Normal => $"<b><color={Konstanten.NormalDamageColor}>{args.Abilityresult}</color></b>",
-            HitResult.Good => $"<b><color={Konstanten.GoodDamageColor}>{args.Abilityresult}</color></b>",
-            HitResult.Critical => $"<b><color={Konstanten.CriticalDamageColor}>*{args.Abilityresult}*</color></b>",
-            _ => $"<color={Konstanten.NormalDamageColor}>{args.Abilityresult}</color>"
+            HitResult.None => $"<color={Konstanten.NormalDamageColor}>{args.Skillresult}</color>",
+            HitResult.Normal => $"<b><color={Konstanten.NormalDamageColor}>{args.Skillresult}</color></b>",
+            HitResult.Good => $"<b><color={Konstanten.GoodDamageColor}>{args.Skillresult}</color></b>",
+            HitResult.Critical => $"<b><color={Konstanten.CriticalDamageColor}>*{args.Skillresult}*</color></b>",
+            _ => $"<color={Konstanten.NormalDamageColor}>{args.Skillresult}</color>"
         };
 
         private string GetPositionString(Positions position) => position switch

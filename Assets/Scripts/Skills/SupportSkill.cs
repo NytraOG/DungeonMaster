@@ -27,13 +27,13 @@ namespace Skills
         public                                       List<SkillCategory> affectedCategories = new();
         public override                              Factions            TargetableFaction => Factions.All;
 
-        private void Awake()
+        protected virtual void Awake()
         {
             category    = SkillCategory.Support;
             subCategory = SkillSubCategory.Special;
         }
 
-        public override string Activate(BaseUnit _, BaseUnit target, HitResult hitResult)
+        public override string Activate(BaseUnit _, BaseUnit target)
         {
             foreach (var skillCategory in affectedCategories)
             {
@@ -71,7 +71,7 @@ namespace Skills
 
             PopulateBuffs(target);
 
-            if(!target.activeSkills.ContainsKey(this))
+            if (!target.activeSkills.ContainsKey(this))
                 target.activeSkills.Add(this, false);
 
             return $"Activated {name}";
@@ -139,5 +139,7 @@ namespace Skills
                 }
             }
         }
+
+        public override string Activate(BaseUnit actor) => throw new NotImplementedException();
     }
 }

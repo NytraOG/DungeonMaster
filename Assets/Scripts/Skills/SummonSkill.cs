@@ -21,7 +21,7 @@ namespace Skills
             subCategory = SkillSubCategory.Special;
         }
 
-        public override string Activate(BaseUnit actor, BaseUnit target, HitResult _)
+        public override string Activate(BaseUnit actor)
         {
             foreach (var creature in spawnsPerCast)
             {

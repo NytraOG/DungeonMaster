@@ -28,7 +28,7 @@ namespace Entities.Hero
 
             var controller = FindObjectOfType<BattleController>();
 
-            if(controller.PlayerIsTargeting)
+            if (controller.PlayerIsTargeting)
                 controller.selectedTargets.Add(this);
             else
                 ChangeSelectedHero(controller);
@@ -99,11 +99,7 @@ namespace Entities.Hero
             _ => (0, 0)
         };
 
-        public override string UseAbility(BaseSkill skill, HitResult hitResult, BaseUnit target = null)
-        {
-
-            return skill.Activate(this, target, hitResult);
-        }
+        public override string UseAbility(BaseSkill skill, HitResult hitResult, BaseUnit target = null) => GibSkillresult(skill, target);
 
         private void MachDirNeHealthbarFeddich()
         {
